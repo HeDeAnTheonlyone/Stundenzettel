@@ -40,6 +40,7 @@ public partial class Manager : Node
 
 			settingsData = new Dictionary()
 			{
+				{ "workerName", "" },
 				{ "startTime", "7:30" }
 			};
 

@@ -38,7 +38,6 @@ public partial class TimeSheetButton : HSplitContainer
 		
 		foreach(string jsonString in data)
 		{
-			GD.Print(jsonString);
 			Dictionary dict = (Dictionary)Json.ParseString(jsonString);
 			entries.Add(new TimeSpanEntry(dict));
 		}

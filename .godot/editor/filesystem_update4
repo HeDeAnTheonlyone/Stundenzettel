@@ -21,3 +21,4 @@ res://Scripts/TimeSheetEditor.cs
 res://Scripts/TimeSheetSelector.cs
 res://Scripts/TimeSpanBlockButton.cs
 res://Scripts/TimeSpanBlockEditor.cs
+res://Scenes/Settings.tscn

@@ -4,12 +4,14 @@ using System;
 public partial class Settings : CanvasLayer
 {
 	private LineEdit startTimeInput;
+	private LineEdit workerName;
 
 
 
     public override void _Ready()
     {
 		startTimeInput = GetNode<LineEdit>("Padding/SettingsList/StartTime/Input");
+		workerName = GetNode<LineEdit>("Padding/SettingsList/WorkerName/Input");
 
 		AssignSettingValues();
     }
@@ -19,10 +21,12 @@ public partial class Settings : CanvasLayer
 	private void AssignSettingValues()
 	{
 		startTimeInput.Text = (string)Manager.Singleton.settingsData["startTime"];
+		workerName.Text = (string)Manager.Singleton.settingsData["workerName"];
 	}
 
 
 
+#region  Signals
     private void ExitSettings()
 	{
 		var file = FileAccess.Open(Manager.settingsFilePath, FileAccess.ModeFlags.Write);
@@ -45,4 +49,12 @@ public partial class Settings : CanvasLayer
 			startTimeInput.Text = (string)Manager.Singleton.settingsData["startTime"];
 		}
 	}
+
+
+
+	private void SetWorkerName(string name)
+	{
+			Manager.Singleton.settingsData["workerName"] = name;
+	}
+#endregion
 }
