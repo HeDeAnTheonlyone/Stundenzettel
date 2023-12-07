@@ -1,15 +1,15 @@
 {
   "version": 2,
-  "dgSpecHash": "K/HVcm6JWPCZwh6zu1FKO7s/VOYaxWcG2ICw2TZx3nIY8VtRN31TWdmiiNI5p9zJmblr9U85E8k3Raq3Ud1slw==",
+  "dgSpecHash": "JNvadhiAzqvx13Ow4rVozaq1icjDaSt1/AQo5d9qX9Bqoi+GGhOMmJR4NbH/0b/D1JZBti5uE7YDHZLKOOUX3w==",
   "success": true,
   "projectFilePath": "F:\\_My Code\\Stundenzettel\\Stundenzettel.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\HeDeAn\\.nuget\\packages\\godot.sourcegenerators\\4.2.0\\godot.sourcegenerators.4.2.0.nupkg.sha512",
     "C:\\Users\\HeDeAn\\.nuget\\packages\\godotsharp\\4.2.0\\godotsharp.4.2.0.nupkg.sha512",
-    "C:\\Users\\HeDeAn\\.nuget\\packages\\microsoft.netcore.app.ref\\7.0.14\\microsoft.netcore.app.ref.7.0.14.nupkg.sha512",
-    "C:\\Users\\HeDeAn\\.nuget\\packages\\microsoft.netcore.app.runtime.linux-bionic-arm64\\7.0.14\\microsoft.netcore.app.runtime.linux-bionic-arm64.7.0.14.nupkg.sha512",
-    "C:\\Users\\HeDeAn\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\7.0.14\\microsoft.windowsdesktop.app.ref.7.0.14.nupkg.sha512",
-    "C:\\Users\\HeDeAn\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\7.0.14\\microsoft.aspnetcore.app.ref.7.0.14.nupkg.sha512"
+    "C:\\Users\\HeDeAn\\.nuget\\packages\\godotsharpeditor\\4.2.0\\godotsharpeditor.4.2.0.nupkg.sha512",
+    "C:\\Users\\HeDeAn\\.nuget\\packages\\microsoft.netcore.app.ref\\6.0.25\\microsoft.netcore.app.ref.6.0.25.nupkg.sha512",
+    "C:\\Users\\HeDeAn\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\6.0.25\\microsoft.windowsdesktop.app.ref.6.0.25.nupkg.sha512",
+    "C:\\Users\\HeDeAn\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\6.0.25\\microsoft.aspnetcore.app.ref.6.0.25.nupkg.sha512"
   ],
   "logs": []
 }

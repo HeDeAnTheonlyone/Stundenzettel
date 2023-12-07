@@ -5,9 +5,14 @@ res://Themes/DefaultMargin.tres
 res://Themes/BackButton.tres
 res://Themes/TextWithInputSeperation.tres
 res://Themes/DefaulLineEdit.tres
+res://Themes/Styles/TimeSpanButton.tres
+res://Themes/TimeSpanButton.tres
+res://Themes/Styles/DeleteButton.tres
+res://Themes/DeleteButton.tres
 res://Scenes/TimeSheetEditor.tscn
 res://Scenes/TimeSpanBlockEditor.tscn
 res://Scenes/TimeSheetSelector.tscn
+res://Objects/TimeSheetButton.tscn
 res://Scripts/MainMenu.cs
 res://Scripts/Manager.cs
 res://Scripts/Settings.cs
@@ -16,8 +21,3 @@ res://Scripts/TimeSheetEditor.cs
 res://Scripts/TimeSheetSelector.cs
 res://Scripts/TimeSpanBlockButton.cs
 res://Scripts/TimeSpanBlockEditor.cs
-res://Objects/TimeSheetButton.tscn
-res://Themes/Styles/TimeSpanButton.tres
-res://Themes/TimeSpanButton.tres
-res://Themes/Styles/DeleteButton.tres
-res://Themes/DeleteButton.tres

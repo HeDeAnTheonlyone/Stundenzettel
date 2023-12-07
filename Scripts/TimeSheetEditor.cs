@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 public partial class TimeSheetEditor : CanvasLayer
 {
@@ -19,8 +20,12 @@ public partial class TimeSheetEditor : CanvasLayer
 		timeSheet = LoadTimeSheet();
 
 		if (timeSheet.TimeSpanEntries.Count > 0)
+		{
+			Manager.Singleton.lastTimeStamp = timeSheet.TimeSpanEntries.Last().ToTime;
 			PopulateEntryList(timeSheet.TimeSpanEntries);
-
+		}
+		else
+			Manager.Singleton.lastTimeStamp = TimeOnly.Parse((string)Manager.Singleton.settingsData["startTime"]);
 
 		date.Text = timeSheet.Date.ToString();
     }
