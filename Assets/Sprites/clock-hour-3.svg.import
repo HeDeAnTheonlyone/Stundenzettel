@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dethjkxhe61b7"
-path="res://.godot/imported/arrow-back-up.svg-054c073573e358a94a72f4231ba57df4.ctex"
+uid="uid://d0l4ojm1k36t"
+path="res://.godot/imported/clock-hour-3.svg-ce27bec5fd162d546beaefc5448b7812.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/arrow-back-up.svg"
-dest_files=["res://.godot/imported/arrow-back-up.svg-054c073573e358a94a72f4231ba57df4.ctex"]
+source_file="res://Assets/Sprites/clock-hour-3.svg"
+dest_files=["res://.godot/imported/clock-hour-3.svg-ce27bec5fd162d546beaefc5448b7812.ctex"]
 
 [params]
 

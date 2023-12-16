@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://d0l4ojm1k36t"
-path="res://.godot/imported/clock-hour-3.svg-939a2a85bf48a124f8843de8ac0f3af1.ctex"
+uid="uid://dgpaqxnx5db4"
+path="res://.godot/imported/minus.svg-9950c07186305fd5a3c8edb464901d9a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/clock-hour-3.svg"
-dest_files=["res://.godot/imported/clock-hour-3.svg-939a2a85bf48a124f8843de8ac0f3af1.ctex"]
+source_file="res://Assets/Sprites/minus.svg"
+dest_files=["res://.godot/imported/minus.svg-9950c07186305fd5a3c8edb464901d9a.ctex"]
 
 [params]
 

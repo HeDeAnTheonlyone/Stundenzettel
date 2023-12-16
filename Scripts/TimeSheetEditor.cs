@@ -1,6 +1,5 @@
 using Godot;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 
 public partial class TimeSheetEditor : CanvasLayer
@@ -17,12 +16,12 @@ public partial class TimeSheetEditor : CanvasLayer
 		date = GetNode<LineEdit>("TitlePadding/Date");
 		timeSpanList = GetNode<VBoxContainer>("Padding/Splitter/ScrollList/TimeSpanList");
 
-		timeSheet = LoadTimeSheet();
+		timeSheet = FileManager.LoadSelectedTimeSheet();
 
 		if (timeSheet.TimeSpanEntries.Count > 0)
 		{
 			Manager.Singleton.lastTimeStamp = timeSheet.TimeSpanEntries.Last().ToTime;
-			PopulateEntryList(timeSheet.TimeSpanEntries);
+			timeSpanList.PopulateList(timeSheet.TimeSpanEntries, timeSpanBlockButton);
 		}
 		else
 			Manager.Singleton.lastTimeStamp = TimeOnly.Parse((string)Manager.Singleton.settingsData["startTime"]);
@@ -32,57 +31,9 @@ public partial class TimeSheetEditor : CanvasLayer
 
 
 
-	private TimeSheet LoadTimeSheet()
-	{
-		if (Manager.Singleton.selectedSheet == null)
-			Manager.Singleton.selectedSheet = new TimeSheet
-			(
-				DateOnly.FromDateTime(DateTime.Today),
-				new List<TimeSpanEntry>()
-			);
-
-		return Manager.Singleton.selectedSheet;
-	}
-
-
-
-	private void PopulateEntryList(List<TimeSpanEntry> entries)
-	{
-		foreach(TimeSpanEntry entry in entries)
-		{
-			var newEntry = timeSpanBlockButton.Instantiate() as TimeSpanBlockButton;
-			newEntry.Entry = entry;
-			timeSpanList.AddChild(newEntry);
-		}
-	}
-
-
-
-	private void SaveTimeSheet(TimeSheet sheet)
-	{
-		string[] data = new string[timeSheet.TimeSpanEntries.Count];
-		int pointer = 0;
-
-		foreach(TimeSpanEntry entry in timeSheet.TimeSpanEntries)
-		{
-			data[pointer] = entry.ToJsonString();
-			pointer++;
-		}
-
-		string dataString = Json.Stringify(data, "\t");
-
-		Manager.Singleton.FixDocumentDirectory();
-
-		using (var file = FileAccess.Open($"{Manager.documentsFilePath}/Stundenzettel/TimeSheets/{sheet.Date.ToString("yyyy/MM/dd")}.json", FileAccess.ModeFlags.Write))
-		{
-			file.StoreString(dataString);
-		}
-	}
-
-
-
-#region Signals
-	private void SetDate(string dateText)
+    #region Signals
+    private void SetDate() => SetDate(date.Text);
+    private void SetDate(string dateText)
 	{
 		try
 		{
@@ -106,7 +57,8 @@ public partial class TimeSheetEditor : CanvasLayer
 
 	private void SwitchToMainMenu()
 	{
-		SaveTimeSheet(timeSheet);
+		if (timeSheet.TimeSpanEntries.Count > 0)
+			FileManager.SaveTimeSheet(timeSheet);
 
 		Manager.Singleton.selectedSheet = null;
 		Manager.Singleton.CallDeferred("SwitchScene", "MainMenu");

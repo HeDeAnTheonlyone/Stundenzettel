@@ -3,10 +3,10 @@
 [ext_resource type="Script" path="res://Scripts/TimeSheetEditor.cs" id="1_ti34r"]
 [ext_resource type="Theme" uid="uid://0jlf0hixycar" path="res://Themes/DefaultMargin.tres" id="2_f1wge"]
 [ext_resource type="Theme" uid="uid://ck4at8k5q5e0d" path="res://Themes/DefaultButton.tres" id="3_ibgj5"]
-[ext_resource type="Texture2D" uid="uid://ccu6c406mcjjh" path="res://Assets/alarm.svg" id="4_5nir8"]
+[ext_resource type="Texture2D" uid="uid://ccu6c406mcjjh" path="res://Assets/Sprites/alarm.svg" id="4_5nir8"]
 [ext_resource type="StyleBox" uid="uid://16i710aht1gr" path="res://Themes/Styles/TimeSpanScrollBox.tres" id="5_g3lk3"]
 [ext_resource type="Theme" uid="uid://dktdsgfp64vc" path="res://Themes/BackButton.tres" id="6_qqw64"]
-[ext_resource type="Texture2D" uid="uid://dethjkxhe61b7" path="res://Assets/arrow-back-up.svg" id="7_cqm6i"]
+[ext_resource type="Texture2D" uid="uid://dethjkxhe61b7" path="res://Assets/Sprites/arrow-back-up.svg" id="7_cqm6i"]
 
 [node name="FileEdit" type="CanvasLayer"]
 script = ExtResource("1_ti34r")
@@ -88,5 +88,6 @@ icon = ExtResource("7_cqm6i")
 expand_icon = true
 
 [connection signal="button_down" from="Padding/Splitter/NewTimeSpan" to="." method="AddTimeSpan"]
+[connection signal="focus_exited" from="TitlePadding/Date" to="." method="SetDate"]
 [connection signal="text_submitted" from="TitlePadding/Date" to="." method="SetDate"]
 [connection signal="button_down" from="BackPadding/Back" to="." method="SwitchToMainMenu"]

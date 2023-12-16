@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bfcooj12rayhk"
-path="res://.godot/imported/file-pencil.svg-97cbc85b58fdd80a29b6a611e8316cdf.ctex"
+uid="uid://dethjkxhe61b7"
+path="res://.godot/imported/arrow-back-up.svg-c63e50bb1019c8f5463dcaeedb9fc863.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/file-pencil.svg"
-dest_files=["res://.godot/imported/file-pencil.svg-97cbc85b58fdd80a29b6a611e8316cdf.ctex"]
+source_file="res://Assets/Sprites/arrow-back-up.svg"
+dest_files=["res://.godot/imported/arrow-back-up.svg-c63e50bb1019c8f5463dcaeedb9fc863.ctex"]
 
 [params]
 

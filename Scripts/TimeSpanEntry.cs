@@ -29,24 +29,26 @@ public class TimeSpanEntry
       FromTime = TimeOnly.Parse((string)dict["fromTime"]);
       ToTime = TimeOnly.Parse((string)dict["toTime"]);
       Customer = (string)dict["customer"] == "" ? null : (string)dict["customer"];
-      Purpose = (int)dict["purpose"] == -1 ? null : (Purposes)(int)dict["purpose"];
+      Purpose = (string)dict["purpose"] == "" ? null : (Purposes)(int)dict["purpose"];
       Description = (string)dict["description"] == "" ? null : (string)dict["description"];
    }
 #endregion
 
 
 
+   public Dictionary ToDictionary() => new Dictionary
+   {
+      { "fromTime", FromTime.ToString() },
+      { "toTime", ToTime.ToString() },
+      { "customer", Customer == null ? "" : Customer },
+      { "purpose", Purpose == null ? "" : (int)Purpose },
+      { "description", Description == null ? "" :Description }
+   }; 
+
+
+
    public string ToJsonString()
    {
-      Dictionary dict = new Dictionary
-      {
-         { "fromTime", FromTime.ToString() },
-         { "toTime", ToTime.ToString() },
-         { "customer", Customer == null ? "" : Customer },
-         { "purpose", Purpose == null ? -1 : (int)Purpose },
-         { "description", Description == null ? "" :Description }
-		};
-
-      return Json.Stringify(dict, "\t");
+      return Json.Stringify(this.ToDictionary(), "\t");
    }
 }

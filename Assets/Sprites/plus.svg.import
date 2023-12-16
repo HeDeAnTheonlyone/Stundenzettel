@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cl5ayuuygoclq"
-path="res://.godot/imported/file-type-xls.svg-95be1593c3e32d9820bc9f34d9df014c.ctex"
+uid="uid://dcouldjglrbx2"
+path="res://.godot/imported/plus.svg-abf891412e04031219c50d119641bdfe.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/file-type-xls.svg"
-dest_files=["res://.godot/imported/file-type-xls.svg-95be1593c3e32d9820bc9f34d9df014c.ctex"]
+source_file="res://Assets/Sprites/plus.svg"
+dest_files=["res://.godot/imported/plus.svg-abf891412e04031219c50d119641bdfe.ctex"]
 
 [params]
 

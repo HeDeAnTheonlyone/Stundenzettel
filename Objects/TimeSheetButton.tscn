@@ -2,9 +2,9 @@
 
 [ext_resource type="Script" path="res://Scripts/TimeSheetButton.cs" id="1_l8wia"]
 [ext_resource type="Theme" uid="uid://du1yp6r100o8w" path="res://Themes/TimeSpanButton.tres" id="2_ttoym"]
-[ext_resource type="Texture2D" uid="uid://bfcooj12rayhk" path="res://Assets/file-pencil.svg" id="3_fqh4a"]
+[ext_resource type="Texture2D" uid="uid://bfcooj12rayhk" path="res://Assets/Sprites/file-pencil.svg" id="3_fqh4a"]
 [ext_resource type="Theme" uid="uid://cxevv1olbn6s0" path="res://Themes/DeleteButton.tres" id="3_qt0xh"]
-[ext_resource type="Texture2D" uid="uid://5sytle0nov6s" path="res://Assets/trash.svg" id="4_hwrfi"]
+[ext_resource type="Texture2D" uid="uid://5sytle0nov6s" path="res://Assets/Sprites/trash.svg" id="4_hwrfi"]
 
 [node name="Splitter" type="HSplitContainer"]
 anchors_preset = 14
@@ -34,5 +34,5 @@ theme = ExtResource("3_qt0xh")
 icon = ExtResource("4_hwrfi")
 expand_icon = true
 
-[connection signal="button_down" from="Edit" to="." method="SwitchToFileEdit"]
+[connection signal="button_down" from="Edit" to="." method="SwitchToTimeSheetEditor"]
 [connection signal="button_down" from="Delete" to="." method="DeleteEntry"]

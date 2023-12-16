@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dcouldjglrbx2"
-path="res://.godot/imported/plus.svg-0254bc0b74d6adc5becaa2c58f77eb00.ctex"
+uid="uid://bfcooj12rayhk"
+path="res://.godot/imported/file-pencil.svg-c8f7d00e594f1185674ef5581058c3b3.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/plus.svg"
-dest_files=["res://.godot/imported/plus.svg-0254bc0b74d6adc5becaa2c58f77eb00.ctex"]
+source_file="res://Assets/Sprites/file-pencil.svg"
+dest_files=["res://.godot/imported/file-pencil.svg-c8f7d00e594f1185674ef5581058c3b3.ctex"]
 
 [params]
 

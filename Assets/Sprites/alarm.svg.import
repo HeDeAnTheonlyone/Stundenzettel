@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dgpaqxnx5db4"
-path="res://.godot/imported/minus.svg-70c5f0c51ef19aa4f825aa722dc24ab2.ctex"
+uid="uid://ccu6c406mcjjh"
+path="res://.godot/imported/alarm.svg-5357c6b5b3b91d828451f88d32ab3f0e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/minus.svg"
-dest_files=["res://.godot/imported/minus.svg-70c5f0c51ef19aa4f825aa722dc24ab2.ctex"]
+source_file="res://Assets/Sprites/alarm.svg"
+dest_files=["res://.godot/imported/alarm.svg-5357c6b5b3b91d828451f88d32ab3f0e.ctex"]
 
 [params]
 
