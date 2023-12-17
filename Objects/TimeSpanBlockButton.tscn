@@ -3,8 +3,8 @@
 [ext_resource type="Theme" uid="uid://du1yp6r100o8w" path="res://Themes/TimeSpanButton.tres" id="1_ib7kc"]
 [ext_resource type="Theme" uid="uid://cxevv1olbn6s0" path="res://Themes/DeleteButton.tres" id="2_hn4wb"]
 [ext_resource type="Script" path="res://Scripts/TimeSpanBlockButton.cs" id="2_v12op"]
-[ext_resource type="Texture2D" uid="uid://5sytle0nov6s" path="res://Assets/trash.svg" id="3_884d2"]
-[ext_resource type="Texture2D" uid="uid://d0l4ojm1k36t" path="res://Assets/clock-hour-3.svg" id="3_qa3iw"]
+[ext_resource type="Texture2D" uid="uid://5sytle0nov6s" path="res://Assets/Sprites/trash.svg" id="3_884d2"]
+[ext_resource type="Texture2D" uid="uid://d0l4ojm1k36t" path="res://Assets/Sprites/clock-hour-3.svg" id="3_qa3iw"]
 
 [node name="Splitter" type="HSplitContainer"]
 anchors_preset = 14

@@ -1,4 +1,3 @@
-using System;
 using Godot;
 
 public partial class TimeSheetSelector : CanvasLayer
@@ -18,22 +17,17 @@ public partial class TimeSheetSelector : CanvasLayer
 		Manager.Singleton.FixDocumentDirectory();
 		timeSheetFiles = DirAccess.GetFilesAt(timeSheetsPath);
 		
-		PopulateList();
+		timeSheetList.PopulateList(timeSheetFiles, timeSheetButton);
 	}
 
-
-
-	private void PopulateList()
+#region Signals
+	private void GenerateExcelFiles()
 	{
-		foreach(string sheet in timeSheetFiles)
-		{
-			TimeSheetButton newEntry = timeSheetButton.Instantiate() as TimeSheetButton;
-			newEntry.FileName = sheet;
-			timeSheetList.AddChild(newEntry);
-		}
+		FileManager.ConvertToExcelFiles(timeSheetFiles);
 	}
 
 
 
 	private void SwitchToMainMenu() => Manager.Singleton.SwitchScene("MainMenu");
+#endregion
 }

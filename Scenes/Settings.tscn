@@ -6,7 +6,7 @@
 [ext_resource type="Theme" uid="uid://0jlf0hixycar" path="res://Themes/DefaultMargin.tres" id="2_5uqxg"]
 [ext_resource type="Theme" uid="uid://001cikhergfu" path="res://Themes/DefaulLineEdit.tres" id="2_33lai"]
 [ext_resource type="Theme" uid="uid://dyyt1cc057lyj" path="res://Themes/TextWithInputSeperation.tres" id="3_e4oml"]
-[ext_resource type="Texture2D" uid="uid://dethjkxhe61b7" path="res://Assets/arrow-back-up.svg" id="3_gdec4"]
+[ext_resource type="Texture2D" uid="uid://dethjkxhe61b7" path="res://Assets/Sprites/arrow-back-up.svg" id="3_gdec4"]
 
 [node name="Settings" type="CanvasLayer"]
 script = ExtResource("1_w2jbp")
@@ -30,6 +30,26 @@ theme = ExtResource("2_5uqxg")
 
 [node name="SettingsList" type="VBoxContainer" parent="Padding"]
 layout_mode = 2
+size_flags_vertical = 0
+theme_override_constants/separation = 100
+
+[node name="WorkerName" type="HBoxContainer" parent="Padding/SettingsList"]
+layout_mode = 2
+size_flags_vertical = 6
+theme = ExtResource("3_e4oml")
+
+[node name="Label" type="Label" parent="Padding/SettingsList/WorkerName"]
+layout_mode = 2
+size_flags_horizontal = 2
+theme = ExtResource("1_ocodp")
+text = "Name:"
+
+[node name="Input" type="LineEdit" parent="Padding/SettingsList/WorkerName"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("2_33lai")
+placeholder_text = "Name"
+alignment = 1
 
 [node name="StartTime" type="HBoxContainer" parent="Padding/SettingsList"]
 layout_mode = 2
@@ -44,7 +64,7 @@ text = "Arbeitsbegin:"
 
 [node name="Input" type="LineEdit" parent="Padding/SettingsList/StartTime"]
 layout_mode = 2
-size_flags_horizontal = 6
+size_flags_horizontal = 3
 theme = ExtResource("2_33lai")
 text = "7:30"
 placeholder_text = "Uhrzeit"
@@ -67,5 +87,7 @@ text = "Zurück"
 icon = ExtResource("3_gdec4")
 expand_icon = true
 
+[connection signal="text_changed" from="Padding/SettingsList/WorkerName/Input" to="." method="SetWorkerName"]
+[connection signal="focus_exited" from="Padding/SettingsList/StartTime/Input" to="." method="SetStartTime"]
 [connection signal="text_submitted" from="Padding/SettingsList/StartTime/Input" to="." method="SetStartTime"]
 [connection signal="button_down" from="BackPadding/Back" to="." method="ExitSettings"]

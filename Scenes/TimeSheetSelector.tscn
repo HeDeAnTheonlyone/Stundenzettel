@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://noisab7aistg"]
+[gd_scene load_steps=7 format=3 uid="uid://noisab7aistg"]
 
 [ext_resource type="Script" path="res://Scripts/TimeSheetSelector.cs" id="1_u2o82"]
 [ext_resource type="Theme" uid="uid://0jlf0hixycar" path="res://Themes/DefaultMargin.tres" id="2_rtqwi"]
 [ext_resource type="StyleBox" uid="uid://16i710aht1gr" path="res://Themes/Styles/TimeSpanScrollBox.tres" id="5_efwkb"]
+[ext_resource type="Texture2D" uid="uid://cl5ayuuygoclq" path="res://Assets/Sprites/file-type-xls.svg" id="6_07v8f"]
 [ext_resource type="Theme" uid="uid://dktdsgfp64vc" path="res://Themes/BackButton.tres" id="6_qlo5x"]
-[ext_resource type="Texture2D" uid="uid://dethjkxhe61b7" path="res://Assets/arrow-back-up.svg" id="7_omeei"]
+[ext_resource type="Texture2D" uid="uid://dethjkxhe61b7" path="res://Assets/Sprites/arrow-back-up.svg" id="7_omeei"]
 
 [node name="FileEdit" type="CanvasLayer"]
 script = ExtResource("1_u2o82")
@@ -36,14 +37,20 @@ size_flags_horizontal = 3
 size_flags_vertical = 2
 theme_override_constants/separation = 30
 
-[node name="BackPadding" type="MarginContainer" parent="."]
-offset_right = 294.0
-offset_bottom = 165.0
+[node name="HeaderPadding" type="MarginContainer" parent="."]
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 162.0
 grow_horizontal = 2
 theme_override_constants/margin_left = 20
 theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
 
-[node name="Back" type="Button" parent="BackPadding"]
+[node name="HBox" type="HSplitContainer" parent="HeaderPadding"]
+layout_mode = 2
+dragger_visibility = 1
+
+[node name="Back" type="Button" parent="HeaderPadding/HBox"]
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 4
@@ -53,4 +60,15 @@ text = "Zurück"
 icon = ExtResource("7_omeei")
 expand_icon = true
 
-[connection signal="button_down" from="BackPadding/Back" to="." method="SwitchToMainMenu"]
+[node name="Convert" type="Button" parent="HeaderPadding/HBox"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 4
+focus_mode = 0
+theme = ExtResource("6_qlo5x")
+text = "Generate Excel files"
+icon = ExtResource("6_07v8f")
+expand_icon = true
+
+[connection signal="button_down" from="HeaderPadding/HBox/Back" to="." method="SwitchToMainMenu"]
+[connection signal="button_down" from="HeaderPadding/HBox/Convert" to="." method="GenerateExcelFiles"]

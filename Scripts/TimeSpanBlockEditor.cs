@@ -1,5 +1,6 @@
 using System;
 using Godot;
+
 public partial class TimeSpanBlockEditor : CanvasLayer
 {
    private const string constPathPart = "Padding/ItemList/";
@@ -37,6 +38,7 @@ public partial class TimeSpanBlockEditor : CanvasLayer
 
 
 #region Signals
+   private void SetFromTime() => SetFromTime(fromTime.Text);
    private void SetFromTime(string timeText)
    {
 		try
@@ -51,6 +53,7 @@ public partial class TimeSpanBlockEditor : CanvasLayer
 
 
 
+   private void SetToTime() => SetToTime(toTime.Text);
    private void SetToTime(string timeText)
    {
 		try
@@ -65,18 +68,19 @@ public partial class TimeSpanBlockEditor : CanvasLayer
 
 
 
-	private void SetCustomer(string name) => entry.Customer = name;
+   private void SetCustomer(string name) => entry.Customer = name;
 
 
 
    private void SetPurtpose(int index) => entry.Purpose = (Purposes)index;
+   
 
 
 
    private void SetDescription() => entry.Description = description.Text;
+
+
+
+   private void SwitchToTimeSheetEditor() => Manager.Singleton.SwitchScene("TimeSheetEditor");
    #endregion
-
-
-
-   private void SwitchToFileEdit() => Manager.Singleton.SwitchScene("TimeSheetEditor");
 }

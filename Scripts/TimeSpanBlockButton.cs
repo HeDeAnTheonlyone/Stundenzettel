@@ -21,7 +21,7 @@ public partial class TimeSpanBlockButton : HSplitContainer
 			Manager.Singleton.lastTimeStamp = Entry.ToTime;
 
 			Manager.Singleton.selectedSheet.TimeSpanEntries.Add(Entry);
-		}
+		}			
 
 		editButton = GetNode<Button>("Edit");
 

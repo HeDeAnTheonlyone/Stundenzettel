@@ -7,7 +7,7 @@
 [ext_resource type="Theme" uid="uid://001cikhergfu" path="res://Themes/DefaulLineEdit.tres" id="5_6rmbp"]
 [ext_resource type="StyleBox" uid="uid://bohay8sac6a08" path="res://Themes/Styles/DefaultLine.tres" id="6_s1ox0"]
 [ext_resource type="Theme" uid="uid://dktdsgfp64vc" path="res://Themes/BackButton.tres" id="7_80gdn"]
-[ext_resource type="Texture2D" uid="uid://dethjkxhe61b7" path="res://Assets/arrow-back-up.svg" id="8_gxvij"]
+[ext_resource type="Texture2D" uid="uid://dethjkxhe61b7" path="res://Assets/Sprites/arrow-back-up.svg" id="8_gxvij"]
 
 [node name="TimeSpanBlock" type="CanvasLayer"]
 script = ExtResource("1_jndds")
@@ -179,9 +179,11 @@ text = "Zurück"
 icon = ExtResource("8_gxvij")
 expand_icon = true
 
+[connection signal="focus_exited" from="Padding/ItemList/FromTime/Input" to="." method="SetFromTime"]
 [connection signal="text_submitted" from="Padding/ItemList/FromTime/Input" to="." method="SetFromTime"]
+[connection signal="focus_exited" from="Padding/ItemList/ToTime/Input" to="." method="SetToTime"]
 [connection signal="text_submitted" from="Padding/ItemList/ToTime/Input" to="." method="SetToTime"]
 [connection signal="text_changed" from="Padding/ItemList/Customer/Input" to="." method="SetCustomer"]
 [connection signal="item_selected" from="Padding/ItemList/Purpose/Input" to="." method="SetPurtpose"]
 [connection signal="text_changed" from="Padding/ItemList/DescriptionInput" to="." method="SetDescription"]
-[connection signal="button_down" from="BackPadding/Back" to="." method="SwitchToFileEdit"]
+[connection signal="button_down" from="BackPadding/Back" to="." method="SwitchToTimeSheetEditor"]

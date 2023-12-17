@@ -2,4 +2,4 @@
 
 [resource]
 GridContainer/constants/h_separation = 85
-HBoxContainer/constants/separation = -350
+HBoxContainer/constants/separation = -300

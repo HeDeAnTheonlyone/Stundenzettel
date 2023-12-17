@@ -2,10 +2,10 @@
 
 [ext_resource type="Script" path="res://Scripts/MainMenu.cs" id="1_668y6"]
 [ext_resource type="Theme" uid="uid://ck4at8k5q5e0d" path="res://Themes/DefaultButton.tres" id="1_cj27t"]
-[ext_resource type="Texture2D" uid="uid://bjco76e0rlwjx" path="res://Assets/file-plus.svg" id="2_74kqr"]
-[ext_resource type="Texture2D" uid="uid://q6snfqsr3tjp" path="res://Assets/settings.svg" id="2_jptxc"]
-[ext_resource type="Texture2D" uid="uid://d1yjm6p8w8x1s" path="res://Assets/folder.svg" id="4_y3aoa"]
-[ext_resource type="Texture2D" uid="uid://cp3kn0y58ylxx" path="res://Assets/door-exit.svg" id="6_r04vy"]
+[ext_resource type="Texture2D" uid="uid://bjco76e0rlwjx" path="res://Assets/Sprites/file-plus.svg" id="2_74kqr"]
+[ext_resource type="Texture2D" uid="uid://q6snfqsr3tjp" path="res://Assets/Sprites/settings.svg" id="2_jptxc"]
+[ext_resource type="Texture2D" uid="uid://d1yjm6p8w8x1s" path="res://Assets/Sprites/folder.svg" id="4_y3aoa"]
+[ext_resource type="Texture2D" uid="uid://cp3kn0y58ylxx" path="res://Assets/Sprites/door-exit.svg" id="6_r04vy"]
 
 [sub_resource type="Theme" id="Theme_3e3dp"]
 

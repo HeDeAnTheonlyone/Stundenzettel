@@ -24,7 +24,6 @@ Manager="*res://Scripts/Manager.cs"
 
 window/size/viewport_width=960
 window/size/viewport_height=1280
-window/size/mode=2
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
 window/handheld/orientation=1
@@ -37,6 +36,7 @@ project/assembly_name="Stundenzettel"
 
 folder_colors={
 "res://Assets/": "red",
+"res://ExcelTemplates/": "teal",
 "res://Objects/": "purple",
 "res://Scenes/": "pink",
 "res://Scripts/": "green",
