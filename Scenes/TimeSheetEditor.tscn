@@ -66,9 +66,12 @@ theme_override_constants/margin_right = 200
 [node name="Date" type="LineEdit" parent="TitlePadding"]
 layout_mode = 2
 size_flags_vertical = 4
+theme_override_colors/font_uneditable_color = Color(1, 1, 1, 1)
 theme_override_font_sizes/font_size = 40
+text = "gik"
 placeholder_text = "Datum"
 alignment = 1
+editable = false
 context_menu_enabled = false
 
 [node name="BackPadding" type="MarginContainer" parent="."]

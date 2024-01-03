@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.Json;
 using Godot;
 using Godot.Collections;
 
@@ -112,6 +111,7 @@ public partial class Manager : Node
 			string jsonString = Json.Stringify(customerNames.ToArray(), "\t");
 
 			file.StoreString(jsonString);
+			GD.Print(file.GetPathAbsolute());
 		}
 	}
 
