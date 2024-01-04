@@ -9,7 +9,7 @@
 [ext_resource type="Theme" uid="uid://dktdsgfp64vc" path="res://Themes/BackButton.tres" id="7_80gdn"]
 [ext_resource type="Texture2D" uid="uid://dethjkxhe61b7" path="res://Assets/Sprites/arrow-back-up.svg" id="8_gxvij"]
 [ext_resource type="Theme" uid="uid://ck4at8k5q5e0d" path="res://Themes/DefaultButton.tres" id="9_870q0"]
-[ext_resource type="Theme" uid="uid://bhdsyxf6gyu44" path="res://Themes/DefaultTab.tres" id="9_ijx7x"]
+[ext_resource type="Theme" uid="uid://bstgv5d387c4m" path="res://Themes/DefaultTab.tres" id="9_ijx7x"]
 [ext_resource type="StyleBox" uid="uid://b17gqge3mtho0" path="res://Themes/Styles/CustomerNamesScrollBox.tres" id="10_ie043"]
 
 [node name="TimeSpanBlock" type="CanvasLayer"]

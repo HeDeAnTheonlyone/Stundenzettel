@@ -1,8 +1,7 @@
-using System;
 using System.Collections.Generic;
 using Godot;
 
-public static class ListEntryManager
+public static class ListEntryExtension
 {
    /// <summary>
    /// Takes in a list of filenames and fills the VBoxConntainer with button elemnts of those file.

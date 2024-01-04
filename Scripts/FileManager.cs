@@ -4,7 +4,6 @@ using System.Linq;
 using Godot;
 using Godot.Collections;
 using ClosedXML.Excel;
-using DocumentFormat.OpenXml.Spreadsheet;
 
 public static class FileManager
 {
@@ -61,16 +60,12 @@ public static class FileManager
          entries.Add(new TimeSpanEntry(dict));
       }
 
-      return new TimeSheet(DateOnly.Parse(CleanFileName(fileName)), entries);
+      return new TimeSheet(DateOnly.Parse(fileName.ReplaceN(".json", "")), entries);
    }
 
 
 
-   public static string CleanFileName(string fileName) => fileName.Remove(fileName.Length - 5);
-
-
-
-   public static string FileNameToDateText(string fileName) => DateOnly.Parse(CleanFileName(fileName)).ToString();
+   public static string FileNameToDateText(string fileName) => DateOnly.Parse(fileName.ReplaceN(".json", "")).ToString();
 
 
 
@@ -81,7 +76,14 @@ public static class FileManager
       
       if (FileAccess.GetOpenError() != Error.Ok)
          throw new Exception("Failed to load .xlsx timesheet template file");
-      
+
+      DateOnly[] currentWeek = new DateOnly[5];
+      currentWeek[0] = DateOnly.Parse(filesNames[0].ReplaceN(".json", ""));
+      for (int i = 1; i < 5; i++)
+      {
+         
+      }
+
       using(var ms = new System.IO.MemoryStream(templateBytes))
       {
          foreach (string timeSheetName in filesNames)
@@ -89,9 +91,10 @@ public static class FileManager
             TimeSheet currentFile = GetTimeSheetFromFile(timeSheetName);
             using(var workbook = new XLWorkbook(ms))
             {
+// TODO Put all timesheets of one week in one workbook
                IXLWorksheet sheet = workbook.Worksheet(1);
 
-               sheet.FillExcelFile(currentFile, CleanFileName(timeSheetName));
+               sheet.FillExcelFile(currentFile, timeSheetName.ReplaceN(".json", ""));
 
                string  savePath = $"{Manager.documentsFilePath}/Stundenzettel/Rapportzettel - {Manager.Singleton.settingsData["workerName"]} - {currentFile.Date}.xlsx";
                workbook.SaveAs(savePath);
@@ -197,12 +200,6 @@ public static class FileManager
       sheet.Cell(39, 22).Value = $"{allKmDriven} km";
 
       sheet.Cell(43, 3).Value = workerName;
-
-      string signatureImagePath = (string)Manager.Singleton.settingsData["signaturePath"];
-
-      if (!string.IsNullOrWhiteSpace(signatureImagePath))
-         if (FileAccess.FileExists(signatureImagePath))
-            sheet.AddPicture(signatureImagePath).MoveTo(sheet.Cell(45, 3)).WithSize(300, 63);
 
       return sheet;
    }
