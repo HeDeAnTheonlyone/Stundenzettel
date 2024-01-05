@@ -19,7 +19,7 @@ using Godot.Collections;
 	- 3.5h
 	- 3h
 	- 1h
-	- 
+	- 4h 
 ============
 	74h
 */
