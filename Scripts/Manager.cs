@@ -4,9 +4,29 @@ using System.Linq;
 using Godot;
 using Godot.Collections;
 
-public partial class Manager : Node
+/*
+	Active Working Sessions:
+	- 6h
+	- 17h
+	- 11h
+	- 6.5h
+	- 4.5h
+	- 3.5h
+	- 4.5h
+	- 8h
+	- 2.5h
+	- 3h
+	- 3.5h
+	- 3h
+	- 1h
+	- 
+============
+	74h
+*/
+
+public partial class Manager : CanvasLayer
 {
-	public static Manager Singleton;
+	public static Manager Instance { get; private set; }
 	public Dictionary settingsData;
 	public const string settingsFilePath = "user://Settings.json";
 	public const string customerNamesFilePath = "user://CustomerNames.json";
@@ -25,11 +45,11 @@ public partial class Manager : Node
 		if (!OS.RequestPermissions())
 			GetTree().Quit();
 
-#region Singleton logic
+#region Singleton init logic
 
-			if (Singleton == null)
+			if (Instance == null)
 		{
-			Singleton = this;
+			Instance = this;
 			ProcessMode = ProcessModeEnum.Always;
 			SetProcess(false);
 		}
@@ -59,7 +79,6 @@ public partial class Manager : Node
 			settingsData = new Dictionary()
 			{
 				{ "workerName", "" },
-				{ "signaturePath", ""},
 				{ "startTime", "7:30" }
 			};
 

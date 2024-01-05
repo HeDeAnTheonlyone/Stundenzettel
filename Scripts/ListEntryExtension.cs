@@ -20,7 +20,7 @@ public static class ListEntryExtension
       foreach(string entry in inputList)
       {
          TimeSheetButton newEntry = instanceResource.Instantiate() as TimeSheetButton;
-         newEntry.FileName = entry;
+         newEntry.DisplayName = entry.ReplaceN(".json", "");
          outputList.AddChild(newEntry);
       }
       return outputList;

@@ -14,13 +14,13 @@ public partial class TimeSpanBlockButton : HSplitContainer
 		{
 			entry = new TimeSpanEntry
 			(
-			Manager.Singleton.lastTimeStamp,
+			Manager.Instance.lastTimeStamp,
 			TimeOnly.FromDateTime(DateTime.Now)
 			);
 
-			Manager.Singleton.lastTimeStamp = entry.ToTime;
+			Manager.Instance.lastTimeStamp = entry.ToTime;
 
-			Manager.Singleton.selectedSheet.TimeSpanEntries.Add(entry);
+			Manager.Instance.selectedSheet.TimeSpanEntries.Add(entry);
 		}			
 
 		editButton = GetNode<Button>("Edit");
@@ -33,15 +33,15 @@ public partial class TimeSpanBlockButton : HSplitContainer
 #region Signals
 	private void SwitchToTimeSpanBlockEditor()
 	{
-		Manager.Singleton.selectedEntry = entry;
-		Manager.Singleton.SwitchScene("TimeSpanBlockEditor");
+		Manager.Instance.selectedEntry = entry;
+		Manager.Instance.SwitchScene("TimeSpanBlockEditor");
 	}
 
 
 
     private void DeleteEntry()
     {
-		Manager.Singleton.selectedSheet.TimeSpanEntries.Remove(entry);
+		Manager.Instance.selectedSheet.TimeSpanEntries.Remove(entry);
         QueueFree();
     }
 #endregion

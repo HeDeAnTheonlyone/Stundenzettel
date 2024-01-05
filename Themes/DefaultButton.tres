@@ -1,6 +1,6 @@
 [gd_resource type="Theme" load_steps=3 format=3 uid="uid://ck4at8k5q5e0d"]
 
-[ext_resource type="StyleBox" path="res://Themes/Styles/ButtonWithoutIcon.tres" id="1_0ef5r"]
+[ext_resource type="StyleBox" uid="uid://qjayda27g00v" path="res://Themes/Styles/ButtonWithoutIcon.tres" id="1_0ef5r"]
 
 [sub_resource type="SystemFont" id="SystemFont_tp1ee"]
 

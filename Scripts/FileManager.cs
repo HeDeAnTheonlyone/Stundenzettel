@@ -16,7 +16,7 @@ public static class FileManager
 
       string dataString = Json.Stringify(data, "\t");
 
-      Manager.Singleton.FixDocumentDirectory();
+      Manager.Instance.FixDocumentDirectory();
 
       string filePath = $"{Manager.documentsFilePath}/Stundenzettel/TimeSheets/{sheet.Date.ToString("yyyy/MM/dd")}.json";
 
@@ -30,14 +30,14 @@ public static class FileManager
 
    public static TimeSheet LoadSelectedTimeSheet()
    {
-      if (Manager.Singleton.selectedSheet == null)
-         Manager.Singleton.selectedSheet = new TimeSheet
+      if (Manager.Instance.selectedSheet == null)
+         Manager.Instance.selectedSheet = new TimeSheet
          (
             DateOnly.FromDateTime(DateTime.Today),
             new List<TimeSpanEntry>()
          );
 
-      return Manager.Singleton.selectedSheet;
+      return Manager.Instance.selectedSheet;
    }
 
 
@@ -65,41 +65,58 @@ public static class FileManager
 
 
 
-   public static string FileNameToDateText(string fileName) => DateOnly.Parse(fileName.ReplaceN(".json", "")).ToString();
+// TODO Split this class into different smaller ones
 
-
-
+// FIXME Add logo manually per code, to controll the size
 #region Conversion to .xlsx
    public static bool ConvertToExcelFiles(string[] filesNames)
-   {      
+   {
+      if (filesNames.Length == 0)
+         return false;
+
+
       byte[] templateBytes = FileAccess.GetFileAsBytes("res://ExcelTemplates/StundenzettelTemplate.xlsx");
       
       if (FileAccess.GetOpenError() != Error.Ok)
          throw new Exception("Failed to load .xlsx timesheet template file");
 
-      DateOnly[] currentWeek = new DateOnly[5];
-      currentWeek[0] = DateOnly.Parse(filesNames[0].ReplaceN(".json", ""));
-      for (int i = 1; i < 5; i++)
+      DateOnly referenceDate = DateOnly.Parse(filesNames[0].ReplaceN(".json", ""));
+      DateOnly[] currentWeek = GetWeekDates(referenceDate);
+
+
+      foreach (var item in currentWeek)
       {
-         
+         GD.Print(item);
       }
 
+   
       using(var ms = new System.IO.MemoryStream(templateBytes))
       {
+         XLWorkbook workbook = new XLWorkbook(ms);
+         string savePath;
+
          foreach (string timeSheetName in filesNames)
          {
             TimeSheet currentFile = GetTimeSheetFromFile(timeSheetName);
-            using(var workbook = new XLWorkbook(ms))
+
+            if (!currentWeek.Contains(currentFile.Date))
             {
-// TODO Put all timesheets of one week in one workbook
-               IXLWorksheet sheet = workbook.Worksheet(1);
-
-               sheet.FillExcelFile(currentFile, timeSheetName.ReplaceN(".json", ""));
-
-               string  savePath = $"{Manager.documentsFilePath}/Stundenzettel/Rapportzettel - {Manager.Singleton.settingsData["workerName"]} - {currentFile.Date}.xlsx";
+               savePath = $"{Manager.documentsFilePath}/Stundenzettel/Rapportzettel - {Manager.Instance.settingsData["workerName"]} - [ {currentWeek[0]} - {currentWeek[currentWeek.Length - 1]} ].xlsx";
                workbook.SaveAs(savePath);
+               workbook.Dispose();
+
+               workbook = new XLWorkbook(ms);
+
+               currentWeek = GetWeekDates(currentFile.Date);
             }
+
+            IXLWorksheet sheet = workbook.Worksheet((int)currentFile.Date.DayOfWeek);
+
+            sheet.FillSheet(currentFile);
          }
+         savePath = $"{Manager.documentsFilePath}/Stundenzettel/Rapportzettel - {Manager.Instance.settingsData["workerName"]} - [ {currentWeek[0]} - {currentWeek[currentWeek.Length - 1]} ].xlsx";
+         workbook.SaveAs(savePath);
+         workbook.Dispose();
       }
 
       return true;
@@ -107,11 +124,11 @@ public static class FileManager
 
 
 
-   private static IXLWorksheet FillExcelFile(this IXLWorksheet sheet, TimeSheet currentFile, string date)
+   private static IXLWorksheet FillSheet(this IXLWorksheet sheet, TimeSheet currentFile)
    {
+      // TODO Make this into an enunm for better managemnet
       string[] timeSpanEntryNames = new string[7] { "fromTime", "toTime", "customer", "purpose", "description", "kmStart", "kmEnd" };
 
-      string workerName = (string)Manager.Singleton.settingsData["workerName"];
       int row;
       int col;
       string cellValue;
@@ -123,28 +140,26 @@ public static class FileManager
       TimeOnly allBreakTime = new TimeOnly();
       int allKmDriven = 0;
 
-      sheet.Cell(9, 2).Value = date;
-
       for (int i = 0; i < currentFile.TimeSpanEntries.Count; i++)
       {
          entry = currentFile.TimeSpanEntries.ElementAt(i);
          timeSpanData = entry.ToDictionary();
-         row = i + 14;
+         row = i + 8;
 
          for (int j = 0; j < timeSpanEntryNames.Length; j++)
          {
             switch(timeSpanEntryNames[j])
             {
                case "fromTime":
-                  col = 1;
-                  break;
-
-               case "toTime":
                   col = 2;
                   break;
 
-               case "customer":
+               case "toTime":
                   col = 3;
+                  break;
+
+               case "customer":
+                  col = 4;
                   break;
 
                case "purpose":
@@ -152,15 +167,16 @@ public static class FileManager
                   break;
 
                case "description":
-                  col = 12;
+                  // FIXME Change how description is handeled
+                  col = 14;
                   break;
                
                case "kmStart":
-                  col = 20;
+                  col = 10;
                   break;
 
                case "kmEnd":
-                  col = 21;
+                  col = 11;
                   break;
 
                default:
@@ -168,9 +184,7 @@ public static class FileManager
             }
 
             if (timeSpanEntryNames[j] == "purpose")
-            {
                cellValue = PurposeNames.GetName(entry.Purpose);
-            }
             else
                cellValue = (string)timeSpanData[$"{timeSpanEntryNames[j]}"];
 
@@ -180,28 +194,45 @@ public static class FileManager
          if (entry.Purpose == Purposes.Break)
          {
             TimeSpan breakTime = entry.ToTime  - entry.FromTime;
-            sheet.Cell(row, 10).Value = breakTime.ToString("hh\\:mm");
+            sheet.Cell(row, 9).Value = breakTime.ToString("hh\\:mm");
             allBreakTime = allBreakTime.Add(breakTime);
          }
          else
          {
             TimeSpan workTime = entry.ToTime - entry.FromTime;
-            sheet.Cell(row, 9).Value = workTime.ToString("hh\\:mm");
+            sheet.Cell(row, 8).Value = workTime.ToString("hh\\:mm");
             allWorkTime = allWorkTime.Add(workTime);
          }
          
          int kmDriven = entry.KmEnd - entry.KmStart;
-         sheet.Cell(row, 22).Value = $"{kmDriven} km";
+         //sheet.Cell(row, 22).Value = kmDriven;
          allKmDriven += kmDriven;
       }
       
-      sheet.Cell(39, 9).Value = allWorkTime.ToString();
-      sheet.Cell(39, 10).Value = allBreakTime.ToString(); 
-      sheet.Cell(39, 22).Value = $"{allKmDriven} km";
+      sheet.Cell(27, 11).Value = allKmDriven;
+      sheet.Cell(28, 8).Value = allWorkTime.ToString();
+      sheet.Cell(28, 9).Value = allBreakTime.ToString(); 
 
-      sheet.Cell(43, 3).Value = workerName;
+      sheet.Cell(36, 2).Value = currentFile.Date.ToString();
+      sheet.Cell(36, 5).Value = (string)Manager.Instance.settingsData["workerName"];
 
       return sheet;
    }
 #endregion
+
+
+
+   private static DateOnly[] GetWeekDates(DateOnly referenceDate)
+   {
+      DateOnly date = referenceDate.AddDays(-((int)referenceDate.DayOfWeek - 1));
+      DateOnly[] weekDates = new DateOnly[5];
+
+      for (int i = 0; i < weekDates.Length; i++)
+      {
+         weekDates[i] = date;
+         date = date.AddDays(1);
+      }
+
+      return weekDates;
+   }
 }
