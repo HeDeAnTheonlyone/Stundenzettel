@@ -2,6 +2,7 @@ using System;
 
 public enum Purposes
 {
+   NoPurpose,
    WorkStart,
    WorkEnd,
    Work,
@@ -15,8 +16,7 @@ public enum Purposes
    Refuel,
    ErrandTrip,
    Break,
-   Sick,
-   NoPurpose
+   Sick
 }
 
 public static class PurposeNames
@@ -27,6 +27,10 @@ public static class PurposeNames
 
       switch(purpose)
       {
+         case Purposes.NoPurpose:
+            name = "Nicht angegeben";
+            break;
+
          case Purposes.WorkStart:
             name = "Arbeitsbeginn";
             break;
@@ -81,10 +85,6 @@ public static class PurposeNames
 
          case Purposes.Sick:
             name = "Krank";
-            break;
-         
-         case Purposes.NoPurpose:
-            name = "Nicht angegeben";
             break;
          
          default:

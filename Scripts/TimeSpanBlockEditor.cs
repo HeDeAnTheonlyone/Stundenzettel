@@ -16,6 +16,7 @@ public partial class TimeSpanBlockEditor : CanvasLayer
    private PackedScene customerNameButton;
    private OptionButton purpose;
    private TextEdit description;
+   private OptionButton car;
    private LineEdit kmStart;
    private LineEdit kmEnd;
    private TimeSpanEntry entry = Manager.Instance.selectedEntry;
@@ -34,11 +35,14 @@ public partial class TimeSpanBlockEditor : CanvasLayer
       customerNameButton = GD.Load("res://Objects/CustomerNameButton.tscn") as PackedScene;
       purpose = timeList.GetNode<OptionButton>("Purpose/Input");
       description = timeList.GetNode<TextEdit>("DescriptionInput");
+      car = driveList.GetNode<OptionButton>("Car/Input");
       kmStart = driveList.GetNode<LineEdit>("KmBegin/Input");
       kmEnd = driveList.GetNode<LineEdit>("KmEnd/Input");
 
       customerNames = Manager.Instance.customerNames;
 
+      PopulateOptionButtons();
+      
       SetInput(entry);
    }
 
@@ -51,8 +55,20 @@ public partial class TimeSpanBlockEditor : CanvasLayer
 		customer.Text = entry.Customer;
 		purpose.Selected = (int)entry.Purpose;
 		description.Text = entry.Description;
+      car.Text = CarNames.GetName(entry.Car);
       kmStart.Text = entry.KmStart.ToString();
       kmEnd.Text = entry.KmEnd.ToString();
+   }
+
+
+
+   private void PopulateOptionButtons()
+   {
+      foreach (Purposes p in Enum.GetValues(typeof(Purposes)))
+         purpose.AddItem(PurposeNames.GetName(p));
+
+      foreach (Car c in Enum.GetValues(typeof(Car)))
+         car.AddItem(CarNames.GetName(c));
    }
 
 
@@ -144,6 +160,10 @@ public partial class TimeSpanBlockEditor : CanvasLayer
 
 
    private void SetDescription() => entry.Description = description.Text;
+
+
+
+   private void SetCar(int index) => entry.Car = (Car)index;
 
 
 

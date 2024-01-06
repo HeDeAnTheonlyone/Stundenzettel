@@ -205,9 +205,11 @@ public static class FileManager
          allKmDriven += kmDriven;
       }
       
+      // TODO Change .xlsx file to support different cars so this can be properly implemented
+      //sheet.Cell().Value = CarNames.GetName(entry.Car);
       sheet.Cell(27, 11).Value = allKmDriven;
       sheet.Cell(28, 8).Value = allWorkTime.ToString();
-      sheet.Cell(28, 9).Value = allBreakTime.ToString(); 
+      sheet.Cell(28, 9).Value = allBreakTime.ToString();
 
       sheet.Cell(36, 2).Value = currentFile.Date.ToString();
       sheet.Cell(36, 5).Value = (string)Manager.Instance.settingsData["workerName"];
