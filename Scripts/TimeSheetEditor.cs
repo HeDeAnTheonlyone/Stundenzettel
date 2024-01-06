@@ -20,11 +20,11 @@ public partial class TimeSheetEditor : CanvasLayer
 
 		if (timeSheet.TimeSpanEntries.Count > 0)
 		{
-			Manager.Singleton.lastTimeStamp = timeSheet.TimeSpanEntries.Last().ToTime;
+			Manager.Instance.lastTimeStamp = timeSheet.TimeSpanEntries.Last().ToTime;
 			timeSpanList.PopulateList(timeSheet.TimeSpanEntries, timeSpanBlockButton);
 		}
 		else
-			Manager.Singleton.lastTimeStamp = TimeOnly.Parse((string)Manager.Singleton.settingsData["startTime"]);
+			Manager.Instance.lastTimeStamp = TimeOnly.Parse((string)Manager.Instance.settingsData["startTime"]);
 
 		date.Text = timeSheet.Date.ToString();
     }
@@ -35,14 +35,13 @@ public partial class TimeSheetEditor : CanvasLayer
     private void SetDate() => SetDate(date.Text);
     private void SetDate(string dateText)
 	{
-		try
-		{
-			timeSheet.Date = DateOnly.Parse(dateText);
-		}
-		catch
-		{
+		bool success = DateOnly.TryParse(dateText, out DateOnly parsedDate);
+
+		if (success)
+			timeSheet.Date = parsedDate;
+		else
 			date.Text = timeSheet.Date.ToString();
-		}
+		
 	}
 
 
@@ -62,8 +61,8 @@ public partial class TimeSheetEditor : CanvasLayer
 		if (timeSheet.TimeSpanEntries.Count > 0)
 			FileManager.SaveTimeSheet(timeSheet);
 
-		Manager.Singleton.selectedSheet = null;
-		Manager.Singleton.CallDeferred("SwitchScene", "MainMenu");
+		Manager.Instance.selectedSheet = null;
+		Manager.Instance.CallDeferred("SwitchScene", "MainMenu");
 	}
 #endregion
 }

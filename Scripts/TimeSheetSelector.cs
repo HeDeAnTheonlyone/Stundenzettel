@@ -22,7 +22,7 @@ public partial class TimeSheetSelector : CanvasLayer
 		timer = finishConversionIndicator.GetNode<Timer>("Timer");
 		bg = finishConversionIndicator.GetNode<ColorRect>("TextPadding/Background");
 
-		Manager.Singleton.FixDocumentDirectory();
+		Manager.Instance.FixDocumentDirectory();
 		timeSheetFiles = DirAccess.GetFilesAt(timeSheetsPath);
 		Array.Sort(timeSheetFiles, (a, b) => Comparer.Default.Compare(b, a));
 
@@ -36,6 +36,7 @@ public partial class TimeSheetSelector : CanvasLayer
 	{
 		bool isDone;
 
+		Array.Sort(timeSheetFiles);
 		isDone = FileManager.ConvertToExcelFiles(timeSheetFiles);
 
 		if (isDone)
@@ -46,14 +47,15 @@ public partial class TimeSheetSelector : CanvasLayer
 		else
 		{
 			finishConversionIndicator.Text = "Umwandeln fehlgeschlagen";
-			bg.Color = new Color("#ff7d7d");
+			bg.Color = new Color("#ff3d2d");
 		}
+		
 		finishConversionIndicator.Modulate = finishConversionIndicator.Modulate with { A = 1 };
 		timer.Start();
 	}
 
 
 
-	private void SwitchToMainMenu() => Manager.Singleton.SwitchScene("MainMenu");
+	private void SwitchToMainMenu() => Manager.Instance.SwitchScene("MainMenu");
 #endregion
 }

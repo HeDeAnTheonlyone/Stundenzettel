@@ -2,7 +2,17 @@ using Godot;
 
 public partial class TimeSheetButton : HSplitContainer
 {
-	public string FileName { get; set; }
+	private string displayName;
+	public string DisplayName
+	{
+		get => displayName;
+		set
+		{
+			displayName = value;
+			fileName = $"{displayName}.json";
+		}
+	}
+	private string fileName;
 	private Button editButton;
 
 
@@ -10,25 +20,24 @@ public partial class TimeSheetButton : HSplitContainer
     public override void _Ready()
     {
 		editButton = GetNode<Button>("Edit");
-
-		editButton.Text = FileManager.FileNameToDateText(FileName);
+		editButton.Text = DisplayName;
     }
 
 
 
-#region Signals
-	private void SwitchToTimeSheetEditor()
+    #region Signals
+    private void SwitchToTimeSheetEditor()
 	{
-		Manager.Singleton.selectedSheet = FileManager.GetTimeSheetFromFile(FileName);
+		Manager.Instance.selectedSheet = FileManager.GetTimeSheetFromFile(fileName);
 		
-		Manager.Singleton.SwitchScene("TimeSheetEditor");
+		Manager.Instance.SwitchScene("TimeSheetEditor");
 	}
 
 
 
     private void DeleteEntry()
 	{
-		DirAccess.RemoveAbsolute($"{Manager.documentsFilePath}/Stundenzettel/TimeSheets/{FileName}");
+		DirAccess.RemoveAbsolute($"{Manager.documentsFilePath}/Stundenzettel/TimeSheets/{fileName}");
 		QueueFree();
 	}
 #endregion

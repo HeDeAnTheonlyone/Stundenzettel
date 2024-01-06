@@ -1,8 +1,7 @@
-using System;
 using System.Collections.Generic;
 using Godot;
 
-public static class ListEntryManager
+public static class ListEntryExtension
 {
    /// <summary>
    /// Takes in a list of filenames and fills the VBoxConntainer with button elemnts of those file.
@@ -21,7 +20,7 @@ public static class ListEntryManager
       foreach(string entry in inputList)
       {
          TimeSheetButton newEntry = instanceResource.Instantiate() as TimeSheetButton;
-         newEntry.FileName = entry;
+         newEntry.DisplayName = entry.ReplaceN(".json", "");
          outputList.AddChild(newEntry);
       }
       return outputList;

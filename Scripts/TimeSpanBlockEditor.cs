@@ -18,7 +18,7 @@ public partial class TimeSpanBlockEditor : CanvasLayer
    private TextEdit description;
    private LineEdit kmStart;
    private LineEdit kmEnd;
-   private TimeSpanEntry entry = Manager.Singleton.selectedEntry;
+   private TimeSpanEntry entry = Manager.Instance.selectedEntry;
 
 
 
@@ -37,7 +37,7 @@ public partial class TimeSpanBlockEditor : CanvasLayer
       kmStart = driveList.GetNode<LineEdit>("KmBegin/Input");
       kmEnd = driveList.GetNode<LineEdit>("KmEnd/Input");
 
-      customerNames = Manager.Singleton.customerNames;
+      customerNames = Manager.Instance.customerNames;
 
       SetInput(entry);
    }
@@ -61,14 +61,12 @@ public partial class TimeSpanBlockEditor : CanvasLayer
    private void SetFromTime() => SetFromTime(fromTime.Text);
    private void SetFromTime(string timeText)
    {
-		try
-		{
-			entry.FromTime = TimeOnly.Parse(timeText);
-		}
-		catch
-		{
+      bool success = TimeOnly.TryParse(timeText, out TimeOnly parsedTime);
+		
+      if (success)
+			entry.FromTime = parsedTime;
+		else
 			fromTime.Text = entry.FromTime.ToString();
-		}
 	}
 
 
@@ -76,15 +74,13 @@ public partial class TimeSpanBlockEditor : CanvasLayer
    private void SetToTime() => SetToTime(toTime.Text);
    private void SetToTime(string timeText)
    {
-		try
-		{
-			entry.ToTime = TimeOnly.Parse(timeText);
-		}
-		catch
-		{
-			toTime.Text = entry.ToTime.ToString();
-		}
-	}
+      bool success = TimeOnly.TryParse(timeText, out TimeOnly parsedTime);
+
+      if (success)
+         entry.ToTime = parsedTime;
+      else
+         toTime.Text = entry.ToTime.ToString();
+   }
 
 
 
@@ -130,10 +126,10 @@ public partial class TimeSpanBlockEditor : CanvasLayer
 
    private void CloseCustomerPresetSettings()
    {
-      if (!customerNames.SequenceEqual(Manager.Singleton.customerNames))
+      if (!customerNames.SequenceEqual(Manager.Instance.customerNames))
       {
-         Manager.Singleton.customerNames = customerNames;
-         Manager.Singleton.SaveCustomerNames();
+         Manager.Instance.customerNames = customerNames;
+         Manager.Instance.SaveCustomerNames();
       }
 
       customerPresetSettings.Visible = false;
@@ -154,19 +150,17 @@ public partial class TimeSpanBlockEditor : CanvasLayer
    private void SetKmStart() => SetKmStart(kmStart.Text);
    private void SetKmStart(string kmText)
    {
-      try
-      {
-         int km = int.Parse(kmText);
+      bool success = int.TryParse(kmText, out int km);
 
+      if (success)
+      {
          if (km < 0)
             kmStart.Text = entry.KmStart.ToString();
          else
             entry.KmStart = km;
       }
-      catch
-      {
+      else
          kmStart.Text = entry.KmStart.ToString();
-      }
    }
 
 
@@ -174,19 +168,17 @@ public partial class TimeSpanBlockEditor : CanvasLayer
    private void SetKmEnd() => SetKmEnd(kmEnd.Text);
    private void SetKmEnd(string kmText)
    {
-      try
-      {
-         int km = int.Parse(kmText);
+      bool success  = int.TryParse(kmText, out int km);
 
+      if (success)
+      {
          if (km < 0)
             kmEnd.Text = entry.KmEnd.ToString();
          else
             entry.KmEnd = km;
       }     
-      catch
-      {
+      else
          kmEnd.Text = entry.KmEnd.ToString();
-      }
    }
 
 
@@ -216,7 +208,7 @@ public partial class TimeSpanBlockEditor : CanvasLayer
       SetKmStart();
       SetKmEnd();
       
-      Manager.Singleton.SwitchScene("TimeSheetEditor");
+      Manager.Instance.SwitchScene("TimeSheetEditor");
    }
 #endregion
 }

@@ -1,4 +1,3 @@
-using System.ComponentModel.DataAnnotations;
 using Godot;
 
 public partial class CustomerNameButton : HSplitContainer
@@ -27,11 +26,11 @@ public partial class CustomerNameButton : HSplitContainer
     }
 
 
+
     private void DeleteName()
     {
 		timeSpanEditor.customerNames.Remove(selectButton.Text);
         QueueFree();
     }
-
     #endregion
 }
