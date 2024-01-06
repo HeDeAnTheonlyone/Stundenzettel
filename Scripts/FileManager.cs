@@ -74,7 +74,6 @@ public static class FileManager
       if (filesNames.Length == 0)
          return false;
 
-
       byte[] templateBytes = FileAccess.GetFileAsBytes("res://ExcelTemplates/StundenzettelTemplate.xlsx");
       
       if (FileAccess.GetOpenError() != Error.Ok)
@@ -83,40 +82,38 @@ public static class FileManager
       DateOnly referenceDate = DateOnly.Parse(filesNames[0].ReplaceN(".json", ""));
       DateOnly[] currentWeek = GetWeekDates(referenceDate);
 
-
-      foreach (var item in currentWeek)
-      {
-         GD.Print(item);
-      }
-
-   
       using(var ms = new System.IO.MemoryStream(templateBytes))
       {
          XLWorkbook workbook = new XLWorkbook(ms);
          string savePath;
+         byte[] logoImageBytes = FileAccess.GetFileAsBytes("res://Assets/Logo.jpg");
 
-         foreach (string timeSheetName in filesNames)
+         using(var logoMs = new System.IO.MemoryStream(logoImageBytes))
          {
-            TimeSheet currentFile = GetTimeSheetFromFile(timeSheetName);
 
-            if (!currentWeek.Contains(currentFile.Date))
+            foreach (string timeSheetName in filesNames)
             {
-               savePath = $"{Manager.documentsFilePath}/Stundenzettel/Rapportzettel - {Manager.Instance.settingsData["workerName"]} - [ {currentWeek[0]} - {currentWeek[currentWeek.Length - 1]} ].xlsx";
-               workbook.SaveAs(savePath);
-               workbook.Dispose();
+               TimeSheet currentFile = GetTimeSheetFromFile(timeSheetName);
 
-               workbook = new XLWorkbook(ms);
+               if (!currentWeek.Contains(currentFile.Date))
+               {
+                  savePath = $"{Manager.documentsFilePath}/Stundenzettel/Rapportzettel - {Manager.Instance.settingsData["workerName"]} - [ {currentWeek[0]} - {currentWeek[currentWeek.Length - 1]} ].xlsx";
+                  workbook.SaveAs(savePath);
+                  workbook.Dispose();
 
-               currentWeek = GetWeekDates(currentFile.Date);
+                  workbook = new XLWorkbook(ms);
+
+                  currentWeek = GetWeekDates(currentFile.Date);
+               }
+
+               IXLWorksheet sheet = workbook.Worksheet((int)currentFile.Date.DayOfWeek);
+
+               sheet.FillSheet(currentFile, logoMs);
             }
-
-            IXLWorksheet sheet = workbook.Worksheet((int)currentFile.Date.DayOfWeek);
-
-            sheet.FillSheet(currentFile);
+            savePath = $"{Manager.documentsFilePath}/Stundenzettel/Rapportzettel - {Manager.Instance.settingsData["workerName"]} - [ {currentWeek[0]} - {currentWeek[currentWeek.Length - 1]} ].xlsx";
+            workbook.SaveAs(savePath);
+            workbook.Dispose();
          }
-         savePath = $"{Manager.documentsFilePath}/Stundenzettel/Rapportzettel - {Manager.Instance.settingsData["workerName"]} - [ {currentWeek[0]} - {currentWeek[currentWeek.Length - 1]} ].xlsx";
-         workbook.SaveAs(savePath);
-         workbook.Dispose();
       }
 
       return true;
@@ -124,17 +121,16 @@ public static class FileManager
 
 
 
-   private static IXLWorksheet FillSheet(this IXLWorksheet sheet, TimeSheet currentFile)
+   private static IXLWorksheet FillSheet(this IXLWorksheet sheet, TimeSheet currentFile, System.IO.MemoryStream logoData)
    {
-      // TODO Make this into an enunm for better managemnet
-      string[] timeSpanEntryNames = new string[7] { "fromTime", "toTime", "customer", "purpose", "description", "kmStart", "kmEnd" };
+      TimeSpanData[] timeSpanEntryData = Enum.GetValues<TimeSpanData>();
 
       int row;
       int col;
       string cellValue;
 
       TimeSpanEntry entry;
-      Dictionary timeSpanData;
+      Dictionary timeSpanDataDict;
 
       TimeOnly allWorkTime = new TimeOnly();
       TimeOnly allBreakTime = new TimeOnly();
@@ -143,50 +139,50 @@ public static class FileManager
       for (int i = 0; i < currentFile.TimeSpanEntries.Count; i++)
       {
          entry = currentFile.TimeSpanEntries.ElementAt(i);
-         timeSpanData = entry.ToDictionary();
+         timeSpanDataDict = entry.ToDictionary();
          row = i + 8;
 
-         for (int j = 0; j < timeSpanEntryNames.Length; j++)
+         for (int j = 0; j < timeSpanEntryData.Length; j++)
          {
-            switch(timeSpanEntryNames[j])
+            switch(timeSpanEntryData[j])
             {
-               case "fromTime":
+               case TimeSpanData.FromTime:
                   col = 2;
                   break;
 
-               case "toTime":
+               case TimeSpanData.ToTime:
                   col = 3;
                   break;
 
-               case "customer":
+               case TimeSpanData.Customer:
                   col = 4;
                   break;
 
-               case "purpose":
+               case TimeSpanData.Purpose:
                   col = 5;
                   break;
 
-               case "description":
+               case TimeSpanData.Description:
                   // FIXME Change how description is handeled
                   col = 14;
                   break;
                
-               case "kmStart":
+               case TimeSpanData.KmStart:
                   col = 10;
                   break;
 
-               case "kmEnd":
+               case TimeSpanData.KmEnd:
                   col = 11;
                   break;
 
                default:
-                  throw new Exception($"Recieved unexpected timespanentry valuename {nameof(timeSpanEntryNames)}");
+                  throw new Exception($"Recieved unexpected timespanentry valuename {nameof(timeSpanEntryData)}");
             }
 
-            if (timeSpanEntryNames[j] == "purpose")
+            if (timeSpanEntryData[j] == TimeSpanData.Purpose)
                cellValue = PurposeNames.GetName(entry.Purpose);
             else
-               cellValue = (string)timeSpanData[$"{timeSpanEntryNames[j]}"];
+               cellValue = (string)timeSpanDataDict[timeSpanEntryData[j].ToString().ToCamelCase()];
 
             sheet.Cell(row, col).Value = cellValue;
          }
@@ -215,6 +211,8 @@ public static class FileManager
 
       sheet.Cell(36, 2).Value = currentFile.Date.ToString();
       sheet.Cell(36, 5).Value = (string)Manager.Instance.settingsData["workerName"];
+
+      sheet.AddPicture(logoData).MoveTo(sheet.Cell(1, 1)).Scale(0.5); 
 
       return sheet;
    }
