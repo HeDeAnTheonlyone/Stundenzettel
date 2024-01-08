@@ -23,7 +23,7 @@ public class TimeSpanEntry
       string customer = "",
       Purposes purpose = Purposes.NoPurpose,
       string description = "",
-      Car car = Car.Zu_Fuß,
+      Car car = Car.Nicht_Fahrer,
       int kmStart = 0,
       int kmEnd = 0
    )

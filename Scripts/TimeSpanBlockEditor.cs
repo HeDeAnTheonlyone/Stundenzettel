@@ -55,7 +55,7 @@ public partial class TimeSpanBlockEditor : CanvasLayer
 		customer.Text = entry.Customer;
 		purpose.Selected = (int)entry.Purpose;
 		description.Text = entry.Description;
-      car.Text = CarNames.GetName(entry.Car);
+      car.Selected = (int)entry.Car;
       kmStart.Text = entry.KmStart.ToString();
       kmEnd.Text = entry.KmEnd.ToString();
    }
