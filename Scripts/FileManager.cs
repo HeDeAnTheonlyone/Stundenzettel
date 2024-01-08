@@ -131,7 +131,8 @@ public static class FileManager
 
       TimeSpanEntry entry;
       Dictionary timeSpanDataDict;
-
+      
+      List<string> usedCars = new List<string>();
       TimeOnly allWorkTime = new TimeOnly();
       TimeOnly allBreakTime = new TimeOnly();
       int allKmDriven = 0;
@@ -199,15 +200,30 @@ public static class FileManager
             sheet.Cell(row, 8).Value = workTime.ToString("hh\\:mm");
             allWorkTime = allWorkTime.Add(workTime);
          }
+
+         if (!usedCars.Contains(CarNames.GetName(entry.Car)))
+            usedCars.Add(CarNames.GetName(entry.Car));
          
          int kmDriven = entry.KmEnd - entry.KmStart;
          //sheet.Cell(row, 22).Value = kmDriven;
          allKmDriven += kmDriven;
       }
-      
+
+      string cars = "";
+      if (usedCars.Count > 1)
+      {
+         usedCars.Remove("Nicht Fahrer");
+
+         foreach (string car in usedCars)
+            cars = $"{car}, {cars}";
+      }
+      else
+         cars = usedCars[0];
+
+      sheet.Cell(5, 9).Value = cars;
       sheet.Cell(27, 11).Value = allKmDriven;
       sheet.Cell(28, 8).Value = allWorkTime.ToString();
-      sheet.Cell(28, 9).Value = allBreakTime.ToString(); 
+      sheet.Cell(28, 9).Value = allBreakTime.ToString();
 
       sheet.Cell(36, 2).Value = currentFile.Date.ToString();
       sheet.Cell(36, 5).Value = (string)Manager.Instance.settingsData["workerName"];

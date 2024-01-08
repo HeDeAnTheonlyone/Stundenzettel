@@ -2,6 +2,7 @@ using Godot;
 
 public enum Car
 {
+    Nicht_Fahrer,
     Kangoo_MYK__TS_178,
     Fiat_Klein_MYK__TS_278,
     Fiat_Bus_MYK__TS_378
