@@ -35,7 +35,11 @@ public partial class TimeSheetButton : HSplitContainer
 
 
 
-    private void DeleteEntry()
+    private void DeleteEntry() => GetNode<ConfirmationPanel>("../../../../ConfirmationPanel").OpenConfirmDeletion(Callable.From(DeleteEntryConfirmed));
+
+
+
+    private void DeleteEntryConfirmed()
 	{
 		DirAccess.RemoveAbsolute($"{Manager.documentsFilePath}/Stundenzettel/TimeSheets/{fileName}");
 		QueueFree();

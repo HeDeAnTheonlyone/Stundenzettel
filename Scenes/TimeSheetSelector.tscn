@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://noisab7aistg"]
+[gd_scene load_steps=9 format=3 uid="uid://noisab7aistg"]
 
 [ext_resource type="Script" path="res://Scripts/TimeSheetSelector.cs" id="1_u2o82"]
 [ext_resource type="Theme" uid="uid://0jlf0hixycar" path="res://Themes/DefaultMargin.tres" id="2_rtqwi"]
@@ -7,6 +7,7 @@
 [ext_resource type="Theme" uid="uid://dktdsgfp64vc" path="res://Themes/BackButton.tres" id="6_qlo5x"]
 [ext_resource type="Texture2D" uid="uid://dethjkxhe61b7" path="res://Assets/Sprites/arrow-back-up.svg" id="7_omeei"]
 [ext_resource type="PackedScene" uid="uid://bn7e141o0ocyt" path="res://Objects/FinishConversionIndicator.tscn" id="7_udjii"]
+[ext_resource type="PackedScene" uid="uid://brw1c4qfnl7kq" path="res://Objects/ConfirmationPanel.tscn" id="8_pvmo3"]
 
 [node name="FileEdit" type="CanvasLayer"]
 script = ExtResource("1_u2o82")
@@ -72,6 +73,9 @@ icon = ExtResource("6_07v8f")
 expand_icon = true
 
 [node name="FinishConversionIndicator" parent="." instance=ExtResource("7_udjii")]
+
+[node name="ConfirmationPanel" parent="." instance=ExtResource("8_pvmo3")]
+visible = false
 
 [connection signal="pressed" from="HeaderPadding/HBox/Back" to="." method="SwitchToMainMenu"]
 [connection signal="pressed" from="HeaderPadding/HBox/Convert" to="." method="GenerateExcelFiles"]
