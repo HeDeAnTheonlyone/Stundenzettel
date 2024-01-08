@@ -39,7 +39,11 @@ public partial class TimeSpanBlockButton : HSplitContainer
 
 
 
-    private void DeleteEntry()
+	private void DeleteEntry() => GetNode<ConfirmationPanel>("../../../../../ConfirmationPanel").OpenConfirmDeletion(Callable.From(DeleteEntryConfirmed));
+
+
+
+	private void DeleteEntryConfirmed()
     {
 		Manager.Instance.selectedSheet.TimeSpanEntries.Remove(entry);
         QueueFree();
