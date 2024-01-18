@@ -1,0 +1,30 @@
+[gd_resource type="Theme" load_steps=3 format=3 uid="uid://du1yp6r100o8w"]
+
+[ext_resource type="StyleBox" uid="uid://bk6cpumu62dn0" path="res://Themes/Styles/TimeSpanButton.tres" id="1_6ymes"]
+
+[sub_resource type="SystemFont" id="SystemFont_p5wm2"]
+
+[resource]
+Button/colors/font_color = Color(0, 0, 0, 1)
+Button/colors/font_disabled_color = Color(0.875, 0.875, 0.875, 0.5)
+Button/colors/font_focus_color = Color(0, 0, 0, 1)
+Button/colors/font_hover_color = Color(0, 0, 0, 1)
+Button/colors/font_hover_pressed_color = Color(0, 0, 0, 1)
+Button/colors/font_outline_color = Color(0, 0, 0, 1)
+Button/colors/font_pressed_color = Color(0, 0, 0, 1)
+Button/colors/icon_disabled_color = Color(1, 1, 1, 0.4)
+Button/colors/icon_focus_color = Color(0, 0, 0, 1)
+Button/colors/icon_hover_color = Color(0, 0, 0, 1)
+Button/colors/icon_hover_pressed_color = Color(0, 0, 0, 1)
+Button/colors/icon_normal_color = Color(0, 0, 0, 1)
+Button/colors/icon_pressed_color = Color(0, 0, 0, 1)
+Button/constants/h_separation = 4
+Button/constants/icon_max_width = 0
+Button/constants/outline_size = 0
+Button/font_sizes/font_size = 30
+Button/fonts/font = SubResource("SystemFont_p5wm2")
+Button/styles/disabled = ExtResource("1_6ymes")
+Button/styles/focus = ExtResource("1_6ymes")
+Button/styles/hover = ExtResource("1_6ymes")
+Button/styles/normal = ExtResource("1_6ymes")
+Button/styles/pressed = ExtResource("1_6ymes")

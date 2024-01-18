@@ -1,0 +1,305 @@
+[gd_scene load_steps=12 format=3 uid="uid://c5cgj2oowkdva"]
+
+[ext_resource type="Script" path="res://Scripts/TimeSpanBlockEditor.cs" id="1_jndds"]
+[ext_resource type="Theme" uid="uid://0jlf0hixycar" path="res://Themes/DefaultMargin.tres" id="2_dki3q"]
+[ext_resource type="Theme" uid="uid://dyyt1cc057lyj" path="res://Themes/TextWithInputSeperation.tres" id="3_pby6f"]
+[ext_resource type="Theme" uid="uid://dwjyn7rswmlw3" path="res://Themes/DefaultLabel.tres" id="4_8vd1v"]
+[ext_resource type="Theme" uid="uid://001cikhergfu" path="res://Themes/DefaulLineEdit.tres" id="5_6rmbp"]
+[ext_resource type="StyleBox" uid="uid://bohay8sac6a08" path="res://Themes/Styles/DefaultLine.tres" id="6_s1ox0"]
+[ext_resource type="Theme" uid="uid://dktdsgfp64vc" path="res://Themes/BackButton.tres" id="7_80gdn"]
+[ext_resource type="Texture2D" uid="uid://dethjkxhe61b7" path="res://Assets/Sprites/arrow-back-up.svg" id="8_gxvij"]
+[ext_resource type="Theme" uid="uid://ck4at8k5q5e0d" path="res://Themes/DefaultButton.tres" id="9_870q0"]
+[ext_resource type="Theme" uid="uid://bhdsyxf6gyu44" path="res://Themes/DefaultTab.tres" id="9_ijx7x"]
+[ext_resource type="StyleBox" uid="uid://b17gqge3mtho0" path="res://Themes/Styles/CustomerNamesScrollBox.tres" id="10_ie043"]
+
+[node name="TimeSpanBlock" type="CanvasLayer"]
+script = ExtResource("1_jndds")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.235294, 0.235294, 0.235294, 1)
+
+[node name="Padding" type="MarginContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_dki3q")
+theme_override_constants/margin_top = 200
+
+[node name="TimeList" type="VBoxContainer" parent="Padding"]
+layout_mode = 2
+
+[node name="FromTime" type="HBoxContainer" parent="Padding/TimeList"]
+layout_mode = 2
+size_flags_vertical = 6
+theme = ExtResource("3_pby6f")
+
+[node name="Label" type="Label" parent="Padding/TimeList/FromTime"]
+layout_mode = 2
+size_flags_horizontal = 2
+theme = ExtResource("4_8vd1v")
+text = "Begin:"
+
+[node name="Input" type="LineEdit" parent="Padding/TimeList/FromTime"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("5_6rmbp")
+placeholder_text = "Uhrzeit"
+alignment = 1
+context_menu_enabled = false
+
+[node name="S1" type="HSeparator" parent="Padding/TimeList"]
+layout_mode = 2
+theme_override_styles/separator = ExtResource("6_s1ox0")
+
+[node name="ToTime" type="HBoxContainer" parent="Padding/TimeList"]
+layout_mode = 2
+size_flags_vertical = 6
+theme = ExtResource("3_pby6f")
+
+[node name="Label" type="Label" parent="Padding/TimeList/ToTime"]
+layout_mode = 2
+size_flags_horizontal = 2
+theme = ExtResource("4_8vd1v")
+text = "Ende:"
+
+[node name="Input" type="LineEdit" parent="Padding/TimeList/ToTime"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("5_6rmbp")
+placeholder_text = "Uhrzeit"
+alignment = 1
+context_menu_enabled = false
+
+[node name="S2" type="HSeparator" parent="Padding/TimeList"]
+layout_mode = 2
+theme_override_styles/separator = ExtResource("6_s1ox0")
+
+[node name="Customer" type="HBoxContainer" parent="Padding/TimeList"]
+layout_mode = 2
+size_flags_vertical = 6
+theme = ExtResource("3_pby6f")
+
+[node name="Label" type="Label" parent="Padding/TimeList/Customer"]
+layout_mode = 2
+size_flags_horizontal = 2
+theme = ExtResource("4_8vd1v")
+text = "Kunde:            "
+
+[node name="Input" type="LineEdit" parent="Padding/TimeList/Customer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("5_6rmbp")
+placeholder_text = "Name"
+alignment = 1
+context_menu_enabled = false
+
+[node name="S3" type="HSeparator" parent="Padding/TimeList"]
+layout_mode = 2
+theme_override_styles/separator = ExtResource("6_s1ox0")
+
+[node name="Purpose" type="HBoxContainer" parent="Padding/TimeList"]
+layout_mode = 2
+size_flags_vertical = 6
+theme = ExtResource("3_pby6f")
+
+[node name="Label" type="Label" parent="Padding/TimeList/Purpose"]
+layout_mode = 2
+size_flags_horizontal = 2
+theme = ExtResource("4_8vd1v")
+text = "Zweck:"
+
+[node name="Input" type="OptionButton" parent="Padding/TimeList/Purpose"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("5_6rmbp")
+alignment = 1
+
+[node name="S4" type="HSeparator" parent="Padding/TimeList"]
+layout_mode = 2
+theme_override_styles/separator = ExtResource("6_s1ox0")
+
+[node name="Description" type="Label" parent="Padding/TimeList"]
+layout_mode = 2
+size_flags_horizontal = 2
+theme = ExtResource("4_8vd1v")
+text = "Beschreibung:"
+
+[node name="DescriptionInput" type="TextEdit" parent="Padding/TimeList"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = ExtResource("5_6rmbp")
+placeholder_text = "Arbeitsbeschreibung"
+context_menu_enabled = false
+wrap_mode = 1
+
+[node name="DriveList" type="VBoxContainer" parent="Padding"]
+visible = false
+layout_mode = 2
+
+[node name="Car" type="HBoxContainer" parent="Padding/DriveList"]
+layout_mode = 2
+size_flags_vertical = 6
+theme = ExtResource("3_pby6f")
+
+[node name="Label" type="Label" parent="Padding/DriveList/Car"]
+layout_mode = 2
+size_flags_horizontal = 2
+theme = ExtResource("4_8vd1v")
+text = "Fahrzeug:"
+
+[node name="Input" type="OptionButton" parent="Padding/DriveList/Car"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("5_6rmbp")
+alignment = 1
+
+[node name="KmBegin" type="HBoxContainer" parent="Padding/DriveList"]
+layout_mode = 2
+size_flags_vertical = 6
+theme = ExtResource("3_pby6f")
+
+[node name="Label" type="Label" parent="Padding/DriveList/KmBegin"]
+layout_mode = 2
+size_flags_horizontal = 2
+theme = ExtResource("4_8vd1v")
+text = "Km Begin:"
+
+[node name="Input" type="LineEdit" parent="Padding/DriveList/KmBegin"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("5_6rmbp")
+placeholder_text = "Km stand"
+alignment = 1
+context_menu_enabled = false
+
+[node name="KmEnd" type="HBoxContainer" parent="Padding/DriveList"]
+layout_mode = 2
+size_flags_vertical = 6
+theme = ExtResource("3_pby6f")
+
+[node name="Label" type="Label" parent="Padding/DriveList/KmEnd"]
+layout_mode = 2
+size_flags_horizontal = 2
+theme = ExtResource("4_8vd1v")
+text = "Km Ende:"
+
+[node name="Input" type="LineEdit" parent="Padding/DriveList/KmEnd"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("5_6rmbp")
+placeholder_text = "Km stand"
+alignment = 1
+context_menu_enabled = false
+
+[node name="BackPadding" type="MarginContainer" parent="."]
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 162.0
+grow_horizontal = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+
+[node name="Back" type="Button" parent="BackPadding"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+focus_mode = 0
+theme = ExtResource("7_80gdn")
+text = "Zurück"
+icon = ExtResource("8_gxvij")
+expand_icon = true
+
+[node name="TabBar" type="TabBar" parent="BackPadding"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 4
+theme = ExtResource("9_ijx7x")
+tab_count = 2
+clip_tabs = false
+tab_0/title = "Zeiten"
+tab_1/title = "Fahrtweg"
+
+[node name="CustomerPresetBg" type="ColorRect" parent="."]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.235294, 0.235294, 0.235294, 0.490196)
+
+[node name="Padding" type="MarginContainer" parent="CustomerPresetBg"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_dki3q")
+theme_override_constants/margin_top = 200
+
+[node name="ItemList" type="VBoxContainer" parent="CustomerPresetBg/Padding"]
+layout_mode = 2
+theme_override_constants/separation = 50
+
+[node name="SaveName" type="Button" parent="CustomerPresetBg/Padding/ItemList"]
+z_index = 1
+layout_mode = 2
+size_flags_vertical = 0
+theme = ExtResource("9_870q0")
+text = "Name Speichern"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="CustomerPresetBg/Padding/ItemList"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = ExtResource("10_ie043")
+
+[node name="NameList" type="VBoxContainer" parent="CustomerPresetBg/Padding/ItemList/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="BackPadding" type="MarginContainer" parent="CustomerPresetBg"]
+layout_mode = 0
+offset_right = 294.0
+offset_bottom = 165.0
+grow_horizontal = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+
+[node name="Back" type="Button" parent="CustomerPresetBg/BackPadding"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+focus_mode = 0
+theme = ExtResource("7_80gdn")
+text = "Zurück"
+icon = ExtResource("8_gxvij")
+expand_icon = true
+
+[connection signal="focus_exited" from="Padding/TimeList/FromTime/Input" to="." method="SetFromTime"]
+[connection signal="text_submitted" from="Padding/TimeList/FromTime/Input" to="." method="SetFromTime"]
+[connection signal="focus_exited" from="Padding/TimeList/ToTime/Input" to="." method="SetToTime"]
+[connection signal="text_submitted" from="Padding/TimeList/ToTime/Input" to="." method="SetToTime"]
+[connection signal="gui_input" from="Padding/TimeList/Customer/Input" to="." method="CustomerPresetSettings"]
+[connection signal="text_changed" from="Padding/TimeList/Customer/Input" to="." method="SetCustomer"]
+[connection signal="item_selected" from="Padding/TimeList/Purpose/Input" to="." method="SetPurtpose"]
+[connection signal="text_changed" from="Padding/TimeList/DescriptionInput" to="." method="SetDescription"]
+[connection signal="item_selected" from="Padding/DriveList/Car/Input" to="." method="SetCar"]
+[connection signal="focus_exited" from="Padding/DriveList/KmBegin/Input" to="." method="SetKmStart"]
+[connection signal="text_submitted" from="Padding/DriveList/KmBegin/Input" to="." method="SetKmStart"]
+[connection signal="focus_exited" from="Padding/DriveList/KmEnd/Input" to="." method="SetKmEnd"]
+[connection signal="text_submitted" from="Padding/DriveList/KmEnd/Input" to="." method="SetKmEnd"]
+[connection signal="pressed" from="BackPadding/Back" to="." method="SwitchToTimeSheetEditor"]
+[connection signal="tab_changed" from="BackPadding/TabBar" to="." method="SwitchTabs"]
+[connection signal="pressed" from="CustomerPresetBg/Padding/ItemList/SaveName" to="." method="SaveName"]
+[connection signal="pressed" from="CustomerPresetBg/BackPadding/Back" to="." method="CloseCustomerPresetSettings"]

@@ -1,0 +1,81 @@
+[gd_scene load_steps=9 format=3 uid="uid://noisab7aistg"]
+
+[ext_resource type="Script" path="res://Scripts/TimeSheetSelector.cs" id="1_u2o82"]
+[ext_resource type="Theme" uid="uid://0jlf0hixycar" path="res://Themes/DefaultMargin.tres" id="2_rtqwi"]
+[ext_resource type="StyleBox" uid="uid://16i710aht1gr" path="res://Themes/Styles/TimeSpanScrollBox.tres" id="5_efwkb"]
+[ext_resource type="Texture2D" uid="uid://cl5ayuuygoclq" path="res://Assets/Sprites/file-type-xls.svg" id="6_07v8f"]
+[ext_resource type="Theme" uid="uid://dktdsgfp64vc" path="res://Themes/BackButton.tres" id="6_qlo5x"]
+[ext_resource type="Texture2D" uid="uid://dethjkxhe61b7" path="res://Assets/Sprites/arrow-back-up.svg" id="7_omeei"]
+[ext_resource type="PackedScene" uid="uid://bn7e141o0ocyt" path="res://Objects/FinishConversionIndicator.tscn" id="7_udjii"]
+[ext_resource type="PackedScene" uid="uid://brw1c4qfnl7kq" path="res://Objects/ConfirmationPanel.tscn" id="8_pvmo3"]
+
+[node name="FileEdit2" type="CanvasLayer"]
+script = ExtResource("1_u2o82")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.235294, 0.235294, 0.235294, 1)
+
+[node name="Padding" type="MarginContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1, 1.00426)
+theme = ExtResource("2_rtqwi")
+
+[node name="ScrollList" type="ScrollContainer" parent="Padding"]
+layout_mode = 2
+theme_override_styles/panel = ExtResource("5_efwkb")
+
+[node name="TimeSheetList" type="VBoxContainer" parent="Padding/ScrollList"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 2
+theme_override_constants/separation = 30
+
+[node name="HeaderPadding" type="MarginContainer" parent="."]
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 162.0
+grow_horizontal = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+
+[node name="HBox" type="HSplitContainer" parent="HeaderPadding"]
+layout_mode = 2
+dragger_visibility = 1
+
+[node name="Back" type="Button" parent="HeaderPadding/HBox"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+focus_mode = 0
+theme = ExtResource("6_qlo5x")
+text = "Zurück"
+icon = ExtResource("7_omeei")
+expand_icon = true
+
+[node name="Convert" type="Button" parent="HeaderPadding/HBox"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 4
+focus_mode = 0
+theme = ExtResource("6_qlo5x")
+text = "Zu Excel umwandeln"
+icon = ExtResource("6_07v8f")
+expand_icon = true
+
+[node name="FinishConversionIndicator" parent="." instance=ExtResource("7_udjii")]
+
+[node name="ConfirmationPanel" parent="." instance=ExtResource("8_pvmo3")]
+visible = false
+
+[connection signal="pressed" from="HeaderPadding/HBox/Back" to="." method="SwitchToMainMenu"]
+[connection signal="pressed" from="HeaderPadding/HBox/Convert" to="." method="GenerateXlsxFiles"]

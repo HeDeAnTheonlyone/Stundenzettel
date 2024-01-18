@@ -1,0 +1,7 @@
+[gd_resource type="Theme" load_steps=2 format=3 uid="uid://dwjyn7rswmlw3"]
+
+[sub_resource type="SystemFont" id="SystemFont_hvyt6"]
+
+[resource]
+default_font = SubResource("SystemFont_hvyt6")
+default_font_size = 40

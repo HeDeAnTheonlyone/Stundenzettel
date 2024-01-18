@@ -1,0 +1,45 @@
+[gd_scene load_steps=3 format=3 uid="uid://bn7e141o0ocyt"]
+
+[ext_resource type="Theme" uid="uid://001cikhergfu" path="res://Themes/DefaulLineEdit.tres" id="1_51bbh"]
+[ext_resource type="Script" path="res://Scripts/FinishConversionIndicator.cs" id="2_6lxic"]
+
+[node name="FinishConversionIndicator" type="Label"]
+modulate = Color(1, 1, 1, 0)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -27.5
+offset_right = 20.0
+offset_bottom = 27.5
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_51bbh")
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "ERROR"
+script = ExtResource("2_6lxic")
+
+[node name="TextPadding" type="MarginContainer" parent="."]
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = -20
+theme_override_constants/margin_top = -10
+theme_override_constants/margin_right = -20
+theme_override_constants/margin_bottom = -10
+
+[node name="Background" type="ColorRect" parent="TextPadding"]
+show_behind_parent = true
+layout_mode = 2
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 1.25
+one_shot = true
+
+[connection signal="timeout" from="Timer" to="." method="SetVanishTrue"]

@@ -1,0 +1,36 @@
+[gd_scene load_steps=5 format=3 uid="uid://g8kf1heixav4"]
+
+[ext_resource type="Script" path="res://Scripts/CustomerNameButton.cs" id="1_e3r5n"]
+[ext_resource type="Theme" uid="uid://du1yp6r100o8w" path="res://Themes/TimeSpanButton.tres" id="2_kxsug"]
+[ext_resource type="Theme" uid="uid://cxevv1olbn6s0" path="res://Themes/DeleteButton.tres" id="4_o3y04"]
+[ext_resource type="Texture2D" uid="uid://5sytle0nov6s" path="res://Assets/Sprites/trash.svg" id="5_v1tjg"]
+
+[node name="Splitter" type="HSplitContainer"]
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -30.0
+offset_bottom = 30.0
+grow_horizontal = 2
+grow_vertical = 2
+split_offset = 450
+dragger_visibility = 1
+script = ExtResource("1_e3r5n")
+
+[node name="Select" type="Button" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme = ExtResource("2_kxsug")
+expand_icon = true
+
+[node name="Delete" type="Button" parent="."]
+layout_mode = 2
+size_flags_horizontal = 10
+theme = ExtResource("4_o3y04")
+icon = ExtResource("5_v1tjg")
+expand_icon = true
+
+[connection signal="pressed" from="Select" to="." method="SelectName"]
+[connection signal="pressed" from="Delete" to="." method="DeleteName"]
