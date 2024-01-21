@@ -190,20 +190,20 @@ public class XlsxConverter
       sheet.Cell(5, 9).Value = cars;
       carSummary[(int)currentFile.Date.DayOfWeek - 1] = cars;
 
-      sheet.Cell(27, 11).Value = allKmDriven;
+      sheet.Cell(29, 11).Value = allKmDriven;
       kmSummary[(int)currentFile.Date.DayOfWeek - 1] = allKmDriven;
 
-      sheet.Cell(28, 8).Value = allWorkTime.ToString("hh\\:mm");
+      sheet.Cell(30, 8).Value = allWorkTime.ToString("hh\\:mm");
       workTimeSummary[(int)currentFile.Date.DayOfWeek - 1] = allWorkTime;
 
       if (allBreakTime.TotalMinutes < 30)
          allBreakTime = new TimeSpan(0, 30, 0);
 
-      sheet.Cell(28, 9).Value = allBreakTime.ToString("hh\\:mm");
+      sheet.Cell(30, 9).Value = allBreakTime.ToString("hh\\:mm");
       breakTimeSummary[(int)currentFile.Date.DayOfWeek - 1] = allBreakTime;
 
-      sheet.Cell(36, 2).Value = currentFile.Date.ToString();
-      sheet.Cell(36, 5).Value = (string)Manager.Instance.settingsData["workerName"];
+      sheet.Cell(38, 2).Value = currentFile.Date.ToString();
+      sheet.Cell(38, 5).Value = (string)Manager.Instance.settingsData["workerName"];
 
       sheet.AddPicture(logoData).MoveTo(sheet.Cell(1, 1)).Scale(0.5);
 

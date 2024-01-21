@@ -6,26 +6,28 @@ using Godot.Collections;
 
 /*
 	Active Working Sessions:
-	- 6h
-	- 17h
-	- 11h
-	- 6.5h
-	- 4.5h
-	- 3.5h
-	- 4.5h
-	- 8h
-	- 2.5h
-	- 3h
-	- 3.5h
-	- 3h
-	- 1h
-	- 4h
-	- 4h
-	- 3h
-	- 0.5h
-	- 3h
+	+ 6h
+	+ 17h
+	+ 11h
+	+ 6.5h
+	+ 4.5h
+	+ 3.5h
+	+ 4.5h
+	+ 8h
+	+ 2.5h
+	+ 3h
+	+ 3.5h
+	+ 3h
+	+ 1h
+	+ 4h
+	+ 4h
+	+ 3h
+	+ 0.5h
+	+ 3h
+	+ 2,5h
+	+
 ============
-	90h
+	91h
 */
 
 public partial class Manager : CanvasLayer
