@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Godot;
 using Godot.Collections;
+using Octokit;
 
 /*
 	Active Working Sessions:
@@ -46,7 +48,7 @@ public partial class Manager : CanvasLayer
 
 
 
-	public override void _Ready()
+	public override async void _Ready()
     {
 		GD.PushWarning("Make Date Uneditable!!!");
 
@@ -69,6 +71,11 @@ public partial class Manager : CanvasLayer
 
 		LoadSettings();
 
+		bool active = await GetActivationState();
+		
+		if (!active)
+			GetTree().Quit();
+
 		lastTimeStamp = TimeOnly.Parse((string)settingsData["startTime"]);
 
 		LoadCustomerNames();
@@ -86,6 +93,7 @@ public partial class Manager : CanvasLayer
 
 			settingsData = new Dictionary()
 			{
+				{ "active", true },
 				{ "workerName", "" },
 				{ "startTime", "7:30" }
 			};
@@ -94,6 +102,35 @@ public partial class Manager : CanvasLayer
 		}
 		else
 			settingsData = (Dictionary)Json.ParseString(file.GetAsText(true));
+	}
+
+
+
+	private async Task<bool> GetActivationState()
+	{
+		const string owner = "HeDeAnTheonlyone";
+		const string repo = "External-Config";
+		const string branch = "main";
+		const string filePath = "Stundenzettel.txt";
+
+		GitHubClient github = new GitHubClient(new ProductHeaderValue("HeDeAn"));
+
+		try
+		{
+			var contents = await github.Repository.Content.GetAllContentsByRef(owner, repo, filePath, branch);
+			if (contents.Count > 0)
+			{
+				string dataString = contents[0].Content;
+				settingsData["active"] = bool.Parse(dataString);
+				return bool.Parse(dataString);
+			}
+			else
+				return (bool)settingsData["active"];
+		}
+		catch
+		{
+			return (bool)settingsData["active"];
+		}
 	}
 
 
