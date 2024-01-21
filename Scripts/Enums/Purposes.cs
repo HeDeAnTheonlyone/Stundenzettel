@@ -88,7 +88,7 @@ public static class PurposeNames
             break;
          
          default:
-            throw new Exception("Invalid Purpose. Unable to return Purposename.");
+            throw new ArgumentException("Invalid Purpose. Unable to return Purposename.");
       }
 
       return name;
