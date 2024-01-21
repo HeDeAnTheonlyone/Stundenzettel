@@ -24,7 +24,6 @@ public class TimeSpanEntry
    public Purposes Purpose { get; set; }
    public string Description { get; set; }
    public Car Car { get; set; } 
-   public bool DrivenBothWays { get; set; }
    public int KmStart { get; set; }
    public int KmEnd { get; set; }
 
@@ -39,7 +38,6 @@ public class TimeSpanEntry
       Purposes purpose = Purposes.NoPurpose,
       string description = "",
       Car car = Car.Nicht_Fahrer,
-      bool drivenBothWays = true,
       int kmStart = 0,
       int kmEnd = 0
    )
@@ -50,7 +48,6 @@ public class TimeSpanEntry
       Purpose = purpose;
       Description = description;
       Car = car;
-      DrivenBothWays = drivenBothWays;
       KmStart = kmStart;
       KmEnd = kmEnd;
    }
@@ -65,7 +62,6 @@ public class TimeSpanEntry
       Purpose = (Purposes)(int)dict["purpose"];
       Description = (string)dict["description"];
       Car = (Car)(int)dict["car"];
-      DrivenBothWays = (bool)dict["drivenBothWays"];
       KmStart = (int)dict["kmStart"];
       KmEnd = (int)dict["kmEnd"];
    }
@@ -81,7 +77,6 @@ public class TimeSpanEntry
       { "purpose", (int)Purpose },
       { "description", Description},
       { "car", (int)Car },
-      { "drivenBothWays", DrivenBothWays },
       { "kmStart", KmStart },
       { "kmEnd", KmEnd }
    };
