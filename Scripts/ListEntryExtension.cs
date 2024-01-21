@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Godot;
 
@@ -20,7 +21,7 @@ public static class ListEntryExtension
       foreach(string entry in inputList)
       {
          TimeSheetButton newEntry = instanceResource.Instantiate() as TimeSheetButton;
-         newEntry.DisplayName = entry.ReplaceN(".json", "");
+         newEntry.DisplayName = DateOnly.Parse(entry.ReplaceN(".json", "")).ToString();
          outputList.AddChild(newEntry);
       }
       return outputList;

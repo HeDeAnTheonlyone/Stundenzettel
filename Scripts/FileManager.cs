@@ -21,7 +21,7 @@ public static class FileManager
 
       Manager.Instance.FixDocumentDirectory();
 
-      string filePath = $"{Manager.documentsFilePath}/Stundenzettel/TimeSheets/{sheet.Date.ToString("yyyy/MM/dd")}.json";
+      string filePath = $"{Manager.documentsFilePath}/Stundenzettel/TimeSheets/{sheet.Date:yyyy/MM/dd}.json";
 
       using (var file = FileAccess.Open(filePath, FileAccess.ModeFlags.Write))
       {
@@ -60,9 +60,8 @@ public static class FileManager
    public static TimeSheet GetTimeSheetFromFile(string fileName)
    {
       List<TimeSpanEntry> entries = new List<TimeSpanEntry>();
-      string dataString;
 
-      dataString = GetSaveString(fileName);
+      string dataString = GetSaveString(fileName);
 
       string[] data = (string[])Json.ParseString(dataString);
 

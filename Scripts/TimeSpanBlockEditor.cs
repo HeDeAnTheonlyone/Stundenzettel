@@ -6,19 +6,26 @@ using Godot;
 public partial class TimeSpanBlockEditor : CanvasLayer
 {
    private VBoxContainer timeList;
+   private VBoxContainer customerList;
    private VBoxContainer driveList;
+   //
    private LineEdit fromTime; 
    private LineEdit toTime; 
-   private LineEdit customer;
    private ColorRect customerPresetSettings;
-   public List<string> customerNames;
    private VBoxContainer customerPresetList;
-   private PackedScene customerNameButton;
    private OptionButton purpose;
    private TextEdit description;
+   //
+   private LineEdit customerName;
+   private LineEdit customerTown;
+   private LineEdit customerStreet;
+   //
    private OptionButton car;
    private LineEdit kmStart;
    private LineEdit kmEnd;
+   //
+   public List<string> customerNames;
+   private PackedScene customerNameButton;
    private TimeSpanEntry entry = Manager.Instance.selectedEntry;
 
 
@@ -26,15 +33,21 @@ public partial class TimeSpanBlockEditor : CanvasLayer
    public override void _Ready()
    {
       timeList = GetNode<VBoxContainer>("Padding/TimeList");
+      customerList = GetNode<VBoxContainer>("Padding/CustomerList");
       driveList = GetNode<VBoxContainer>("Padding/DriveList");
+
       fromTime = timeList.GetNode<LineEdit>("FromTime/Input");
       toTime = timeList.GetNode<LineEdit>("ToTime/Input");
-      customer = timeList.GetNode<LineEdit>("Customer/Input");
       customerPresetSettings = GetNode<ColorRect>("CustomerPresetBg");
       customerPresetList = customerPresetSettings.GetNode<VBoxContainer>("Padding/ItemList/ScrollContainer/NameList");
       customerNameButton = GD.Load("res://Objects/CustomerNameButton.tscn") as PackedScene;
       purpose = timeList.GetNode<OptionButton>("Purpose/Input");
       description = timeList.GetNode<TextEdit>("DescriptionInput");
+
+      customerName = customerList.GetNode<LineEdit>("Name/Input");
+      customerTown = customerList.GetNode<LineEdit>("Town/Input");
+      customerStreet = customerList.GetNode<LineEdit>("Street/Input");
+      
       car = driveList.GetNode<OptionButton>("Car/Input");
       kmStart = driveList.GetNode<LineEdit>("KmBegin/Input");
       kmEnd = driveList.GetNode<LineEdit>("KmEnd/Input");
@@ -52,9 +65,13 @@ public partial class TimeSpanBlockEditor : CanvasLayer
    {
 		fromTime.Text = entry.FromTime.ToString();
 		toTime.Text = entry.ToTime.ToString();
-		customer.Text = entry.Customer;
 		purpose.Selected = (int)entry.Purpose;
 		description.Text = entry.Description;
+
+		customerName.Text = entry.CustomerName;
+		customerTown.Text = entry.CustomerTown;
+      customerStreet.Text = entry.CustomerStreet;
+      
       car.Selected = (int)entry.Car;
       kmStart.Text = entry.KmStart.ToString();
       kmEnd.Text = entry.KmEnd.ToString();
@@ -100,15 +117,6 @@ public partial class TimeSpanBlockEditor : CanvasLayer
 
 
 
-   public void SetCustomer(string name)
-   {
-      entry.Customer = name;
-
-      if (customer.Text != entry.Customer)
-         customer.Text = entry.Customer;
-   }
-
-
 
    #region CustomerPresetSettings
    private void CustomerPresetSettings(InputEvent e)
@@ -128,9 +136,9 @@ public partial class TimeSpanBlockEditor : CanvasLayer
 
    private void SaveName()
    {
-      if (!string.IsNullOrEmpty(customer.Text) && !customerNames.Contains(customer.Text))
+      if (!string.IsNullOrEmpty(customerName.Text) && !customerNames.Contains(customerName.Text))
       {
-         customerNames.Add(customer.Text);
+         customerNames.Add(customerName.Text);
          UpdateCustomerNameList();
       }
    }
@@ -160,6 +168,36 @@ public partial class TimeSpanBlockEditor : CanvasLayer
 
 
 
+   public void SetCustomerName(string name)
+   {
+      entry.CustomerName = name;
+
+      if (customerName.Text != entry.CustomerName)
+         customerName.Text = entry.CustomerName;
+   }
+   
+   
+   
+   public void SetCustomerTown(string town)
+   {
+      entry.CustomerTown = town;
+
+      if (customerTown.Text != entry.CustomerTown)
+         customerTown.Text = entry.CustomerTown;
+   }
+
+
+
+   public void SetCustomerStreet(string street)
+   {
+      entry.CustomerStreet = street;
+
+      if (customerStreet.Text != entry.CustomerStreet)
+         customerStreet.Text = entry.CustomerStreet;
+   }
+
+
+
    private void SetCar(int index) => entry.Car = (Car)index;
 
 
@@ -169,9 +207,15 @@ public partial class TimeSpanBlockEditor : CanvasLayer
    {
       bool success = int.TryParse(kmText, out int km);
 
-      if (success && km > 0 && km < entry.KmEnd)
+      if (success && km > 0)
       {
          entry.KmStart = km;
+         
+         if (km > entry.KmEnd)
+         {
+            entry.KmEnd = km;
+            kmEnd.Text = km.ToString();
+         }
       }
       else
          kmStart.Text = entry.KmStart.ToString();
@@ -200,11 +244,19 @@ public partial class TimeSpanBlockEditor : CanvasLayer
       {
          case 0:
             timeList.Visible = true;
+            customerList.Visible = false;
             driveList.Visible = false;
             break;
 
          case 1:
             timeList.Visible = false;
+            customerList.Visible = true;
+            driveList.Visible = false;
+            break;
+
+         case 2:
+            timeList.Visible = false;
+            customerList.Visible = false;
             driveList.Visible = true;
             break;
       }
