@@ -79,7 +79,7 @@ public partial class TimeSpanBlockEditor : CanvasLayer
    {
       bool success = TimeOnly.TryParse(timeText, out TimeOnly parsedTime);
 		
-      if (success)
+      if (success && parsedTime < entry.ToTime)
 			entry.FromTime = parsedTime;
 		else
 			fromTime.Text = entry.FromTime.ToString();
@@ -92,7 +92,7 @@ public partial class TimeSpanBlockEditor : CanvasLayer
    {
       bool success = TimeOnly.TryParse(timeText, out TimeOnly parsedTime);
 
-      if (success)
+      if (success && parsedTime > entry.FromTime)
          entry.ToTime = parsedTime;
       else
          toTime.Text = entry.ToTime.ToString();
@@ -128,13 +128,10 @@ public partial class TimeSpanBlockEditor : CanvasLayer
 
    private void SaveName()
    {
-      if (!string.IsNullOrEmpty(customer.Text))
+      if (!string.IsNullOrEmpty(customer.Text) && !customerNames.Contains(customer.Text))
       {
-         if (!customerNames.Contains(customer.Text))
-         {
-            customerNames.Add(customer.Text);
-            UpdateCustomerNameList();
-         }
+         customerNames.Add(customer.Text);
+         UpdateCustomerNameList();
       }
    }
 
@@ -172,12 +169,9 @@ public partial class TimeSpanBlockEditor : CanvasLayer
    {
       bool success = int.TryParse(kmText, out int km);
 
-      if (success)
+      if (success && km > 0 && km < entry.KmEnd)
       {
-         if (km < 0)
-            kmStart.Text = entry.KmStart.ToString();
-         else
-            entry.KmStart = km;
+         entry.KmStart = km;
       }
       else
          kmStart.Text = entry.KmStart.ToString();
@@ -190,12 +184,9 @@ public partial class TimeSpanBlockEditor : CanvasLayer
    {
       bool success  = int.TryParse(kmText, out int km);
 
-      if (success)
+      if (success && km > 0 && km > entry.KmStart)
       {
-         if (km < 0)
-            kmEnd.Text = entry.KmEnd.ToString();
-         else
-            entry.KmEnd = km;
+         entry.KmEnd = km;
       }     
       else
          kmEnd.Text = entry.KmEnd.ToString();
