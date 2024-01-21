@@ -29,7 +29,7 @@ public static class ListEntryExtension
 
 
    /// <summary>
-   /// Takes in a list of TimeSpanEntries and fills the VBoxConntainer with button elements of those entries.
+   /// Takes in a list of TimeSpanEntries and fills the VBoxConntainer with button elements of that those entries.
    /// </summary>
    /// <param name="outputList"></param>
    /// <param name="inputList"></param>

@@ -21,15 +21,12 @@ public partial class TimeSpanBlockButton : HSplitContainer
 			Manager.Instance.lastTimeStamp = entry.ToTime;
 
 			Manager.Instance.selectedSheet.TimeSpanEntries.Add(entry);
-		}
+		}			
 
-        if (!entry.IsEverythingSet)
-			Modulate = Modulate with { R = 1f, G = 0.196f, B = 0.196f };
-
-        editButton = GetNode<Button>("Edit");
+		editButton = GetNode<Button>("Edit");
 
 		editButton.Text = $"{entry.FromTime} - {entry.ToTime}";
-	}
+    }
 
 
 

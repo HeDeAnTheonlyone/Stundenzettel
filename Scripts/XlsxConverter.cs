@@ -22,7 +22,7 @@ public class XlsxConverter
       byte[] templateBytes = FileAccess.GetFileAsBytes("res://ExcelTemplates/StundenzettelTemplate.xlsx");
 
       if (FileAccess.GetOpenError() != Error.Ok)
-         throw new System.IO.FileNotFoundException("Failed to load .xlsx timesheet template file");
+         throw new Exception("Failed to load .xlsx timesheet template file");
 
       DateOnly referenceDate = DateOnly.Parse(filesNames[0].ReplaceN(".json", ""));
       DateOnly[] currentWeek = GetWeekDates(referenceDate);
@@ -46,7 +46,6 @@ public class XlsxConverter
                      continue;
 
                   sheet = workbook.Worksheet("Wertezusammenfassung");
-                  sheet.Cell(1, 1).CreateComment().AddText(FileManager.lastSaveString);
                   FillSheet(sheet, currentWeek, workTimeSummary, breakTimeSummary, kmSummary, carSummary);
 
                   savePath = $"{Manager.documentsFilePath}/Stundenzettel/Rapportzettel - {Manager.Instance.settingsData["workerName"]} - [ {currentWeek[0]} - {currentWeek[currentWeek.Length - 1]} ].xlsx";
@@ -59,12 +58,10 @@ public class XlsxConverter
                }
 
                sheet = workbook.Worksheet((int)currentFile.Date.DayOfWeek);
-               if (!FillSheet(sheet, currentFile, logoMs))
-                  return false;
+               FillSheet(sheet, currentFile, logoMs);
             }
 
             sheet = workbook.Worksheet("Wertezusammenfassung");
-            sheet.Cell(1, 1).CreateComment().AddText(FileManager.lastSaveString);
             FillSheet(sheet, currentWeek, workTimeSummary, breakTimeSummary, kmSummary, carSummary);
 
             savePath = $"{Manager.documentsFilePath}/Stundenzettel/Rapportzettel - {Manager.Instance.settingsData["workerName"]} - [ {currentWeek[0]} - {currentWeek[currentWeek.Length - 1]} ].xlsx";
@@ -78,7 +75,7 @@ public class XlsxConverter
 
 
 
-   private bool FillSheet
+   private void FillSheet
    (
       IXLWorksheet sheet,
       TimeSheet currentFile,
@@ -103,12 +100,10 @@ public class XlsxConverter
       for (int i = 0; i < currentFile.TimeSpanEntries.Count; i++)
       {
          entry = currentFile.TimeSpanEntries.ElementAt(i);
-         
-         if (!entry.IsEverythingSet)
-            return false;
-
          timeSpanDataDict = entry.ToDictionary();
          row = i + 8;
+
+         sheet.Cell(1, 1).CreateComment().AddText(FileManager.lastSaveString);
 
          for (int j = 0; j < timeSpanEntryData.Length; j++)
          {
@@ -144,7 +139,7 @@ public class XlsxConverter
                   break;
 
                default:
-                  throw new ArgumentException($"Recieved unexpected timespanentry proprtyname: {nameof(timeSpanEntryData)}");
+                  throw new Exception($"Recieved unexpected timespanentry valuename {nameof(timeSpanEntryData)}");
             }
 
             if (timeSpanEntryData[j] == TimeSpanData.Purpose)
@@ -196,9 +191,6 @@ public class XlsxConverter
       sheet.Cell(28, 8).Value = allWorkTime.ToString("hh\\:mm");
       workTimeSummary[(int)currentFile.Date.DayOfWeek - 1] = allWorkTime;
 
-      if (allBreakTime.TotalMinutes < 30)
-         allBreakTime = new TimeSpan(0, 30, 0);
-
       sheet.Cell(28, 9).Value = allBreakTime.ToString("hh\\:mm");
       breakTimeSummary[(int)currentFile.Date.DayOfWeek - 1] = allBreakTime;
 
@@ -206,8 +198,6 @@ public class XlsxConverter
       sheet.Cell(36, 5).Value = (string)Manager.Instance.settingsData["workerName"];
 
       sheet.AddPicture(logoData).MoveTo(sheet.Cell(1, 1)).Scale(0.5);
-
-      return true;
    }
 
 

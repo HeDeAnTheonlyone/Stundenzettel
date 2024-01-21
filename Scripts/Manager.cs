@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using DocumentFormat.OpenXml.Drawing;
 using Godot;
 using Godot.Collections;
 
@@ -46,8 +47,6 @@ public partial class Manager : CanvasLayer
 
 	public override void _Ready()
     {
-		GD.PushWarning("Make Date Uneditable!!!");
-
 		if (!OS.RequestPermissions())
 			GetTree().Quit();
 
