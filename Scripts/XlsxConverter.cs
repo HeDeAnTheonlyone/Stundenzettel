@@ -115,32 +115,32 @@ public class XlsxConverter
             switch (timeSpanEntryData[j])
             {
                case TimeSpanData.FromTime:
-                  col = 2;
+                  col = 1;
                   break;
 
                case TimeSpanData.ToTime:
-                  col = 3;
+                  col = 2;
                   break;
 
                case TimeSpanData.Customer:
-                  col = 4;
+                  col = 3;
                   break;
 
                case TimeSpanData.Purpose:
-                  col = 5;
+                  col = 8;
                   break;
 
                case TimeSpanData.Description:
-                  // FIXME Change how description is handeled
-                  col = 14;
+                  col = 1;
+                  row += 7;
                   break;
 
                case TimeSpanData.KmStart:
-                  col = 10;
+                  col = 12;
                   break;
 
                case TimeSpanData.KmEnd:
-                  col = 11;
+                  col = 13;
                   break;
 
                default:
@@ -158,13 +158,13 @@ public class XlsxConverter
          if (entry.Purpose == Purposes.Break)
          {
             TimeSpan breakTime = entry.ToTime - entry.FromTime;
-            sheet.Cell(row, 9).Value = breakTime.ToString("hh\\:mm");
+            sheet.Cell(row, 11).Value = breakTime.ToString("hh\\:mm");
             allBreakTime = allBreakTime.Add(breakTime);
          }
          else
          {
             TimeSpan workTime = entry.ToTime - entry.FromTime;
-            sheet.Cell(row, 8).Value = workTime.ToString("hh\\:mm");
+            sheet.Cell(row, 10).Value = workTime.ToString("hh\\:mm");
             allWorkTime = allWorkTime.Add(workTime);
          }
 
@@ -190,17 +190,17 @@ public class XlsxConverter
       sheet.Cell(5, 9).Value = cars;
       carSummary[(int)currentFile.Date.DayOfWeek - 1] = cars;
 
-      sheet.Cell(29, 11).Value = allKmDriven;
-      kmSummary[(int)currentFile.Date.DayOfWeek - 1] = allKmDriven;
-
-      sheet.Cell(30, 8).Value = allWorkTime.ToString("hh\\:mm");
+      sheet.Cell(22, 10).Value = allWorkTime.ToString("hh\\:mm");
       workTimeSummary[(int)currentFile.Date.DayOfWeek - 1] = allWorkTime;
 
       if (allBreakTime.TotalMinutes < 30)
          allBreakTime = new TimeSpan(0, 30, 0);
 
-      sheet.Cell(30, 9).Value = allBreakTime.ToString("hh\\:mm");
+      sheet.Cell(30, 11).Value = allBreakTime.ToString("hh\\:mm");
       breakTimeSummary[(int)currentFile.Date.DayOfWeek - 1] = allBreakTime;
+      
+      sheet.Cell(22, 12).Value = allKmDriven;
+      kmSummary[(int)currentFile.Date.DayOfWeek - 1] = allKmDriven;
 
       sheet.Cell(38, 2).Value = currentFile.Date.ToString();
       sheet.Cell(38, 5).Value = (string)Manager.Instance.settingsData["workerName"];
