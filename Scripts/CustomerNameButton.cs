@@ -19,7 +19,7 @@ public partial class CustomerNameButton : HSplitContainer
 
 
     #region Signals
-    private void SelectName() => timeSpanEditor.SetCustomer(CustomerName);
+    private void SelectName() => timeSpanEditor.SetCustomerName(CustomerName);
 
 
 

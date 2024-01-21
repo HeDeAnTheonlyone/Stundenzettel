@@ -89,8 +89,6 @@ public class XlsxConverter
 
       int row;
       int col;
-      string cellValue;
-
 
       TimeSpanEntry entry;
       Dictionary timeSpanDataDict;
@@ -124,15 +122,19 @@ public class XlsxConverter
 
                case TimeSpanData.Customer:
                   col = 3;
+                  sheet.Cell(row, col).Value = $"{entry.CustomerName}, {entry.CustomerTown}, {entry.CustomerStreet}";
                   break;
 
                case TimeSpanData.Purpose:
                   col = 8;
+                  sheet.Cell(row, col).Value = PurposeNames.GetName(entry.Purpose);
                   break;
 
                case TimeSpanData.Description:
                   col = 1;
-                  row += 7;
+                  row = i + 23;
+                  sheet.Cell(row, col).Value = (string)timeSpanDataDict["description"];
+                  row = i + 8;
                   break;
 
                case TimeSpanData.KmStart:
@@ -147,12 +149,8 @@ public class XlsxConverter
                   throw new ArgumentException($"Recieved unexpected timespanentry proprtyname: {nameof(timeSpanEntryData)}");
             }
 
-            if (timeSpanEntryData[j] == TimeSpanData.Purpose)
-               cellValue = PurposeNames.GetName(entry.Purpose);
-            else
-               cellValue = (string)timeSpanDataDict[timeSpanEntryData[j].ToString().ToCamelCase()];
-
-            sheet.Cell(row, col).Value = cellValue;
+            if ((timeSpanEntryData[j] != TimeSpanData.Purpose) && (timeSpanEntryData[j] != TimeSpanData.Customer) && (timeSpanEntryData[j] != TimeSpanData.Description))
+               sheet.Cell(row, col).Value = (string)timeSpanDataDict[timeSpanEntryData[j].ToString().ToCamelCase()];
          }
 
          if (entry.Purpose == Purposes.Break)
@@ -196,7 +194,7 @@ public class XlsxConverter
       if (allBreakTime.TotalMinutes < 30)
          allBreakTime = new TimeSpan(0, 30, 0);
 
-      sheet.Cell(30, 11).Value = allBreakTime.ToString("hh\\:mm");
+      sheet.Cell(22, 11).Value = allBreakTime.ToString("hh\\:mm");
       breakTimeSummary[(int)currentFile.Date.DayOfWeek - 1] = allBreakTime;
       
       sheet.Cell(22, 12).Value = allKmDriven;

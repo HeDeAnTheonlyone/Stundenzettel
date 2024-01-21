@@ -1,3 +1,4 @@
+using System;
 using Godot;
 
 public partial class TimeSheetButton : HSplitContainer
@@ -9,7 +10,7 @@ public partial class TimeSheetButton : HSplitContainer
 		set
 		{
 			displayName = value;
-			fileName = $"{displayName}.json";
+			fileName = $"{DateOnly.Parse(value):yyyy/MM/dd}.json";
 		}
 	}
 	private string fileName;
