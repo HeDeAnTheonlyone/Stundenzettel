@@ -46,7 +46,7 @@ public partial class Manager : CanvasLayer
 
 	public override void _Ready()
     {
-		GD.PrintErr("Make Date Uneditable!!!");
+		GD.PushWarning("Make Date Uneditable!!!");
 
 		if (!OS.RequestPermissions())
 			GetTree().Quit();

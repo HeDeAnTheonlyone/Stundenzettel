@@ -59,7 +59,8 @@ public class XlsxConverter
                }
 
                sheet = workbook.Worksheet((int)currentFile.Date.DayOfWeek);
-               FillSheet(sheet, currentFile, logoMs);
+               if (!FillSheet(sheet, currentFile, logoMs))
+                  return false;
             }
 
             sheet = workbook.Worksheet("Wertezusammenfassung");
@@ -77,7 +78,7 @@ public class XlsxConverter
 
 
 
-   private void FillSheet
+   private bool FillSheet
    (
       IXLWorksheet sheet,
       TimeSheet currentFile,
@@ -102,6 +103,10 @@ public class XlsxConverter
       for (int i = 0; i < currentFile.TimeSpanEntries.Count; i++)
       {
          entry = currentFile.TimeSpanEntries.ElementAt(i);
+         
+         if (!entry.IsEverythingSet)
+            return false;
+
          timeSpanDataDict = entry.ToDictionary();
          row = i + 8;
 
@@ -193,7 +198,7 @@ public class XlsxConverter
 
       if (allBreakTime.TotalMinutes < 30)
          allBreakTime = new TimeSpan(0, 30, 0);
-         
+
       sheet.Cell(28, 9).Value = allBreakTime.ToString("hh\\:mm");
       breakTimeSummary[(int)currentFile.Date.DayOfWeek - 1] = allBreakTime;
 
@@ -201,6 +206,8 @@ public class XlsxConverter
       sheet.Cell(36, 5).Value = (string)Manager.Instance.settingsData["workerName"];
 
       sheet.AddPicture(logoData).MoveTo(sheet.Cell(1, 1)).Scale(0.5);
+
+      return true;
    }
 
 
