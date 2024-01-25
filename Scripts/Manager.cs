@@ -27,6 +27,8 @@ using Octokit;
 	+ 0.5h
 	+ 3h
 	+ 2,5h
+	+ 5h
+	+ 1h
 ============
 	91h
 */
@@ -47,7 +49,7 @@ public partial class Manager : CanvasLayer
 
 
 
-	public override async void _Ready()
+	public override void _Ready()
     {
 		GD.PushWarning("Make Date Uneditable!!!");
 
@@ -56,7 +58,7 @@ public partial class Manager : CanvasLayer
 
 #region Singleton init logic
 
-			if (Instance == null)
+		if (Instance == null)
 		{
 			Instance = this;
 			ProcessMode = ProcessModeEnum.Always;
@@ -70,12 +72,10 @@ public partial class Manager : CanvasLayer
 
 		LoadSettings();
 
-		bool active = await GetActivationState();
-		
-		if (!active)
-			GetTree().Quit();
-
 		lastTimeStamp = TimeOnly.Parse((string)settingsData["startTime"]);
+
+		// FIXME GetActivationState
+		// GetActivationState();
 
 		LoadCustomerNames();
 	}
@@ -104,33 +104,38 @@ public partial class Manager : CanvasLayer
 	}
 
 
+	// FIXME
+	// private async Task GetActivationState()
+	// {
+	// 	const string owner = "HeDeAnTheonlyone";
+	// 	const string repo = "External-Config";
+	// 	const string branch = "main";
+	// 	const string filePath = "Stundenzettel.txt";
 
-	private async Task<bool> GetActivationState()
-	{
-		const string owner = "HeDeAnTheonlyone";
-		const string repo = "External-Config";
-		const string branch = "main";
-		const string filePath = "Stundenzettel.txt";
+	// 	bool active;
 
-		GitHubClient github = new GitHubClient(new ProductHeaderValue("HeDeAn"));
+	// 	GitHubClient github = new GitHubClient(new ProductHeaderValue("HeDeAn"));
 
-		try
-		{
-			var contents = await github.Repository.Content.GetAllContentsByRef(owner, repo, filePath, branch);
-			if (contents.Count > 0)
-			{
-				string dataString = contents[0].Content;
-				settingsData["active"] = bool.Parse(dataString);
-				return bool.Parse(dataString);
-			}
-			else
-				return (bool)settingsData["active"];
-		}
-		catch
-		{
-			return (bool)settingsData["active"];
-		}
-	}
+	// 	try
+	// 	{
+	// 		var contents = await github.Repository.Content.GetAllContentsByRef(owner, repo, filePath, branch);
+	// 		if (contents.Count() > 0)
+	// 		{
+	// 			string dataString = contents[0].Content;
+	// 			settingsData["active"] = bool.Parse(dataString);
+	// 			active = bool.Parse(dataString);
+	// 		}
+	// 		else
+	// 			active = (bool)settingsData["active"];
+	// 	}
+	// 	catch
+	// 	{
+	// 		active = (bool)settingsData["active"];
+	// 	}
+
+	// 	if (!active)
+	// 		GetTree().Quit();
+	// }
 
 
 

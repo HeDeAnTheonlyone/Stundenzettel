@@ -19,6 +19,8 @@ public class XlsxConverter
       if (filesNames.Length == 0)
          return false;
 
+      GD.Print("test");
+
       byte[] templateBytes = FileAccess.GetFileAsBytes("res://ExcelTemplates/StundenzettelTemplate.xlsx");
 
       if (FileAccess.GetOpenError() != Error.Ok)
@@ -32,45 +34,41 @@ public class XlsxConverter
          XLWorkbook workbook = new XLWorkbook(ms);
          IXLWorksheet sheet;
          string savePath;
-         byte[] logoImageBytes = FileAccess.GetFileAsBytes("res://Assets/Logo.jpg");
 
-         using (var logoMs = new System.IO.MemoryStream(logoImageBytes))
+         foreach (string timeSheetName in filesNames)
          {
-            foreach (string timeSheetName in filesNames)
+            TimeSheet currentFile = FileManager.GetTimeSheetFromFile(timeSheetName);
+
+            if (!currentWeek.Contains(currentFile.Date))
             {
-               TimeSheet currentFile = FileManager.GetTimeSheetFromFile(timeSheetName);
+               if (currentFile.Date.DayOfWeek == DayOfWeek.Saturday || currentFile.Date.DayOfWeek == DayOfWeek.Sunday)
+                  continue;
 
-               if (!currentWeek.Contains(currentFile.Date))
-               {
-                  if (currentFile.Date.DayOfWeek == DayOfWeek.Saturday || currentFile.Date.DayOfWeek == DayOfWeek.Sunday)
-                     continue;
+               sheet = workbook.Worksheet("Wertezusammenfassung");
+               sheet.Cell(1, 1).CreateComment().AddText(FileManager.lastSaveString);
+               FillSheet(sheet, currentWeek, workTimeSummary, breakTimeSummary, kmSummary, carSummary);
 
-                  sheet = workbook.Worksheet("Wertezusammenfassung");
-                  sheet.Cell(1, 1).CreateComment().AddText(FileManager.lastSaveString);
-                  FillSheet(sheet, currentWeek, workTimeSummary, breakTimeSummary, kmSummary, carSummary);
+               savePath = $"{Manager.documentsFilePath}/Stundenzettel/Rapportzettel - {Manager.Instance.settingsData["workerName"]} - [ {currentWeek[0]} - {currentWeek[currentWeek.Length - 1]} ].xlsx";
+               workbook.SaveAs(savePath);
+               workbook.Dispose();
 
-                  savePath = $"{Manager.documentsFilePath}/Stundenzettel/Rapportzettel - {Manager.Instance.settingsData["workerName"]} - [ {currentWeek[0]} - {currentWeek[currentWeek.Length - 1]} ].xlsx";
-                  workbook.SaveAs(savePath);
-                  workbook.Dispose();
+               workbook = new XLWorkbook(ms);
 
-                  workbook = new XLWorkbook(ms);
-
-                  currentWeek = GetWeekDates(currentFile.Date);
-               }
-
-               sheet = workbook.Worksheet((int)currentFile.Date.DayOfWeek);
-               if (!FillSheet(sheet, currentFile, logoMs))
-                  return false;
+               currentWeek = GetWeekDates(currentFile.Date);
             }
 
-            sheet = workbook.Worksheet("Wertezusammenfassung");
-            sheet.Cell(1, 1).CreateComment().AddText(FileManager.lastSaveString);
-            FillSheet(sheet, currentWeek, workTimeSummary, breakTimeSummary, kmSummary, carSummary);
-
-            savePath = $"{Manager.documentsFilePath}/Stundenzettel/Rapportzettel - {Manager.Instance.settingsData["workerName"]} - [ {currentWeek[0]} - {currentWeek[currentWeek.Length - 1]} ].xlsx";
-            workbook.SaveAs(savePath);
-            workbook.Dispose();
+            sheet = workbook.Worksheet((int)currentFile.Date.DayOfWeek);
+            if (!FillSheet(sheet, currentFile))
+               return false;
          }
+
+         sheet = workbook.Worksheet("Wertezusammenfassung");
+         sheet.Cell(1, 1).CreateComment().AddText(FileManager.lastSaveString);
+         FillSheet(sheet, currentWeek, workTimeSummary, breakTimeSummary, kmSummary, carSummary);
+
+         savePath = $"{Manager.documentsFilePath}/Stundenzettel/Rapportzettel - {Manager.Instance.settingsData["workerName"]} - [ {currentWeek[0]} - {currentWeek[currentWeek.Length - 1]} ].xlsx";
+         workbook.SaveAs(savePath);
+         workbook.Dispose();
       }
 
       return true;
@@ -81,8 +79,7 @@ public class XlsxConverter
    private bool FillSheet
    (
       IXLWorksheet sheet,
-      TimeSheet currentFile,
-      System.IO.MemoryStream logoData
+      TimeSheet currentFile
    )
    {
       TimeSpanData[] timeSpanEntryData = Enum.GetValues<TimeSpanData>();
@@ -202,8 +199,6 @@ public class XlsxConverter
 
       sheet.Cell(38, 2).Value = currentFile.Date.ToString();
       sheet.Cell(38, 5).Value = (string)Manager.Instance.settingsData["workerName"];
-
-      sheet.AddPicture(logoData).MoveTo(sheet.Cell(1, 1)).Scale(0.5);
 
       return true;
    }
