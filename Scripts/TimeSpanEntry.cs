@@ -21,6 +21,8 @@ public class TimeSpanEntry
                CustomerTown.Length > 0 &&
                CustomerStreet.Length > 0
             );
+         
+         set = set && Car != Car.None; 
 
          return set;
       }
@@ -52,7 +54,7 @@ public class TimeSpanEntry
       string customerTown = "",
       string customerStreet = "",
       
-      Car car = Car.Nicht_Fahrer,
+      Car car = Car.None,
       int kmStart = 0,
       int kmEnd = 0
    )

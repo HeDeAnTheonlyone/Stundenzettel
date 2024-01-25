@@ -2,6 +2,7 @@ using Godot;
 
 public enum Car
 {
+    None,
     Nicht_Fahrer,
     Kangoo_MYK__TS_178,
     Fiat_Klein_MYK__TS_278,
@@ -10,5 +11,11 @@ public enum Car
 
 public static class CarNames
 {
-    public static string GetName(Car car) => car.ToString().ReplaceN("__", "-").ReplaceN("_", " ");
+    public static string GetName(Car car)
+    {
+        if (car == Car.None)
+            return "Nicht angegeben";
+            
+        return car.ToString().ReplaceN("__", "-").ReplaceN("_", " ");
+    }
 }
