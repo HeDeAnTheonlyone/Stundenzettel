@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Godot;
 using Godot.Collections;
-using Octokit;
+//using Octokit;
 
 /*
 	Active Working Sessions:
@@ -29,8 +29,9 @@ using Octokit;
 	+ 2,5h
 	+ 5h
 	+ 1h
+	+ 6h
 ============
-	91h
+	103h
 */
 
 public partial class Manager : CanvasLayer
