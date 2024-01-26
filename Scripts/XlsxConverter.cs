@@ -9,7 +9,9 @@ public class XlsxConverter
 {
    TimeSpan[] workTimeSummary = new TimeSpan[5];
    TimeSpan[] breakTimeSummary = new TimeSpan[5];
+   TimeSpan[] loadingSummary = new TimeSpan[5];
    int[] kmSummary = new int[5];
+   int[] kmPrivateSummary = new int[5];
    string[] carSummary = new string[5];
 
 
@@ -18,6 +20,8 @@ public class XlsxConverter
    {
       if (filesNames.Length == 0)
          return false;
+
+      GD.Print("test");
 
       byte[] templateBytes = FileAccess.GetFileAsBytes("res://ExcelTemplates/StundenzettelTemplate.xlsx");
 
@@ -32,45 +36,41 @@ public class XlsxConverter
          XLWorkbook workbook = new XLWorkbook(ms);
          IXLWorksheet sheet;
          string savePath;
-         byte[] logoImageBytes = FileAccess.GetFileAsBytes("res://Assets/Logo.jpg");
 
-         using (var logoMs = new System.IO.MemoryStream(logoImageBytes))
+         foreach (string timeSheetName in filesNames)
          {
-            foreach (string timeSheetName in filesNames)
+            TimeSheet currentFile = FileManager.GetTimeSheetFromFile(timeSheetName);
+
+            if (!currentWeek.Contains(currentFile.Date))
             {
-               TimeSheet currentFile = FileManager.GetTimeSheetFromFile(timeSheetName);
+               if (currentFile.Date.DayOfWeek == DayOfWeek.Saturday || currentFile.Date.DayOfWeek == DayOfWeek.Sunday)
+                  continue;
 
-               if (!currentWeek.Contains(currentFile.Date))
-               {
-                  if (currentFile.Date.DayOfWeek == DayOfWeek.Saturday || currentFile.Date.DayOfWeek == DayOfWeek.Sunday)
-                     continue;
+               sheet = workbook.Worksheet("Wertezusammenfassung");
+               sheet.Cell(1, 1).CreateComment().AddText(FileManager.lastSaveString);
+               FillSheet(sheet, currentWeek, workTimeSummary, breakTimeSummary, loadingSummary, kmSummary, kmPrivateSummary, carSummary);
 
-                  sheet = workbook.Worksheet("Wertezusammenfassung");
-                  sheet.Cell(1, 1).CreateComment().AddText(FileManager.lastSaveString);
-                  FillSheet(sheet, currentWeek, workTimeSummary, breakTimeSummary, kmSummary, carSummary);
+               savePath = $"{Manager.documentsFilePath}/Stundenzettel/Rapportzettel - {Manager.Instance.settingsData["workerName"]} - [ {currentWeek[0]} - {currentWeek[currentWeek.Length - 1]} ].xlsx";
+               workbook.SaveAs(savePath);
+               workbook.Dispose();
 
-                  savePath = $"{Manager.documentsFilePath}/Stundenzettel/Rapportzettel - {Manager.Instance.settingsData["workerName"]} - [ {currentWeek[0]} - {currentWeek[currentWeek.Length - 1]} ].xlsx";
-                  workbook.SaveAs(savePath);
-                  workbook.Dispose();
+               workbook = new XLWorkbook(ms);
 
-                  workbook = new XLWorkbook(ms);
-
-                  currentWeek = GetWeekDates(currentFile.Date);
-               }
-
-               sheet = workbook.Worksheet((int)currentFile.Date.DayOfWeek);
-               if (!FillSheet(sheet, currentFile, logoMs))
-                  return false;
+               currentWeek = GetWeekDates(currentFile.Date);
             }
 
-            sheet = workbook.Worksheet("Wertezusammenfassung");
-            sheet.Cell(1, 1).CreateComment().AddText(FileManager.lastSaveString);
-            FillSheet(sheet, currentWeek, workTimeSummary, breakTimeSummary, kmSummary, carSummary);
-
-            savePath = $"{Manager.documentsFilePath}/Stundenzettel/Rapportzettel - {Manager.Instance.settingsData["workerName"]} - [ {currentWeek[0]} - {currentWeek[currentWeek.Length - 1]} ].xlsx";
-            workbook.SaveAs(savePath);
-            workbook.Dispose();
+            sheet = workbook.Worksheet((int)currentFile.Date.DayOfWeek);
+            if (!FillSheet(sheet, currentFile))
+               return false;
          }
+
+         sheet = workbook.Worksheet("Wertezusammenfassung");
+         sheet.Cell(1, 1).CreateComment().AddText(FileManager.lastSaveString);
+         FillSheet(sheet, currentWeek, workTimeSummary, breakTimeSummary, loadingSummary, kmSummary, kmPrivateSummary, carSummary);
+
+         savePath = $"{Manager.documentsFilePath}/Stundenzettel/Rapportzettel - {Manager.Instance.settingsData["workerName"]} - [ {currentWeek[0]} - {currentWeek[currentWeek.Length - 1]} ].xlsx";
+         workbook.SaveAs(savePath);
+         workbook.Dispose();
       }
 
       return true;
@@ -81,8 +81,7 @@ public class XlsxConverter
    private bool FillSheet
    (
       IXLWorksheet sheet,
-      TimeSheet currentFile,
-      System.IO.MemoryStream logoData
+      TimeSheet currentFile
    )
    {
       TimeSpanData[] timeSpanEntryData = Enum.GetValues<TimeSpanData>();
@@ -96,7 +95,9 @@ public class XlsxConverter
       List<string> usedCars = new List<string>();
       TimeSpan allWorkTime = new TimeSpan();
       TimeSpan allBreakTime = new TimeSpan();
+      TimeSpan allLoadingTime = new TimeSpan();
       int allKmDriven = 0;
+      int allKmPrivate = 0;
 
       for (int i = 0; i < currentFile.TimeSpanEntries.Count; i++)
       {
@@ -138,11 +139,11 @@ public class XlsxConverter
                   break;
 
                case TimeSpanData.KmStart:
-                  col = 12;
+                  col = 13;
                   break;
 
                case TimeSpanData.KmEnd:
-                  col = 13;
+                  col = 14;
                   break;
 
                default:
@@ -152,6 +153,7 @@ public class XlsxConverter
             if ((timeSpanEntryData[j] != TimeSpanData.Purpose) && (timeSpanEntryData[j] != TimeSpanData.Customer) && (timeSpanEntryData[j] != TimeSpanData.Description))
                sheet.Cell(row, col).Value = (string)timeSpanDataDict[timeSpanEntryData[j].ToString().ToCamelCase()];
          }
+
 
          if (entry.Purpose == Purposes.Break)
          {
@@ -164,14 +166,31 @@ public class XlsxConverter
             TimeSpan workTime = entry.ToTime - entry.FromTime;
             sheet.Cell(row, 10).Value = workTime.ToString("hh\\:mm");
             allWorkTime = allWorkTime.Add(workTime);
+
+            if (entry.Purpose == Purposes.LoadCar)
+            {
+               sheet.Cell(row, 12).Value = workTime.ToString("hh\\:mm");
+               allLoadingTime = allLoadingTime.Add(workTime);
+            }
          }
 
          if (!usedCars.Contains(CarNames.GetName(entry.Car)))
             usedCars.Add(CarNames.GetName(entry.Car));
 
-         int kmDriven = entry.KmEnd - entry.KmStart;
-         //sheet.Cell(row, 22).Value = kmDriven;
-         allKmDriven += kmDriven;
+         if (entry.Purpose != Purposes.DrivePrivate)
+         {
+            int kmDriven = entry.KmEnd - entry.KmStart;
+            //sheet.Cell(row, 22).Value = kmDriven;
+            allKmDriven += kmDriven;
+
+            sheet.Cell(row, 15).Value = 0;
+         }
+         else
+         {
+            int kmPrivate = entry.KmEnd - entry.KmStart;
+            sheet.Cell(row, 15).Value = kmPrivate;
+            allKmPrivate += kmPrivate;
+         }
       }
 
       string cars = "";
@@ -196,14 +215,18 @@ public class XlsxConverter
 
       sheet.Cell(22, 11).Value = allBreakTime.ToString("hh\\:mm");
       breakTimeSummary[(int)currentFile.Date.DayOfWeek - 1] = allBreakTime;
+
+      sheet.Cell(22, 12).Value = allLoadingTime.ToString("hh\\:mm");
+      loadingSummary[(int)currentFile.Date.DayOfWeek - 1] = allLoadingTime;
       
-      sheet.Cell(22, 12).Value = allKmDriven;
+      sheet.Cell(22, 13).Value = allKmDriven;
       kmSummary[(int)currentFile.Date.DayOfWeek - 1] = allKmDriven;
 
-      sheet.Cell(38, 2).Value = currentFile.Date.ToString();
-      sheet.Cell(38, 5).Value = (string)Manager.Instance.settingsData["workerName"];
+      sheet.Cell(22, 15).Value = allKmPrivate;
+      kmPrivateSummary[(int)currentFile.Date.DayOfWeek - 1] = allKmPrivate;
 
-      sheet.AddPicture(logoData).MoveTo(sheet.Cell(1, 1)).Scale(0.5);
+      sheet.Cell(38, 2).Value = currentFile.Date.ToString();
+      sheet.Cell(38, 6).Value = (string)Manager.Instance.settingsData["workerName"];
 
       return true;
    }
@@ -216,13 +239,17 @@ public class XlsxConverter
       DateOnly[] weekDates,
       TimeSpan[] workTimes,
       TimeSpan[] breakTimes,
+      TimeSpan[] loadTimes,
       int[] kms,
-      string[] cars)
+      int[] kmsPrivate,
+      string[] cars
+   )
    {
-
       TimeSpan weekWork = new TimeSpan();
       TimeSpan weekBreak = new TimeSpan();
+      TimeSpan weekLoad = new TimeSpan();
       int weekKm = 0;
+      int weekKmPrivate = 0;
 
       for (int i = 0; i < 5; i++)
       {
@@ -233,16 +260,24 @@ public class XlsxConverter
 
          sheet.Cell(i + 3, 3).Value = breakTimes[i].ToString("hh\\:mm");
          weekBreak = weekBreak.Add(breakTimes[i]);
-
-         sheet.Cell(i + 3, 4).Value = kms[i];
-         weekKm += kms[i];
          
-         sheet.Cell(i + 3, 5).Value = cars[i];
+         sheet.Cell(i + 3, 4).Value = loadTimes[i].ToString("hh\\:mm");
+         weekLoad = weekLoad.Add(loadTimes[i]);
+
+         sheet.Cell(i + 3, 5).Value = kms[i];
+         weekKm += kms[i];
+
+         sheet.Cell(i + 3, 6).Value = kmsPrivate[i];
+         weekKmPrivate += kmsPrivate[i];
+         
+         sheet.Cell(i + 3, 7).Value = cars[i];
       }
 
-      sheet.Cell(8, 2).Value = weekWork.ToString("hh\\:mm");
-      sheet.Cell(8, 3).Value = weekBreak.ToString("hh\\:mm");
-      sheet.Cell(8, 4).Value = weekKm;
+      sheet.Cell(9, 2).Value = weekWork.ToString("hh\\:mm");
+      sheet.Cell(9, 3).Value = weekBreak.ToString("hh\\:mm");
+      sheet.Cell(9, 4).Value = weekLoad.ToString("hh\\:mm");
+      sheet.Cell(9, 5).Value = weekKm;
+      sheet.Cell(9, 6).Value = weekKmPrivate;
    }
 
 

@@ -8,7 +8,7 @@ export.cfg
 export_presets.cfg
 
 # Private Assests
-Assets/Logo.jpg
+Assets/Logo.png
 
 # Imported translations (automatically generated from CSV files)
 *.translation

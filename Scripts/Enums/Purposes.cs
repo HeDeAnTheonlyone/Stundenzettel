@@ -11,8 +11,9 @@ public enum Purposes
    LoadCar,
    DriveToCustomer,
    DriveToCompany,
-   DriveToGasStation,
    DriveToOther,
+   DrivePrivate,
+   DriveToGasStation,
    Refuel,
    ErrandTrip,
    Break,
@@ -52,7 +53,7 @@ public static class PurposeNames
             break;
 
          case Purposes.LoadCar:
-            name = "Auto laden";
+            name = "Auto ein-/ausladen";
             break;
 
          case Purposes.DriveToCustomer:
@@ -63,12 +64,16 @@ public static class PurposeNames
             name = "Fahrt zur Firma";
             break;
 
-         case Purposes.DriveToGasStation:
-            name = "Fahrt zur Tankstelle";
-            break;
-
          case Purposes.DriveToOther:
             name = "Sonstige Fahrt";
+            break;
+
+         case Purposes.DrivePrivate:
+            name = "Privat Fahrt";
+            break;
+
+         case Purposes.DriveToGasStation:
+            name = "Fahrt zur Tankstelle";
             break;
 
          case Purposes.Refuel:
