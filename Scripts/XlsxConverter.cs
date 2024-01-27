@@ -21,8 +21,6 @@ public class XlsxConverter
       if (filesNames.Length == 0)
          return false;
 
-      GD.Print("test");
-
       byte[] templateBytes = FileAccess.GetFileAsBytes("res://ExcelTemplates/StundenzettelTemplate.xlsx");
 
       if (FileAccess.GetOpenError() != Error.Ok)

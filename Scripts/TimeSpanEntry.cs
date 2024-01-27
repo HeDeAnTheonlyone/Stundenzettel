@@ -22,7 +22,15 @@ public class TimeSpanEntry
                CustomerStreet.Length > 0
             );
          
-         set = set && Car != Car.None; 
+         if
+         (
+            Purpose == Purposes.DriveToCustomer ||
+            Purpose == Purposes.DriveToCompany ||
+            Purpose == Purposes.DriveToOther ||
+            Purpose == Purposes.DrivePrivate ||
+            Purpose == Purposes.DriveToGasStation
+         )
+            set = set && Car != Car.None;
 
          return set;
       }

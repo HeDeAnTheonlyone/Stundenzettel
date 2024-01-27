@@ -24,6 +24,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
 theme = ExtResource("2_ttoym")
+action_mode = 0
 icon = ExtResource("3_fqh4a")
 expand_icon = true
 

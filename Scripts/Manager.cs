@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Godot;
 using Godot.Collections;
 //using Octokit;
@@ -30,8 +29,9 @@ using Godot.Collections;
 	+ 5h
 	+ 1h
 	+ 6h
+	+ 2h
 ============
-	103h
+	105h
 */
 
 public partial class Manager : CanvasLayer
@@ -142,7 +142,7 @@ public partial class Manager : CanvasLayer
 
 	public void FixDocumentDirectory()
 	{
-		if (!documentsDir.DirExists("Stundenzettel / TimeSheets"))
+		if (!documentsDir.DirExists("Stundenzettel/TimeSheets"))
 			documentsDir.MakeDirRecursive("Stundenzettel/TimeSheets");
 	}
 
