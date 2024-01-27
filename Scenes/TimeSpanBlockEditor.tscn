@@ -115,6 +115,9 @@ size_flags_vertical = 3
 theme = ExtResource("5_6rmbp")
 placeholder_text = "Arbeitsbeschreibung"
 context_menu_enabled = false
+shortcut_keys_enabled = false
+drag_and_drop_selection_enabled = false
+middle_mouse_paste_enabled = false
 wrap_mode = 1
 
 [node name="CustomerList" type="VBoxContainer" parent="Padding"]
@@ -281,6 +284,7 @@ size_flags_horizontal = 0
 size_flags_vertical = 4
 focus_mode = 0
 theme = ExtResource("7_80gdn")
+action_mode = 0
 text = "Zurück"
 icon = ExtResource("8_gxvij")
 expand_icon = true
@@ -354,9 +358,7 @@ text = "Zurück"
 icon = ExtResource("8_gxvij")
 expand_icon = true
 
-[connection signal="focus_exited" from="Padding/TimeList/FromTime/Input" to="." method="SetFromTime"]
 [connection signal="text_submitted" from="Padding/TimeList/FromTime/Input" to="." method="SetFromTime"]
-[connection signal="focus_exited" from="Padding/TimeList/ToTime/Input" to="." method="SetToTime"]
 [connection signal="text_submitted" from="Padding/TimeList/ToTime/Input" to="." method="SetToTime"]
 [connection signal="item_selected" from="Padding/TimeList/Purpose/Input" to="." method="SetPurtpose"]
 [connection signal="text_changed" from="Padding/TimeList/DescriptionInput" to="." method="SetDescription"]
@@ -364,9 +366,7 @@ expand_icon = true
 [connection signal="text_changed" from="Padding/CustomerList/Town/Input" to="." method="SetCustomerTown"]
 [connection signal="text_changed" from="Padding/CustomerList/Street/Input" to="." method="SetCustomerStreet"]
 [connection signal="item_selected" from="Padding/DriveList/Car/Input" to="." method="SetCar"]
-[connection signal="focus_exited" from="Padding/DriveList/KmBegin/Input" to="." method="SetKmStart"]
 [connection signal="text_submitted" from="Padding/DriveList/KmBegin/Input" to="." method="SetKmStart"]
-[connection signal="focus_exited" from="Padding/DriveList/KmEnd/Input" to="." method="SetKmEnd"]
 [connection signal="text_submitted" from="Padding/DriveList/KmEnd/Input" to="." method="SetKmEnd"]
 [connection signal="pressed" from="BackPadding/Back" to="." method="SwitchToTimeSheetEditor"]
 [connection signal="tab_changed" from="BackPadding/TabBar" to="." method="SwitchTabs"]

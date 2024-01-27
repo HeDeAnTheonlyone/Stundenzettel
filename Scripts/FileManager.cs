@@ -40,6 +40,12 @@ public static class FileManager
             new List<TimeSpanEntry>()
          );
 
+      string fileName = $"{Manager.Instance.selectedSheet.Date:yyyy/MM/dd}.json";
+      string[] timeSheetFiles = DirAccess.GetFilesAt($"{Manager.documentsFilePath}/Stundenzettel/TimeSheets");
+      
+      if (timeSheetFiles.Contains(fileName))
+         Manager.Instance.selectedSheet = GetTimeSheetFromFile(fileName);
+
       return Manager.Instance.selectedSheet;
    }
 

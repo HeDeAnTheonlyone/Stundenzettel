@@ -85,6 +85,7 @@ size_flags_horizontal = 0
 size_flags_vertical = 4
 focus_mode = 0
 theme = ExtResource("2_0wbwr")
+action_mode = 0
 text = "Zurück"
 icon = ExtResource("3_gdec4")
 expand_icon = true

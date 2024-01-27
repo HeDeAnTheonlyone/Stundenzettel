@@ -117,7 +117,6 @@ public partial class TimeSpanBlockEditor : CanvasLayer
 
 
 
-
    #region CustomerPresetSettings
    private void CustomerPresetSettings(InputEvent e)
    {
@@ -270,6 +269,8 @@ public partial class TimeSpanBlockEditor : CanvasLayer
       SetToTime();
       SetKmStart();
       SetKmEnd();
+
+      FileManager.SaveTimeSheet(Manager.Instance.selectedSheet);
       
       Manager.Instance.SwitchScene("TimeSheetEditor");
    }
