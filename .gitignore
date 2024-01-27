@@ -7,8 +7,10 @@
 export.cfg
 export_presets.cfg
 
-# Private Assests
-Assets/Logo.png
+# Private
+Assets/AppIcon.png
+Assets/AppIcon.png.import
+ExcelTemplates/
 
 # Imported translations (automatically generated from CSV files)
 *.translation
