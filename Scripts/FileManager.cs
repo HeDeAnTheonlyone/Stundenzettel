@@ -53,9 +53,16 @@ public static class FileManager
 
    private static string GetSaveString(string fileName)
    {
-      using (var file = FileAccess.Open($"{Manager.documentsFilePath}/Stundenzettel/TimeSheets/{fileName}", FileAccess.ModeFlags.Read))
+      try
       {
-         lastSaveString = file.GetAsText(true);
+         using (var file = FileAccess.Open($"{Manager.documentsFilePath}/Stundenzettel/TimeSheets/{fileName}", FileAccess.ModeFlags.Read))
+         {
+            lastSaveString = file.GetAsText(true);
+         }
+      }
+      catch
+      {
+         throw new System.IO.FileNotFoundException($"Couldn't find file {fileName}");
       }
 
       return lastSaveString;

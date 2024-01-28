@@ -194,6 +194,7 @@ public class XlsxConverter
       string cars = "";
       if (usedCars.Count > 1)
       {
+         usedCars.Remove("Nicht angegeben");
          usedCars.Remove("Nicht Fahrer");
 
          foreach (string car in usedCars)
@@ -243,9 +244,12 @@ public class XlsxConverter
       string[] cars
    )
    {
-      TimeSpan weekWork = new TimeSpan();
-      TimeSpan weekBreak = new TimeSpan();
-      TimeSpan weekLoad = new TimeSpan();
+      int weekWorkH = 0;
+      int weekWorkM = 0;
+      int weekBreakH = 0;
+      int weekBreakM = 0;
+      int weekLoadH = 0;
+      int weekLoadM = 0;
       int weekKm = 0;
       int weekKmPrivate = 0;
 
@@ -254,13 +258,16 @@ public class XlsxConverter
          sheet.Cell(i + 3, 1).Value = weekDates[i].ToString();
 
          sheet.Cell(i + 3, 2).Value = workTimes[i].ToString("hh\\:mm");
-         weekWork = weekWork.Add(workTimes[i]);
+         weekWorkH += workTimes[i].Hours;
+         weekWorkM += workTimes[i].Minutes;
 
          sheet.Cell(i + 3, 3).Value = breakTimes[i].ToString("hh\\:mm");
-         weekBreak = weekBreak.Add(breakTimes[i]);
+         weekBreakH += breakTimes[i].Hours;
+         weekBreakM += breakTimes[i].Minutes;
          
          sheet.Cell(i + 3, 4).Value = loadTimes[i].ToString("hh\\:mm");
-         weekLoad = weekLoad.Add(loadTimes[i]);
+         weekLoadH += loadTimes[i].Hours;
+         weekLoadM += loadTimes[i].Minutes;
 
          sheet.Cell(i + 3, 5).Value = kms[i];
          weekKm += kms[i];
@@ -271,9 +278,9 @@ public class XlsxConverter
          sheet.Cell(i + 3, 7).Value = cars[i];
       }
 
-      sheet.Cell(9, 2).Value = weekWork.ToString("hh\\:mm");
-      sheet.Cell(9, 3).Value = weekBreak.ToString("hh\\:mm");
-      sheet.Cell(9, 4).Value = weekLoad.ToString("hh\\:mm");
+      sheet.Cell(9, 2).Value = $"{weekWorkH + (weekWorkM / 60):00}:{weekWorkM % 60:00}";
+      sheet.Cell(9, 3).Value = $"{weekBreakH + (weekBreakM / 60):00}:{weekBreakM % 60:00}";
+      sheet.Cell(9, 4).Value = $"{weekLoadH + (weekLoadM / 60):00}:{weekLoadM % 60:00}";
       sheet.Cell(9, 5).Value = weekKm;
       sheet.Cell(9, 6).Value = weekKmPrivate;
    }
