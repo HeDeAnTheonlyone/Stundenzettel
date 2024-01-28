@@ -119,6 +119,7 @@ shortcut_keys_enabled = false
 drag_and_drop_selection_enabled = false
 middle_mouse_paste_enabled = false
 wrap_mode = 1
+scroll_smooth = true
 
 [node name="CustomerList" type="VBoxContainer" parent="Padding"]
 visible = false
