@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Godot;
 using Godot.Collections;
-//using Octokit;
 
 /*
 	Active Working Sessions:
@@ -30,12 +29,15 @@ using Godot.Collections;
 	+ 1h
 	+ 6h
 	+ 2h
+	+ 4h
+	+ 7h
 ============
-	105h
+	116h
 */
 
 public partial class Manager : CanvasLayer
-{
+{	
+	private const string version = "1.0.0";
 	public static Manager Instance { get; private set; }
 	public Dictionary settingsData;
 	public const string settingsFilePath = "user://Settings.json";
@@ -75,10 +77,12 @@ public partial class Manager : CanvasLayer
 
 		lastTimeStamp = TimeOnly.Parse((string)settingsData["startTime"]);
 
-		// FIXME GetActivationState
+		LoadCustomerNames();
+
+		//TODO 
+		//SearchForUpdates();
 		// GetActivationState();
 
-		LoadCustomerNames();
 	}
 
 
@@ -86,64 +90,32 @@ public partial class Manager : CanvasLayer
 	private void LoadSettings()
 	{
 		var file = FileAccess.Open(settingsFilePath, FileAccess.ModeFlags.Read);
+		Error err = FileAccess.GetOpenError();
 
-		if (FileAccess.GetOpenError() == Error.FileNotFound)
+		settingsData = new Dictionary()
 		{
-			file = FileAccess.Open(settingsFilePath, FileAccess.ModeFlags.Write);
+			{ "version", version},
+			{ "active", true },
+			{ "workerName", "" },
+			{ "startTime", "7:30" }
+		};
 
-			settingsData = new Dictionary()
-			{
-				{ "active", true },
-				{ "workerName", "" },
-				{ "startTime", "7:30" }
-			};
+		Dictionary oldSettingsData = null;
 
-			SaveSettings(file);
+		if (err == Error.Ok)
+			oldSettingsData = (Dictionary)Json.ParseString(file.GetAsText(true));
+
+		if (err == Error.Ok && oldSettingsData != null)
+		{
+			var keys = oldSettingsData.Keys;
+			
+			foreach (var key in keys)
+				if (settingsData.ContainsKey(key))
+					settingsData[key] = oldSettingsData[key];
 		}
-		else
-			settingsData = (Dictionary)Json.ParseString(file.GetAsText(true));
-	}
 
-
-	// FIXME
-	// private async Task GetActivationState()
-	// {
-	// 	const string owner = "HeDeAnTheonlyone";
-	// 	const string repo = "External-Config";
-	// 	const string branch = "main";
-	// 	const string filePath = "Stundenzettel.txt";
-
-	// 	bool active;
-
-	// 	GitHubClient github = new GitHubClient(new ProductHeaderValue("HeDeAn"));
-
-	// 	try
-	// 	{
-	// 		var contents = await github.Repository.Content.GetAllContentsByRef(owner, repo, filePath, branch);
-	// 		if (contents.Count() > 0)
-	// 		{
-	// 			string dataString = contents[0].Content;
-	// 			settingsData["active"] = bool.Parse(dataString);
-	// 			active = bool.Parse(dataString);
-	// 		}
-	// 		else
-	// 			active = (bool)settingsData["active"];
-	// 	}
-	// 	catch
-	// 	{
-	// 		active = (bool)settingsData["active"];
-	// 	}
-
-	// 	if (!active)
-	// 		GetTree().Quit();
-	// }
-
-
-
-	public void FixDocumentDirectory()
-	{
-		if (!documentsDir.DirExists("Stundenzettel/TimeSheets"))
-			documentsDir.MakeDirRecursive("Stundenzettel/TimeSheets");
+		file = FileAccess.Open(settingsFilePath, FileAccess.ModeFlags.Write);
+		SaveSettings(file);
 	}
 
 
@@ -153,6 +125,33 @@ public partial class Manager : CanvasLayer
 		string dataString = Json.Stringify(settingsData, "\t");
 		file.StoreString(dataString);
 		file.Close();
+	}
+
+
+
+	// TODO 
+	// private void GetActivationState()
+	// {
+	// bool active;
+	// 	
+	// 	if (!active)
+	// 		GetTree().Quit();
+	// }
+
+
+
+	//TODO
+	// private void SearchForUpdates()
+	// {
+		
+	// } 
+
+
+
+	public void FixDocumentDirectory()
+	{
+		if (!documentsDir.DirExists("Stundenzettel/TimeSheets"))
+			documentsDir.MakeDirRecursive("Stundenzettel/TimeSheets");
 	}
 
 

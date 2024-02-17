@@ -19,6 +19,7 @@ config/icon="res://icon.svg"
 [autoload]
 
 Manager="*res://Scripts/Manager.cs"
+Firebase="*res://addons/godot-firebase/firebase/firebase.tscn"
 
 [display]
 
@@ -31,6 +32,10 @@ window/handheld/orientation=1
 [dotnet]
 
 project/assembly_name="Stundenzettel"
+
+[editor_plugins]
+
+enabled=PackedStringArray()
 
 [file_customization]
 
