@@ -10,7 +10,6 @@ export_presets.cfg
 # Private
 Assets/AppIcon.png
 Assets/AppIcon.png.import
-ExcelTemplates/
 
 # Imported translations (automatically generated from CSV files)
 *.translation
