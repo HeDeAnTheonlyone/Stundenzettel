@@ -31,8 +31,9 @@ using Godot.Collections;
 	+ 2h
 	+ 4h
 	+ 7h
+	+ 5h
 ============
-	116h
+	121h
 */
 
 public partial class Manager : CanvasLayer
