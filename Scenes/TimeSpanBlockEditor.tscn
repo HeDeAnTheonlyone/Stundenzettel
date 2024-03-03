@@ -125,6 +125,11 @@ scroll_smooth = true
 visible = false
 layout_mode = 2
 
+[node name="Button" type="Button" parent="Padding/CustomerList"]
+layout_mode = 2
+theme = ExtResource("9_870q0")
+text = "Kundenliste"
+
 [node name="Name" type="HBoxContainer" parent="Padding/CustomerList"]
 layout_mode = 2
 size_flags_vertical = 6
@@ -342,6 +347,7 @@ expand_icon = true
 [connection signal="text_submitted" from="Padding/TimeList/ToTime/Input" to="." method="SetToTime"]
 [connection signal="item_selected" from="Padding/TimeList/Purpose/Input" to="." method="SetPurtpose"]
 [connection signal="text_changed" from="Padding/TimeList/DescriptionInput" to="." method="SetDescription"]
+[connection signal="pressed" from="Padding/CustomerList/Button" to="." method="CustomerPresetSettings"]
 [connection signal="text_changed" from="Padding/CustomerList/Name/Input" to="." method="SetCustomerName"]
 [connection signal="text_changed" from="Padding/CustomerList/Town/Input" to="." method="SetCustomerTown"]
 [connection signal="text_changed" from="Padding/CustomerList/Street/Input" to="." method="SetCustomerStreet"]
