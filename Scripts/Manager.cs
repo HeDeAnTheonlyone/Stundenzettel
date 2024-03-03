@@ -38,7 +38,7 @@ using Godot.Collections;
 
 public partial class Manager : CanvasLayer
 {	
-	private const string version = "1.0.0";
+	private const string version = "1.1.0";
 	public static Manager Instance { get; private set; }
 	public Dictionary settingsData;
 	public const string settingsFilePath = "user://Settings.json";
@@ -49,7 +49,7 @@ public partial class Manager : CanvasLayer
 	public TimeOnly lastTimeStamp;
 	public TimeSheet selectedSheet;
 	public TimeSpanEntry selectedEntry;
-	public List<string> customerNames = new List<string>(); 
+	public List<Customer> customerNames = new List<Customer>(); 
 
 
 
@@ -81,9 +81,8 @@ public partial class Manager : CanvasLayer
 		LoadCustomerNames();
 
 		//TODO 
-		//SearchForUpdates();
+		// SearchForUpdates();
 		// GetActivationState();
-
 	}
 
 
@@ -166,7 +165,11 @@ public partial class Manager : CanvasLayer
 			else
 			{
 				string[] dataString = (string[])Json.ParseString(file.GetAsText(true));
-				customerNames = dataString.ToList();
+
+				foreach (string s in dataString)
+				{
+					customerNames.Add(new Customer((Dictionary)Json.ParseString(s)));
+				}			
 			}
 		}
 	}
@@ -177,7 +180,14 @@ public partial class Manager : CanvasLayer
 	{
 		using(var file = FileAccess.Open(customerNamesFilePath, FileAccess.ModeFlags.Write))
 		{
-			string jsonString = Json.Stringify(customerNames.ToArray(), "\t");
+			List<string> customerStrings = new List<string>(); 
+			foreach (Customer c in customerNames)
+			{
+				Dictionary dict = c.ToDict();
+				customerStrings.Add(Json.Stringify(dict, "\t"));
+			}
+
+			string jsonString = Json.Stringify(customerStrings.ToArray(), "\t");
 
 			file.StoreString(jsonString);
 		}

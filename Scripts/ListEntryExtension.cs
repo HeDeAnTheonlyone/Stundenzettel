@@ -64,17 +64,17 @@ public static class ListEntryExtension
    public static VBoxContainer PopulateList
    (
       this VBoxContainer outputlist,
-      List<string> inputlist,
+      List<Customer> inputlist,
       PackedScene instanceResource
    )
    {
       foreach (Node button in outputlist.GetChildren())
          button.QueueFree();
 
-      foreach (string entry in inputlist)
+      foreach (Customer entry in inputlist)
       {
          CustomerNameButton newEntry = instanceResource.Instantiate() as CustomerNameButton;
-         newEntry.CustomerName = entry;
+         newEntry.Customer = entry;
          outputlist.AddChild(newEntry);
       }
       return outputlist;

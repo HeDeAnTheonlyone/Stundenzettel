@@ -24,9 +24,10 @@ public partial class TimeSpanBlockEditor : CanvasLayer
    private LineEdit kmStart;
    private LineEdit kmEnd;
    //
-   public List<string> customerNames;
+   public List<Customer> customerNames;
    private PackedScene customerNameButton;
    private TimeSpanEntry entry = Manager.Instance.selectedEntry;
+   private int previousTab = 0;
 
 
 
@@ -118,13 +119,10 @@ public partial class TimeSpanBlockEditor : CanvasLayer
 
 
    #region CustomerPresetSettings
-   private void CustomerPresetSettings(InputEvent e)
+   private void CustomerPresetSettings()
    {
-      if (e.IsActionPressed("RightClick"))
-      {
-         customerPresetSettings.Visible = true;
-         UpdateCustomerNameList();
-      }
+      customerPresetSettings.Visible = true;
+      UpdateCustomerNameList();
    }
 
 
@@ -135,9 +133,16 @@ public partial class TimeSpanBlockEditor : CanvasLayer
 
    private void SaveName()
    {
-      if (!string.IsNullOrEmpty(customerName.Text) && !customerNames.Contains(customerName.Text))
+      Customer newCustomer = new Customer(entry.CustomerName, entry.CustomerTown, entry.CustomerStreet); 
+      if
+      (
+         newCustomer.Name != "" ||
+         newCustomer.Town != "" ||
+         newCustomer.Street != "" &&
+         !customerNames.Contains(newCustomer)
+      )
       {
-         customerNames.Add(customerName.Text);
+         customerNames.Add(newCustomer);
          UpdateCustomerNameList();
       }
    }
@@ -239,7 +244,12 @@ public partial class TimeSpanBlockEditor : CanvasLayer
 
    private void SwitchTabs(int tabIndex)
    {
-      switch(tabIndex)
+      if (previousTab == 1)
+         Manager.Instance.SaveCustomerNames();
+      
+      previousTab = tabIndex;
+
+      switch (tabIndex)
       {
          case 0:
             timeList.Visible = true;
@@ -271,6 +281,7 @@ public partial class TimeSpanBlockEditor : CanvasLayer
       SetKmEnd();
 
       FileManager.SaveTimeSheet(Manager.Instance.selectedSheet);
+      Manager.Instance.SaveCustomerNames();
       
       Manager.Instance.SwitchScene("TimeSheetEditor");
    }
