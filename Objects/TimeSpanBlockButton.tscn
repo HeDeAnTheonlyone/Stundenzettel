@@ -24,7 +24,6 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
 theme = ExtResource("1_ib7kc")
-action_mode = 0
 icon = ExtResource("3_qa3iw")
 expand_icon = true
 
@@ -35,5 +34,6 @@ theme = ExtResource("2_hn4wb")
 icon = ExtResource("3_884d2")
 expand_icon = true
 
+[connection signal="gui_input" from="Edit" to="." method="ButtonInput"]
 [connection signal="pressed" from="Edit" to="." method="SwitchToTimeSpanBlockEditor"]
 [connection signal="pressed" from="Delete" to="." method="DeleteEntry"]

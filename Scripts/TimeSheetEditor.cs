@@ -1,4 +1,5 @@
 using Godot;
+using Godot.Collections;
 using System;
 using System.Linq;
 
@@ -28,6 +29,41 @@ public partial class TimeSheetEditor : CanvasLayer
 
 		date.Text = timeSheet.Date.ToString();
     }
+
+
+
+    public void UpdateOrder(TimeSpanBlockButton moveButton)
+	{
+		float yPos = moveButton.Position.Y;
+
+		if (yPos < 0)
+		{
+			timeSpanList.MoveChild(moveButton, 0);
+			return;
+		}
+
+		moveButton.ResetPos();
+		int newIndex = moveButton.GetIndex();
+		Array<Node> buttons = timeSpanList.GetChildren();
+
+		foreach (TimeSpanBlockButton button in buttons)
+		{
+			if (yPos > button.Position.Y)
+				newIndex = button.GetIndex();
+			else
+			{
+				if (button == moveButton)
+				{
+					GD.Print("ret");
+					return;
+				}
+
+				break;
+			}
+		}
+
+		timeSpanList.MoveChild(moveButton, newIndex);
+	}
 
 
 
