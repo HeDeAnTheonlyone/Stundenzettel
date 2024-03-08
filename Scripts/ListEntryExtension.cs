@@ -55,7 +55,7 @@ public static class ListEntryExtension
 
 
 /// <summary>
-/// Takes in a list of customer name strings and fills the VBoxContainer with button elements with customer names.
+/// Takes in a list of customer objects and fills the VBoxContainer with button elements with customer names.
 /// </summary>
 /// <param name="outputlist"></param>
 /// <param name="inputlist"></param>

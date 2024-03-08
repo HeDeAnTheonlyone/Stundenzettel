@@ -5,10 +5,12 @@ public partial class TimeSpanBlockButton : HSplitContainer
 {
 	public TimeSpanEntry entry { get; set; }
     private Button editButton;
+	private bool moveMode = false;
+	private Vector2 lastPos;
 
 
 
-    public override void _Ready()
+	public override void _Ready()
     {
 		if (entry == null)
 		{
@@ -27,17 +29,51 @@ public partial class TimeSpanBlockButton : HSplitContainer
 			Modulate = Modulate with { R = 1f, G = 0.196f, B = 0.196f };
 
         editButton = GetNode<Button>("Edit");
+		
 
 		editButton.Text = $"{entry.FromTime} - {entry.ToTime}";
 	}
 
 
 
-#region Signals
+    public override void _Process(double delta)
+    {
+        if (moveMode)
+			GlobalPosition = GetGlobalMousePosition() - Size / 2;
+    }
+
+
+
+	public void ResetPos() => Position = lastPos;
+
+
+
+    #region Signals
+    private void ButtonInput(InputEvent @event)
+	{
+		if (Input.IsActionJustPressed("RightClick"))
+		{
+			lastPos = Position;
+			moveMode = true;
+		}
+
+		if (Input.IsActionJustReleased("RightClick"))
+		{
+			moveMode = false;
+			GetNode<TimeSheetEditor>("../../../../..").UpdateOrder(this);
+		}
+	}
+
+
+
+	private void SwitchToTimeSpanBlockEditorBuffer() => CallDeferred("SwitchToTimeSpanBlockEditor");
 	private void SwitchToTimeSpanBlockEditor()
 	{
-		Manager.Instance.selectedEntry = entry;
-		Manager.Instance.SwitchScene("TimeSpanBlockEditor");
+		if (!moveMode)
+		{
+			Manager.Instance.selectedEntry = entry;
+			Manager.Instance.SwitchScene("TimeSpanBlockEditor");
+		}
 	}
 
 
