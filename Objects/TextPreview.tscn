@@ -1,0 +1,24 @@
+[gd_scene load_steps=3 format=3 uid="uid://cdfsmvevw5qsp"]
+
+[ext_resource type="Script" path="res://Scripts/TextPreview.cs" id="1_litle"]
+[ext_resource type="Theme" uid="uid://001cikhergfu" path="res://Themes/DefaulLineEdit.tres" id="1_yc7u7"]
+
+[node name="Padding" type="MarginContainer"]
+top_level = true
+z_index = 10
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 6
+size_flags_vertical = 6
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+script = ExtResource("1_litle")
+
+[node name="Input" type="TextEdit" parent="."]
+layout_mode = 2
+theme = ExtResource("1_yc7u7")

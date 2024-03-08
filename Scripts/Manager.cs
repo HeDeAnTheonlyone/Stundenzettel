@@ -42,6 +42,7 @@ public partial class Manager : CanvasLayer
 {	
 	private const string version = "1.1.0";
 	public static Manager Instance { get; private set; }
+	// private TextPreview textPreview;
 	public Dictionary settingsData;
 	public const string settingsFilePath = "user://Settings.json";
 	public const string customerNamesFilePath = "user://CustomerNames.json";
@@ -73,6 +74,10 @@ public partial class Manager : CanvasLayer
 		else
 			QueueFree();
 		#endregion
+
+		// PackedScene textPreviewResource = GD.Load<PackedScene>("res://Objects/TextPreview.tscn");
+		// textPreview = textPreviewResource.Instantiate() as TextPreview;
+		// AddChild(textPreview);
 
 		documentsDir = DirAccess.Open($"{documentsFilePath}");
 

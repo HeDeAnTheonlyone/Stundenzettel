@@ -35,5 +35,5 @@ icon = ExtResource("3_884d2")
 expand_icon = true
 
 [connection signal="gui_input" from="Edit" to="." method="ButtonInput"]
-[connection signal="pressed" from="Edit" to="." method="SwitchToTimeSpanBlockEditor"]
+[connection signal="pressed" from="Edit" to="." method="SwitchToTimeSpanBlockEditorBuffer"]
 [connection signal="pressed" from="Delete" to="." method="DeleteEntry"]

@@ -65,10 +65,15 @@ public partial class TimeSpanBlockButton : HSplitContainer
 	}
 
 
+
+	private void SwitchToTimeSpanBlockEditorBuffer() => CallDeferred("SwitchToTimeSpanBlockEditor");
 	private void SwitchToTimeSpanBlockEditor()
 	{
-		Manager.Instance.selectedEntry = entry;
-		Manager.Instance.SwitchScene("TimeSpanBlockEditor");
+		if (!moveMode)
+		{
+			Manager.Instance.selectedEntry = entry;
+			Manager.Instance.SwitchScene("TimeSpanBlockEditor");
+		}
 	}
 
 
