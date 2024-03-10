@@ -34,13 +34,14 @@ using Godot.Collections;
 	+ 5h
 	+ 3h
 	+ 4h
+	+ 1h
 ============
 	128h
 */
 
 public partial class Manager : CanvasLayer
 {	
-	private const string version = "1.1.0";
+	private const string version = "1.2.0";
 	public static Manager Instance { get; private set; }
 	// private TextPreview textPreview;
 	public Dictionary settingsData;
