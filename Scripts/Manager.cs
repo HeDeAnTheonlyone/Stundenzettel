@@ -41,13 +41,13 @@ using Godot.Collections;
 
 public partial class Manager : CanvasLayer
 {	
-	private const string version = "1.2.0";
+	private const string version = "1.1.1";
 	public static Manager Instance { get; private set; }
 	// private TextPreview textPreview;
 	public Dictionary settingsData;
-	public const string settingsFilePath = "user://Settings.json";
-	public const string customerNamesFilePath = "user://CustomerNames.json";
 	public static readonly string documentsFilePath = OS.GetSystemDir(OS.SystemDir.Documents);
+	public readonly string settingsFilePath = $"{documentsFilePath}/Stundenzettel/Internal/Settings.json";
+	public readonly string customerNamesFilePath = $"{documentsFilePath}/Stundenzettel/Internal/CustomerNames.json";
 	public static readonly string excelTimeSheetTemplatePath = OS.GetExecutablePath().GetBaseDir().PathJoin("ExcelTemplates/StundenzettelTemplate.xlsx");
 	private DirAccess documentsDir;
 	public TimeOnly lastTimeStamp;
@@ -123,6 +123,7 @@ public partial class Manager : CanvasLayer
 		}
 
 		file = FileAccess.Open(settingsFilePath, FileAccess.ModeFlags.Write);
+		GD.Print(settingsFilePath);
 		SaveSettings(file);
 	}
 
@@ -160,6 +161,9 @@ public partial class Manager : CanvasLayer
 	{
 		if (!documentsDir.DirExists("Stundenzettel/TimeSheets"))
 			documentsDir.MakeDirRecursive("Stundenzettel/TimeSheets");
+		
+		if (!documentsDir.DirExists("Stundenzettel/Internal"))
+			documentsDir.MakeDirRecursive("Stundenzettel/Internal");
 	}
 
 

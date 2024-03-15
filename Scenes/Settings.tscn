@@ -33,6 +33,24 @@ layout_mode = 2
 size_flags_vertical = 0
 theme_override_constants/separation = 100
 
+[node name="Version" type="HBoxContainer" parent="Padding/SettingsList"]
+layout_mode = 2
+size_flags_vertical = 6
+theme = ExtResource("3_e4oml")
+
+[node name="Label" type="Label" parent="Padding/SettingsList/Version"]
+layout_mode = 2
+size_flags_horizontal = 2
+theme = ExtResource("1_ocodp")
+text = "Version:"
+
+[node name="Input" type="Label" parent="Padding/SettingsList/Version"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("2_33lai")
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="WorkerName" type="HBoxContainer" parent="Padding/SettingsList"]
 layout_mode = 2
 size_flags_vertical = 6

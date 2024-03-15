@@ -3,6 +3,7 @@ using System;
 
 public partial class Settings : CanvasLayer
 {
+	private Label version;
 	private LineEdit workerName;
 	private LineEdit startTimeInput;
 
@@ -10,6 +11,7 @@ public partial class Settings : CanvasLayer
 
     public override void _Ready()
     {
+		version = GetNode<Label>("Padding/SettingsList/Version/Input");
 		workerName = GetNode<LineEdit>("Padding/SettingsList/WorkerName/Input");
 		startTimeInput = GetNode<LineEdit>("Padding/SettingsList/StartTime/Input");
 
@@ -20,6 +22,7 @@ public partial class Settings : CanvasLayer
 
 	private void AssignSettingValues()
 	{
+		version.Text = (string)Manager.Instance.settingsData["version"];
 		workerName.Text = (string)Manager.Instance.settingsData["workerName"];
 		startTimeInput.Text = (string)Manager.Instance.settingsData["startTime"];
 	}
@@ -48,7 +51,7 @@ public partial class Settings : CanvasLayer
 	{
 		SetStartTime();
 
-		var file = FileAccess.Open(Manager.settingsFilePath, FileAccess.ModeFlags.Write);
+		var file = FileAccess.Open(Manager.Instance.settingsFilePath, FileAccess.ModeFlags.Write);
 		Manager.Instance.SaveSettings(file);
 
 		Manager.Instance.CallDeferred("SwitchScene", "MainMenu");

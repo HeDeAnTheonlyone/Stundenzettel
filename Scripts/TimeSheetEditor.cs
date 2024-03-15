@@ -36,13 +36,14 @@ public partial class TimeSheetEditor : CanvasLayer
 	{
 		float yPos = moveButton.Position.Y;
 
+		moveButton.ResetPos();
+
 		if (yPos < 0)
 		{
 			timeSpanList.MoveChild(moveButton, 0);
 			return;
 		}
 
-		moveButton.ResetPos();
 		int newIndex = moveButton.GetIndex();
 		Array<Node> buttons = timeSpanList.GetChildren();
 
@@ -53,16 +54,16 @@ public partial class TimeSheetEditor : CanvasLayer
 			else
 			{
 				if (button == moveButton)
-				{
-					GD.Print("ret");
 					return;
-				}
 
 				break;
 			}
 		}
 
-		timeSpanList.MoveChild(moveButton, newIndex);
+		timeSheet.TimeSpanEntries.Remove(moveButton.entry);
+		timeSheet.TimeSpanEntries.Insert(newIndex, moveButton.entry);
+
+		timeSpanList.PopulateList(timeSheet.TimeSpanEntries, timeSpanBlockButton);
 	}
 
 

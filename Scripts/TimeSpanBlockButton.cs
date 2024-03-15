@@ -84,6 +84,7 @@ public partial class TimeSpanBlockButton : HSplitContainer
 
 	private void DeleteEntryConfirmed()
     {
+		Manager.Instance.lastTimeStamp = entry.FromTime;
 		Manager.Instance.selectedSheet.TimeSpanEntries.Remove(entry);
         QueueFree();
     }
