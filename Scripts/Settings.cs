@@ -1,5 +1,6 @@
 using Godot;
-using System; 
+using System;
+
 
 public partial class Settings : CanvasLayer
 {
@@ -51,7 +52,9 @@ public partial class Settings : CanvasLayer
 	{
 		SetStartTime();
 
+		Manager.Instance.FixDocumentDirectory();
 		var file = FileAccess.Open(Manager.Instance.settingsFilePath, FileAccess.ModeFlags.Write);
+		GD.Print(FileAccess.GetOpenError());
 		Manager.Instance.SaveSettings(file);
 
 		Manager.Instance.CallDeferred("SwitchScene", "MainMenu");

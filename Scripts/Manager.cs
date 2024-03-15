@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Godot;
 using Godot.Collections;
 
@@ -98,6 +97,8 @@ public partial class Manager : CanvasLayer
 
 	private void LoadSettings()
 	{
+		FixDocumentDirectory();
+
 		var file = FileAccess.Open(settingsFilePath, FileAccess.ModeFlags.Read);
 		Error err = FileAccess.GetOpenError();
 
@@ -124,7 +125,7 @@ public partial class Manager : CanvasLayer
 		}
 
 		file = FileAccess.Open(settingsFilePath, FileAccess.ModeFlags.Write);
-		GD.Print(settingsFilePath);
+		GD.Print(FileAccess.GetOpenError());
 		SaveSettings(file);
 	}
 
@@ -132,6 +133,8 @@ public partial class Manager : CanvasLayer
 
 	public void SaveSettings(FileAccess file)
 	{
+		FixDocumentDirectory();
+
 		string dataString = Json.Stringify(settingsData, "\t");
 		file.StoreString(dataString);
 		file.Close();
