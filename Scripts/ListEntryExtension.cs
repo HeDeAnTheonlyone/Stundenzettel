@@ -43,6 +43,9 @@ public static class ListEntryExtension
       PackedScene instanceResource
    )
    {
+      foreach (TimeSpanBlockButton button in outputList.GetChildren())
+         button.QueueFree();
+
       foreach (TimeSpanEntry entry in inputList)
       {
          TimeSpanBlockButton newEntry = instanceResource.Instantiate() as TimeSpanBlockButton;

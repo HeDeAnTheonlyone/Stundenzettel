@@ -24,7 +24,7 @@ using Godot.Collections;
 	+ 3h
 	+ 0.5h
 	+ 3h
-	+ 2,5h
+	+ 2.5h
 	+ 5h
 	+ 1h
 	+ 6h
@@ -34,19 +34,21 @@ using Godot.Collections;
 	+ 5h
 	+ 3h
 	+ 4h
+	+ 1h
+	+ 1.5g
 ============
-	128h
+	129.5h
 */
 
 public partial class Manager : CanvasLayer
 {	
-	private const string version = "1.1.0";
+	private const string version = "1.1.1";
 	public static Manager Instance { get; private set; }
 	// private TextPreview textPreview;
 	public Dictionary settingsData;
-	public const string settingsFilePath = "user://Settings.json";
-	public const string customerNamesFilePath = "user://CustomerNames.json";
 	public static readonly string documentsFilePath = OS.GetSystemDir(OS.SystemDir.Documents);
+	public readonly string settingsFilePath = $"{documentsFilePath}/Stundenzettel/Internal/Settings.json";
+	public readonly string customerNamesFilePath = $"{documentsFilePath}/Stundenzettel/Internal/CustomerNames.json";
 	public static readonly string excelTimeSheetTemplatePath = OS.GetExecutablePath().GetBaseDir().PathJoin("ExcelTemplates/StundenzettelTemplate.xlsx");
 	private DirAccess documentsDir;
 	public TimeOnly lastTimeStamp;
@@ -122,6 +124,7 @@ public partial class Manager : CanvasLayer
 		}
 
 		file = FileAccess.Open(settingsFilePath, FileAccess.ModeFlags.Write);
+		GD.Print(settingsFilePath);
 		SaveSettings(file);
 	}
 
@@ -159,6 +162,9 @@ public partial class Manager : CanvasLayer
 	{
 		if (!documentsDir.DirExists("Stundenzettel/TimeSheets"))
 			documentsDir.MakeDirRecursive("Stundenzettel/TimeSheets");
+		
+		if (!documentsDir.DirExists("Stundenzettel/Internal"))
+			documentsDir.MakeDirRecursive("Stundenzettel/Internal");
 	}
 
 
