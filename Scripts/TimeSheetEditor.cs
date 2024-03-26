@@ -86,7 +86,7 @@ public partial class TimeSheetEditor : CanvasLayer
 
 
 	#region Signals
-	private void TriggerDatePreview() => Manager.Instance.OpenTextPreview(Callable.From<string>(SetDate));
+	private void TriggerDatePreview() => Manager.Instance.OpenTextPreview(date.Text, Callable.From<string>(SetDate));
 
 
 

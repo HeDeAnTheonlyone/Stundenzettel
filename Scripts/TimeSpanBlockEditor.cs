@@ -120,7 +120,7 @@ public partial class TimeSpanBlockEditor : CanvasLayer
 
 
 
-   private void SetDescription(string description) => entry.Description = description;
+   private void SetDescription(string _description) => entry.Description = description.Text = _description;
 
 
 
@@ -172,11 +172,11 @@ public partial class TimeSpanBlockEditor : CanvasLayer
 
 
    #region Signals
-   private void TriggerFromTimePreview() => Manager.Instance.OpenTextPreview(Callable.From<string>(SetFromTime));
+   private void TriggerFromTimePreview() => Manager.Instance.OpenTextPreview(fromTime.Text, Callable.From<string>(SetFromTime));
 
 
 
-   private void TriggerToTimePreview() => Manager.Instance.OpenTextPreview(Callable.From<string>(SetToTime));
+   private void TriggerToTimePreview() => Manager.Instance.OpenTextPreview(toTime.Text, Callable.From<string>(SetToTime));
 
 
 
@@ -184,19 +184,19 @@ public partial class TimeSpanBlockEditor : CanvasLayer
 
 
 
-   private void TriggerDescriptionPreview() => Manager.Instance.OpenTextPreview(Callable.From<string>(SetDescription));
+   private void TriggerDescriptionPreview() => Manager.Instance.OpenTextPreview(description.Text, Callable.From<string>(SetDescription));
 
 
 
-   private void TriggerCustomerNamePreview() => Manager.Instance.OpenTextPreview(Callable.From<string>(SetCustomerName));
+   private void TriggerCustomerNamePreview() => Manager.Instance.OpenTextPreview(customerName.Text, Callable.From<string>(SetCustomerName));
 
 
 
-   private void TriggerCustomerTownPreview() => Manager.Instance.OpenTextPreview(Callable.From<string>(SetCustomerTown));
+   private void TriggerCustomerTownPreview() => Manager.Instance.OpenTextPreview(customerTown.Text, Callable.From<string>(SetCustomerTown));
 
 
 
-   private void TriggerCustomerStreetPreview() => Manager.Instance.OpenTextPreview(Callable.From<string>(SetCustomerStreet));
+   private void TriggerCustomerStreetPreview() => Manager.Instance.OpenTextPreview(customerStreet.Text, Callable.From<string>(SetCustomerStreet));
 
 
 
@@ -204,11 +204,11 @@ public partial class TimeSpanBlockEditor : CanvasLayer
 
 
 
-   private void TriggerKmStartPreview() => Manager.Instance.OpenTextPreview(Callable.From<string>(SetKmStart));
+   private void TriggerKmStartPreview() => Manager.Instance.OpenTextPreview(kmStart.Text, Callable.From<string>(SetKmStart));
 
 
 
-   private void TriggerKmEndPreview() => Manager.Instance.OpenTextPreview(Callable.From<string>(SetKmEnd));
+   private void TriggerKmEndPreview() => Manager.Instance.OpenTextPreview(kmEnd.Text, Callable.From<string>(SetKmEnd));
 
 
 
