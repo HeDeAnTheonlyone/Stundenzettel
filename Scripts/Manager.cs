@@ -34,17 +34,19 @@ using Godot.Collections;
 	+ 3h
 	+ 4h
 	+ 1h
-	+ 1.5g
+	+ 1.5h
+	+ 3h
 ============
-	129.5h
+	132.5h
 */
 
 public partial class Manager : CanvasLayer
 {	
-	private const string version = "1.1.1";
+	private const string version = "1.2.1";
 	public static Manager Instance { get; private set; }
-	// private TextPreview textPreview;
+	public PackedScene textPreview = GD.Load<PackedScene>("res://Objects/TextPreview.tscn");
 	public Dictionary settingsData;
+	private string currentScene = "MainMenu";
 	public static readonly string documentsFilePath = OS.GetSystemDir(OS.SystemDir.Documents);
 	public readonly string settingsFilePath = $"{documentsFilePath}/Stundenzettel/Internal/Settings.json";
 	public readonly string customerNamesFilePath = $"{documentsFilePath}/Stundenzettel/Internal/CustomerNames.json";
@@ -79,6 +81,8 @@ public partial class Manager : CanvasLayer
 		// PackedScene textPreviewResource = GD.Load<PackedScene>("res://Objects/TextPreview.tscn");
 		// textPreview = textPreviewResource.Instantiate() as TextPreview;
 		// AddChild(textPreview);
+
+		Engine.MaxFps = 60;
 
 		documentsDir = DirAccess.Open($"{documentsFilePath}");
 
@@ -125,7 +129,6 @@ public partial class Manager : CanvasLayer
 		}
 
 		file = FileAccess.Open(settingsFilePath, FileAccess.ModeFlags.Write);
-		GD.Print(FileAccess.GetOpenError());
 		SaveSettings(file);
 	}
 
@@ -211,5 +214,19 @@ public partial class Manager : CanvasLayer
 
 
 
-    public void SwitchScene(string nextScene) => GetTree().ChangeSceneToFile($"res://Scenes/{nextScene}.tscn");
+	public void OpenTextPreview(Callable inputProcessingMethod)
+	{
+		TextPreview txtPrev = textPreview.Instantiate<TextPreview>();
+		GetTree().Root.GetNode(currentScene).AddChild(txtPrev);
+		txtPrev.Setup(inputProcessingMethod);
+	}
+
+
+
+    public void SwitchScene(string nextScene)
+    {
+		currentScene = nextScene;
+        GetTree().ChangeSceneToFile($"res://Scenes/{nextScene}.tscn");
+    }
+
 }

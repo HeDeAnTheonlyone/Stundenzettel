@@ -5,7 +5,7 @@ using System.Linq;
 
 public partial class TimeSheetEditor : CanvasLayer
 {
-	private PackedScene timeSpanBlockButton = GD.Load("res://Objects/TimeSpanBlockButton.tscn") as PackedScene;
+	private PackedScene timeSpanBlockButton = GD.Load<PackedScene>("res://Objects/TimeSpanBlockButton.tscn");
 	private LineEdit date;
 	private VBoxContainer timeSpanList;
 	private TimeSheet timeSheet;
@@ -68,24 +68,31 @@ public partial class TimeSheetEditor : CanvasLayer
 
 
 
-    #region Signals
-    private void SetDate() => SetDate(date.Text);
-    private void SetDate(string dateText)
+	#region PreviewTriggered
+	private void SetDate() => SetDate(date.Text);
+	private void SetDate(string dateText)
 	{
 		bool success = DateOnly.TryParse(dateText, out DateOnly parsedDate);
 
 		if (success)
+		{
+			date.Text = dateText;
 			timeSheet.Date = parsedDate;
-		else
-			date.Text = timeSheet.Date.ToString();
-		
+		}
+
 	}
+	#endregion
+
+
+
+	#region Signals
+	private void TriggerDatePreview() => Manager.Instance.OpenTextPreview(Callable.From<string>(SetDate));
 
 
 
     private void AddTimeSpan()
 	{
-		var newEntry = timeSpanBlockButton.Instantiate() as TimeSpanBlockButton;
+		var newEntry = timeSpanBlockButton.Instantiate<TimeSpanBlockButton>();
 		timeSpanList.AddChild(newEntry);
 	}
 

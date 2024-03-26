@@ -12,7 +12,7 @@
 [ext_resource type="Theme" uid="uid://bhdsyxf6gyu44" path="res://Themes/DefaultTab.tres" id="9_ijx7x"]
 [ext_resource type="StyleBox" uid="uid://b17gqge3mtho0" path="res://Themes/Styles/CustomerNamesScrollBox.tres" id="10_ie043"]
 
-[node name="TimeSpanBlock" type="CanvasLayer"]
+[node name="TimeSpanBlockEditor" type="CanvasLayer"]
 script = ExtResource("1_jndds")
 
 [node name="ColorRect" type="ColorRect" parent="."]
@@ -343,17 +343,17 @@ text = "Zurück"
 icon = ExtResource("8_gxvij")
 expand_icon = true
 
-[connection signal="text_submitted" from="Padding/TimeList/FromTime/Input" to="." method="SetFromTime"]
-[connection signal="text_submitted" from="Padding/TimeList/ToTime/Input" to="." method="SetToTime"]
+[connection signal="focus_entered" from="Padding/TimeList/FromTime/Input" to="." method="TriggerFromTimePreview"]
+[connection signal="focus_entered" from="Padding/TimeList/ToTime/Input" to="." method="TriggerToTimePreview"]
 [connection signal="item_selected" from="Padding/TimeList/Purpose/Input" to="." method="SetPurtpose"]
-[connection signal="text_changed" from="Padding/TimeList/DescriptionInput" to="." method="SetDescription"]
+[connection signal="focus_entered" from="Padding/TimeList/DescriptionInput" to="." method="TriggerDescriptionPreview"]
 [connection signal="pressed" from="Padding/CustomerList/Button" to="." method="CustomerPresetSettings"]
-[connection signal="text_changed" from="Padding/CustomerList/Name/Input" to="." method="SetCustomerName"]
-[connection signal="text_changed" from="Padding/CustomerList/Town/Input" to="." method="SetCustomerTown"]
-[connection signal="text_changed" from="Padding/CustomerList/Street/Input" to="." method="SetCustomerStreet"]
+[connection signal="focus_entered" from="Padding/CustomerList/Name/Input" to="." method="TriggerCustomerNamePreview"]
+[connection signal="focus_entered" from="Padding/CustomerList/Town/Input" to="." method="TriggerCustomerTownPreview"]
+[connection signal="focus_entered" from="Padding/CustomerList/Street/Input" to="." method="TriggerCustomerStreetPreview"]
 [connection signal="item_selected" from="Padding/DriveList/Car/Input" to="." method="SetCar"]
-[connection signal="text_submitted" from="Padding/DriveList/KmBegin/Input" to="." method="SetKmStart"]
-[connection signal="text_submitted" from="Padding/DriveList/KmEnd/Input" to="." method="SetKmEnd"]
+[connection signal="focus_entered" from="Padding/DriveList/KmBegin/Input" to="." method="TriggerKmStartPreview"]
+[connection signal="focus_entered" from="Padding/DriveList/KmEnd/Input" to="." method="TriggerKmEndPreview"]
 [connection signal="pressed" from="BackPadding/Back" to="." method="SwitchToTimeSheetEditor"]
 [connection signal="tab_changed" from="BackPadding/TabBar" to="." method="SwitchTabs"]
 [connection signal="pressed" from="CustomerPresetBg/Padding/ItemList/SaveName" to="." method="SaveName"]

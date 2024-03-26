@@ -41,7 +41,7 @@ public partial class TimeSpanBlockEditor : CanvasLayer
       toTime = timeList.GetNode<LineEdit>("ToTime/Input");
       customerPresetSettings = GetNode<ColorRect>("CustomerPresetBg");
       customerPresetList = customerPresetSettings.GetNode<VBoxContainer>("Padding/ItemList/ScrollContainer/NameList");
-      customerNameButton = GD.Load("res://Objects/CustomerNameButton.tscn") as PackedScene;
+      customerNameButton = GD.Load<PackedScene>("res://Objects/CustomerNameButton.tscn");
       purpose = timeList.GetNode<OptionButton>("Purpose/Input");
       description = timeList.GetNode<TextEdit>("DescriptionInput");
 
@@ -91,17 +91,18 @@ public partial class TimeSpanBlockEditor : CanvasLayer
 
 
 
-#region Signals
+   #region Preview Triggered
    private void SetFromTime() => SetFromTime(fromTime.Text);
    private void SetFromTime(string timeText)
    {
       bool success = TimeOnly.TryParse(timeText, out TimeOnly parsedTime);
-		
+
       if (success && parsedTime < entry.ToTime)
-			entry.FromTime = parsedTime;
-		else
-			fromTime.Text = entry.FromTime.ToString();
-	}
+      {
+         fromTime.Text = timeText;
+         entry.FromTime = parsedTime;
+      }
+   }
 
 
 
@@ -111,10 +112,103 @@ public partial class TimeSpanBlockEditor : CanvasLayer
       bool success = TimeOnly.TryParse(timeText, out TimeOnly parsedTime);
 
       if (success && parsedTime > entry.FromTime)
+      {
+         toTime.Text = timeText;
          entry.ToTime = parsedTime;
-      else
-         toTime.Text = entry.ToTime.ToString();
+      }
    }
+
+
+
+   private void SetDescription(string description) => entry.Description = description;
+
+
+
+   public void SetCustomerName(string name) => entry.CustomerName = customerName.Text = name;
+
+
+
+   public void SetCustomerTown(string town) => entry.CustomerTown = customerTown.Text = town;
+
+
+
+   public void SetCustomerStreet(string street) => entry.CustomerStreet = customerStreet.Text = street;
+
+
+
+   private void SetKmStart() => SetKmStart(kmStart.Text);
+   private void SetKmStart(string kmText)
+   {
+      bool success = int.TryParse(kmText, out int km);
+
+      if (success && km > 0)
+      {
+         kmStart.Text = kmText;
+         entry.KmStart = km;
+
+         if (km > entry.KmEnd)
+         {
+            entry.KmEnd = km;
+            kmEnd.Text = km.ToString();
+         }
+      }
+   }
+
+
+
+   private void SetKmEnd() => SetKmEnd(kmEnd.Text);
+   private void SetKmEnd(string kmText)
+   {
+      bool success = int.TryParse(kmText, out int km);
+
+      if (success && km > 0 && km > entry.KmStart)
+      {
+         kmEnd.Text = kmText;
+         entry.KmEnd = km;
+      }
+   }
+   #endregion
+
+
+
+   #region Signals
+   private void TriggerFromTimePreview() => Manager.Instance.OpenTextPreview(Callable.From<string>(SetFromTime));
+
+
+
+   private void TriggerToTimePreview() => Manager.Instance.OpenTextPreview(Callable.From<string>(SetToTime));
+
+
+
+   private void SetPurtpose(int index) => entry.Purpose = (Purposes)index;
+
+
+
+   private void TriggerDescriptionPreview() => Manager.Instance.OpenTextPreview(Callable.From<string>(SetDescription));
+
+
+
+   private void TriggerCustomerNamePreview() => Manager.Instance.OpenTextPreview(Callable.From<string>(SetCustomerName));
+
+
+
+   private void TriggerCustomerTownPreview() => Manager.Instance.OpenTextPreview(Callable.From<string>(SetCustomerTown));
+
+
+
+   private void TriggerCustomerStreetPreview() => Manager.Instance.OpenTextPreview(Callable.From<string>(SetCustomerStreet));
+
+
+
+   private void SetCar(int index) => entry.Car = (Car)index;
+
+
+
+   private void TriggerKmStartPreview() => Manager.Instance.OpenTextPreview(Callable.From<string>(SetKmStart));
+
+
+
+   private void TriggerKmEndPreview() => Manager.Instance.OpenTextPreview(Callable.From<string>(SetKmEnd));
 
 
 
@@ -160,85 +254,6 @@ public partial class TimeSpanBlockEditor : CanvasLayer
       customerPresetSettings.Visible = false;
    }
    #endregion
-
-
-
-   private void SetPurtpose(int index) => entry.Purpose = (Purposes)index;
-   
-
-
-
-   private void SetDescription() => entry.Description = description.Text;
-
-
-
-   public void SetCustomerName(string name)
-   {
-      entry.CustomerName = name;
-
-      if (customerName.Text != entry.CustomerName)
-         customerName.Text = entry.CustomerName;
-   }
-   
-   
-   
-   public void SetCustomerTown(string town)
-   {
-      entry.CustomerTown = town;
-
-      if (customerTown.Text != entry.CustomerTown)
-         customerTown.Text = entry.CustomerTown;
-   }
-
-
-
-   public void SetCustomerStreet(string street)
-   {
-      entry.CustomerStreet = street;
-
-      if (customerStreet.Text != entry.CustomerStreet)
-         customerStreet.Text = entry.CustomerStreet;
-   }
-
-
-
-   private void SetCar(int index) => entry.Car = (Car)index;
-
-
-
-   private void SetKmStart() => SetKmStart(kmStart.Text);
-   private void SetKmStart(string kmText)
-   {
-      bool success = int.TryParse(kmText, out int km);
-
-      if (success && km > 0)
-      {
-         entry.KmStart = km;
-         
-         if (km > entry.KmEnd)
-         {
-            entry.KmEnd = km;
-            kmEnd.Text = km.ToString();
-         }
-      }
-      else
-         kmStart.Text = entry.KmStart.ToString();
-   }
-
-
-
-   private void SetKmEnd() => SetKmEnd(kmEnd.Text);
-   private void SetKmEnd(string kmText)
-   {
-      bool success  = int.TryParse(kmText, out int km);
-
-      if (success && km > 0 && km > entry.KmStart)
-      {
-         entry.KmEnd = km;
-      }     
-      else
-         kmEnd.Text = entry.KmEnd.ToString();
-   }
 
 
 
