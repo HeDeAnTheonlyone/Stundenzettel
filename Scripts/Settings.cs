@@ -6,7 +6,7 @@ public partial class Settings : CanvasLayer
 {
 	private Label version;
 	private LineEdit workerName;
-	private LineEdit startTimeInput;
+	private LineEdit startTime;
 
 
 
@@ -14,7 +14,7 @@ public partial class Settings : CanvasLayer
     {
 		version = GetNode<Label>("Padding/SettingsList/Version/Input");
 		workerName = GetNode<LineEdit>("Padding/SettingsList/WorkerName/Input");
-		startTimeInput = GetNode<LineEdit>("Padding/SettingsList/StartTime/Input");
+		startTime = GetNode<LineEdit>("Padding/SettingsList/StartTime/Input");
 
 		AssignSettingValues();
     }
@@ -25,7 +25,7 @@ public partial class Settings : CanvasLayer
 	{
 		version.Text = (string)Manager.Instance.settingsData["version"];
 		workerName.Text = (string)Manager.Instance.settingsData["workerName"];
-		startTimeInput.Text = (string)Manager.Instance.settingsData["startTime"];
+		startTime.Text = (string)Manager.Instance.settingsData["startTime"];
 	}
 
 
@@ -36,14 +36,14 @@ public partial class Settings : CanvasLayer
         Manager.Instance.settingsData["workerName"] = name;
     }
 
-    private void SetStartTime() => SetStartTime(startTimeInput.Text);
+    private void SetStartTime() => SetStartTime(startTime.Text);
 	private void SetStartTime(string timeText)
 	{
 		bool success = TimeOnly.TryParse(timeText, out TimeOnly parsedDay);
 
 		if (success)
 		{
-			startTimeInput.Text = timeText;
+			startTime.Text = timeText;
 			Manager.Instance.settingsData["startTime"] = timeText;
 		}
 	}
@@ -52,11 +52,11 @@ public partial class Settings : CanvasLayer
 
 
     #region  Signals
-    private void TriggerWorkerNamePreview() => Manager.Instance.OpenTextPreview(Callable.From<string>(SetWorkerName));
+    private void TriggerWorkerNamePreview() => Manager.Instance.OpenTextPreview(workerName.Text, Callable.From<string>(SetWorkerName));
 
 
 
-    private void TriggerStartTimePreview() => Manager.Instance.OpenTextPreview(Callable.From<string>(SetStartTime));
+    private void TriggerStartTimePreview() => Manager.Instance.OpenTextPreview(startTime.Text, Callable.From<string>(SetStartTime));
 
 
 

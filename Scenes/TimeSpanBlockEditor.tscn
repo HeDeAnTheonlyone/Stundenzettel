@@ -116,6 +116,7 @@ theme = ExtResource("5_6rmbp")
 placeholder_text = "Arbeitsbeschreibung"
 context_menu_enabled = false
 shortcut_keys_enabled = false
+selecting_enabled = false
 drag_and_drop_selection_enabled = false
 middle_mouse_paste_enabled = false
 wrap_mode = 1

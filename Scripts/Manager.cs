@@ -36,15 +36,17 @@ using Godot.Collections;
 	+ 1h
 	+ 1.5h
 	+ 3h
+	+ 1.5h
 ============
-	132.5h
+	134h
 */
 
 public partial class Manager : CanvasLayer
 {	
 	private const string version = "1.2.1";
 	public static Manager Instance { get; private set; }
-	public PackedScene textPreview = GD.Load<PackedScene>("res://Objects/TextPreview.tscn");
+	public PackedScene textPreviewResource = GD.Load<PackedScene>("res://Objects/TextPreview.tscn");
+	public bool textPreviewExists = false;
 	public Dictionary settingsData;
 	private string currentScene = "MainMenu";
 	public static readonly string documentsFilePath = OS.GetSystemDir(OS.SystemDir.Documents);
@@ -78,11 +80,8 @@ public partial class Manager : CanvasLayer
 			QueueFree();
 		#endregion
 
-		// PackedScene textPreviewResource = GD.Load<PackedScene>("res://Objects/TextPreview.tscn");
-		// textPreview = textPreviewResource.Instantiate() as TextPreview;
-		// AddChild(textPreview);
-
-		Engine.MaxFps = 60;
+		float refreshRate = DisplayServer.ScreenGetRefreshRate();
+		Engine.MaxFps = refreshRate < 0 ? 60 : (int)refreshRate;
 
 		documentsDir = DirAccess.Open($"{documentsFilePath}");
 
@@ -92,7 +91,7 @@ public partial class Manager : CanvasLayer
 
 		LoadCustomerNames();
 
-		//TODO 
+		//TODO Do this V
 		// SearchForUpdates();
 		// GetActivationState();
 	}
@@ -128,6 +127,8 @@ public partial class Manager : CanvasLayer
 					settingsData[key] = oldSettingsData[key];
 		}
 
+		settingsData["version"] = version;
+
 		file = FileAccess.Open(settingsFilePath, FileAccess.ModeFlags.Write);
 		SaveSettings(file);
 	}
@@ -145,7 +146,7 @@ public partial class Manager : CanvasLayer
 
 
 
-	// TODO 
+	// TODO Add remote activation variable
 	// private void GetActivationState()
 	// {
 	// bool active;
@@ -156,7 +157,7 @@ public partial class Manager : CanvasLayer
 
 
 
-	//TODO
+	//TODO Add auto updates
 	// private void SearchForUpdates()
 	// {
 		
@@ -214,11 +215,15 @@ public partial class Manager : CanvasLayer
 
 
 
-	public void OpenTextPreview(Callable inputProcessingMethod)
+	public void OpenTextPreview(string content, Callable inputProcessingMethod)
 	{
-		TextPreview txtPrev = textPreview.Instantiate<TextPreview>();
-		GetTree().Root.GetNode(currentScene).AddChild(txtPrev);
-		txtPrev.Setup(inputProcessingMethod);
+		if (textPreviewExists)
+			return;
+
+		TextPreview textPreview = textPreviewResource.Instantiate<TextPreview>();
+		GetTree().Root.GetNode(currentScene).AddChild(textPreview);
+		textPreviewExists = true;
+		textPreview.Setup(content, inputProcessingMethod);
 	}
 
 
@@ -228,5 +233,4 @@ public partial class Manager : CanvasLayer
 		currentScene = nextScene;
         GetTree().ChangeSceneToFile($"res://Scenes/{nextScene}.tscn");
     }
-
 }

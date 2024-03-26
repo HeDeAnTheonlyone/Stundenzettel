@@ -16,10 +16,12 @@ public partial class TextPreview : ColorRect
 
 
 
-    public void Setup(Callable _inputProccessingMethod)
+    public void Setup(string content, Callable _inputProccessingMethod)
     {
         inputProccessingMethod = _inputProccessingMethod;
+        textField.Text = content;
         textField.GrabFocus();
+        textField.CaretColumn = content.Length;
     }
 
 
@@ -27,12 +29,17 @@ public partial class TextPreview : ColorRect
     #region Signals
     private void ProcessInput(string input)
     {
-        inputProccessingMethod.Call(input);
+        GD.Print(Manager.Instance.textPreviewExists);
         QueueFree();
     }
 
 
 
-    private void ClosePreview() => QueueFree();
+    private void ClosePreview()
+    {
+        Manager.Instance.textPreviewExists = false;
+        QueueFree();
+    }
+
     #endregion
 }
