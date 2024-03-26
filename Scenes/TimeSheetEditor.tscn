@@ -9,7 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://dethjkxhe61b7" path="res://Assets/Sprites/arrow-back-up.svg" id="7_cqm6i"]
 [ext_resource type="PackedScene" uid="uid://brw1c4qfnl7kq" path="res://Objects/ConfirmationPanel.tscn" id="8_v7vok"]
 
-[node name="FileEdit" type="CanvasLayer"]
+[node name="TimeSheetEditor" type="CanvasLayer"]
 script = ExtResource("1_ti34r")
 
 [node name="ColorRect" type="ColorRect" parent="."]
@@ -95,6 +95,5 @@ expand_icon = true
 visible = false
 
 [connection signal="pressed" from="Padding/Splitter/NewTimeSpan" to="." method="AddTimeSpan"]
-[connection signal="focus_exited" from="TitlePadding/Date" to="." method="SetDate"]
-[connection signal="text_submitted" from="TitlePadding/Date" to="." method="SetDate"]
+[connection signal="focus_entered" from="TitlePadding/Date" to="." method="TriggerDatePreview"]
 [connection signal="pressed" from="BackPadding/Back" to="." method="SwitchToMainMenu"]

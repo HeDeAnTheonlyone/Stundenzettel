@@ -108,7 +108,6 @@ text = "Zurück"
 icon = ExtResource("3_gdec4")
 expand_icon = true
 
-[connection signal="text_changed" from="Padding/SettingsList/WorkerName/Input" to="." method="SetWorkerName"]
-[connection signal="focus_exited" from="Padding/SettingsList/StartTime/Input" to="." method="SetStartTime"]
-[connection signal="text_submitted" from="Padding/SettingsList/StartTime/Input" to="." method="SetStartTime"]
+[connection signal="focus_entered" from="Padding/SettingsList/WorkerName/Input" to="." method="TriggerWorkerNamePreview"]
+[connection signal="focus_entered" from="Padding/SettingsList/StartTime/Input" to="." method="TriggerStartTimePreview"]
 [connection signal="pressed" from="BackPadding/Back" to="." method="ExitSettings"]

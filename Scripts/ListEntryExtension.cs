@@ -20,7 +20,7 @@ public static class ListEntryExtension
    {
       foreach(string entry in inputList)
       {
-         TimeSheetButton newEntry = instanceResource.Instantiate() as TimeSheetButton;
+         TimeSheetButton newEntry = instanceResource.Instantiate<TimeSheetButton>();
          newEntry.DisplayName = DateOnly.Parse(entry.ReplaceN(".json", "")).ToString();
          outputList.AddChild(newEntry);
       }
@@ -48,7 +48,7 @@ public static class ListEntryExtension
 
       foreach (TimeSpanEntry entry in inputList)
       {
-         TimeSpanBlockButton newEntry = instanceResource.Instantiate() as TimeSpanBlockButton;
+         TimeSpanBlockButton newEntry = instanceResource.Instantiate<TimeSpanBlockButton>();
          newEntry.entry = entry;
          outputList.AddChild(newEntry);
       }
@@ -76,7 +76,7 @@ public static class ListEntryExtension
 
       foreach (Customer entry in inputlist)
       {
-         CustomerNameButton newEntry = instanceResource.Instantiate() as CustomerNameButton;
+         CustomerNameButton newEntry = instanceResource.Instantiate<CustomerNameButton>();
          newEntry.Customer = entry;
          outputlist.AddChild(newEntry);
       }

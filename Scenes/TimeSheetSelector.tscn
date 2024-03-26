@@ -9,7 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://bn7e141o0ocyt" path="res://Objects/FinishConversionIndicator.tscn" id="7_udjii"]
 [ext_resource type="PackedScene" uid="uid://brw1c4qfnl7kq" path="res://Objects/ConfirmationPanel.tscn" id="8_pvmo3"]
 
-[node name="FileEdit" type="CanvasLayer"]
+[node name="TimeSheetSelector" type="CanvasLayer"]
 script = ExtResource("1_u2o82")
 
 [node name="ColorRect" type="ColorRect" parent="."]

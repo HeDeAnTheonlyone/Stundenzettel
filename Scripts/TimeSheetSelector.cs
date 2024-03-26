@@ -16,7 +16,7 @@ public partial class TimeSheetSelector : CanvasLayer
 
 	public override void _Ready()
 	{
-		timeSheetButton = GD.Load("res://Objects/TimeSheetButton.tscn") as PackedScene;
+		timeSheetButton = GD.Load<PackedScene>("res://Objects/TimeSheetButton.tscn");
 		timeSheetList = GetNode<VBoxContainer>("Padding/ScrollList/TimeSheetList");
 		finishConversionIndicator = GetNode<Label>("FinishConversionIndicator");
 		timer = finishConversionIndicator.GetNode<Timer>("Timer");
