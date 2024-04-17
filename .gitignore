@@ -1,5 +1,6 @@
 # VSCode
 .vscode
+.VSCodeCounter
 
 # Godot-specific ignores
 .godot

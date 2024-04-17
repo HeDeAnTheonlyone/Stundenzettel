@@ -37,13 +37,14 @@ using Godot.Collections;
 	+ 1.5h
 	+ 3h
 	+ 1.5h
+	+ 0.5h
 ============
 	134h
 */
 
 public partial class Manager : CanvasLayer
-{	
-	private const string version = "1.2.1";
+{
+	private const string version = "1.2.2";
 	public static Manager Instance { get; private set; }
 	public PackedScene textPreviewResource = GD.Load<PackedScene>("res://Objects/TextPreview.tscn");
 	public bool textPreviewExists = false;
