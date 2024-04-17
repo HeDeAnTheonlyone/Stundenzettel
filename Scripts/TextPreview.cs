@@ -4,7 +4,7 @@ using Godot;
 
 public partial class TextPreview : ColorRect
 {
-    private Callable inputProccessingMethod;
+    private Callable inputProcessingMethod;
     private LineEdit textField;
 
 
@@ -16,9 +16,9 @@ public partial class TextPreview : ColorRect
 
 
 
-    public void Setup(string content, Callable _inputProccessingMethod)
+    public void Setup(string content, Callable _inputProcessingMethod)
     {
-        inputProccessingMethod = _inputProccessingMethod;
+        inputProcessingMethod = _inputProcessingMethod;
         textField.Text = content;
         textField.GrabFocus();
         textField.CaretColumn = content.Length;
@@ -29,8 +29,8 @@ public partial class TextPreview : ColorRect
     #region Signals
     private void ProcessInput(string input)
     {
-        GD.Print(Manager.Instance.textPreviewExists);
-        QueueFree();
+        inputProcessingMethod.Call(textField.Text);
+        ClosePreview();
     }
 
 

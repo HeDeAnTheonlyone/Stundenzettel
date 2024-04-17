@@ -346,7 +346,7 @@ expand_icon = true
 
 [connection signal="focus_entered" from="Padding/TimeList/FromTime/Input" to="." method="TriggerFromTimePreview"]
 [connection signal="focus_entered" from="Padding/TimeList/ToTime/Input" to="." method="TriggerToTimePreview"]
-[connection signal="item_selected" from="Padding/TimeList/Purpose/Input" to="." method="SetPurtpose"]
+[connection signal="item_selected" from="Padding/TimeList/Purpose/Input" to="." method="SetPurpose"]
 [connection signal="focus_entered" from="Padding/TimeList/DescriptionInput" to="." method="TriggerDescriptionPreview"]
 [connection signal="pressed" from="Padding/CustomerList/Button" to="." method="CustomerPresetSettings"]
 [connection signal="focus_entered" from="Padding/CustomerList/Name/Input" to="." method="TriggerCustomerNamePreview"]

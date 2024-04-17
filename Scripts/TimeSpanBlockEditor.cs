@@ -180,7 +180,7 @@ public partial class TimeSpanBlockEditor : CanvasLayer
 
 
 
-   private void SetPurtpose(int index) => entry.Purpose = (Purposes)index;
+   private void SetPurpose(int index) => entry.Purpose = (Purposes)index;
 
 
 
